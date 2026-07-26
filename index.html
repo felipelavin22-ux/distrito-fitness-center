@@ -205,6 +205,12 @@
   .mobile-tab.is-active {
     color: #2F6FFF;
   }
+
+  /* Paneles tipo "app": en mobile se ve un solo panel a la vez (sin scroll entre secciones).
+     En desktop (md+) esta regla no aplica y todos los paneles se ven en su scroll normal. */
+  @media (max-width: 767px) {
+    .mobile-panel:not(.panel-active) { display: none; }
+  }
 </style>
 </head>
 
@@ -235,6 +241,9 @@
     </a>
   </div>
 </header>
+
+<!-- ===== PANEL MOBILE 1: INICIO (Hero + El Distrito + Por qué elegirnos) ===== -->
+<div class="mobile-panel panel-active" data-panel="inicio">
 
 <!-- ============ HERO (SECTOR 01) ============ -->
 <section id="inicio" class="relative min-h-[70vh] md:min-h-[85vh] flex items-center grid-map overflow-hidden pt-20 pb-10 md:pb-12">
@@ -319,13 +328,8 @@
         </div>
         <div class="border-l border-electric/60 pl-4">
           <i data-lucide="shield-check" class="w-4 h-4 text-electric mb-2"></i>
-          <span class="block mb-1.5">Afiliados a</span>
-          <span class="inline-flex items-center gap-1.5 bg-surface border border-line rounded-full px-2.5 py-1 normal-case">
-            <span class="w-3.5 h-3.5 rounded-full bg-electric/20 flex items-center justify-center shrink-0">
-              <i data-lucide="check" class="w-2 h-2 text-electric"></i>
-            </span>
-            <span class="font-semibold text-white text-xs tracking-tight">WellHub</span>
-          </span>
+          <span class="block mb-2">Afiliados a</span>
+          <img src="wellhub_logo.png" alt="WellHub" class="h-4 w-auto object-contain">
         </div>
       </div>
     </div>
@@ -383,6 +387,12 @@
     </div>
   </div>
 </section>
+
+</div>
+<!-- ===== FIN PANEL MOBILE 1 ===== -->
+
+<!-- ===== PANEL MOBILE 2: DISCIPLINAS (Disciplinas + Logros) ===== -->
+<div class="mobile-panel" data-panel="disciplinas">
 
 <!-- ============ DISCIPLINAS ============ -->
 <section id="disciplinas" class="relative py-14 md:py-28 lg:py-36 border-t border-line/80">
@@ -485,16 +495,17 @@
       <p class="font-mono text-xs uppercase tracking-wider text-stone mt-3">Licencia oficial</p>
     </div>
     <div class="border-t border-line pt-6">
-      <div class="inline-flex items-center gap-2 bg-surface2 border border-line rounded-full pl-2 pr-4 py-2 mb-1">
-        <span class="w-6 h-6 rounded-full bg-electric/20 flex items-center justify-center shrink-0">
-          <i data-lucide="check" class="w-3.5 h-3.5 text-electric"></i>
-        </span>
-        <span class="stat-number text-white" style="font-size: 1.5rem;">WellHub</span>
-      </div>
+      <img src="wellhub_logo.png" alt="WellHub" class="h-8 md:h-9 w-auto object-contain mb-2">
       <p class="font-mono text-xs uppercase tracking-wider text-stone mt-3">Gimnasio afiliado</p>
     </div>
   </div>
 </section>
+
+</div>
+<!-- ===== FIN PANEL MOBILE 2 ===== -->
+
+<!-- ===== PANEL MOBILE 3: FAQ (La Crew + Preguntas frecuentes) ===== -->
+<div class="mobile-panel" data-panel="faq">
 
 <!-- ============ TESTIMONIOS / PRÓXIMA APERTURA ============ -->
 <section id="testimonios" class="relative py-14 md:py-28 lg:py-36 border-t border-line/80 bg-surface">
@@ -564,12 +575,7 @@
         </summary>
         <p class="text-stone font-light leading-relaxed mt-4 text-sm flex flex-wrap items-center gap-2">
           <span>Sí. Si sos usuario de la app</span>
-          <span class="inline-flex items-center gap-1.5 bg-surface2 border border-line rounded-full px-2.5 py-1 normal-case">
-            <span class="w-3.5 h-3.5 rounded-full bg-electric/20 flex items-center justify-center shrink-0">
-              <i data-lucide="check" class="w-2 h-2 text-electric"></i>
-            </span>
-            <span class="font-semibold text-white text-xs tracking-tight">WellHub</span>
-          </span>
+          <img src="wellhub_logo.png" alt="WellHub" class="h-4 w-auto object-contain inline-block align-middle">
           <span>(ex Gympass), podés entrenar en Distrito Fitness Center con tu plan vigente.</span>
         </p>
       </details>
@@ -608,6 +614,12 @@
     </div>
   </div>
 </section>
+
+</div>
+<!-- ===== FIN PANEL MOBILE 3 ===== -->
+
+<!-- ===== PANEL MOBILE 4: CONTACTO (Contacto + Footer) ===== -->
+<div class="mobile-panel" data-panel="contacto">
 
 <!-- ============ CONTACTO ============ -->
 <section id="contacto" class="relative py-14 md:py-28 lg:py-36 border-t border-line/80 grid-map">
@@ -678,6 +690,9 @@
   </div>
 </footer>
 
+</div>
+<!-- ===== FIN PANEL MOBILE 4 ===== -->
+
 <!-- ============ WHATSAPP FLOTANTE (solo escritorio/tablet) ============ -->
 <a href="https://wa.me/5491130260359?text=Hola%20Distrito%20Fitness%20Center%2C%20quiero%20reservar%20una%20clase%20de%20prueba"
    target="_blank" rel="noopener"
@@ -689,7 +704,7 @@
 <!-- ============ BARRA DE NAVEGACIÓN INFERIOR (solo mobile) ============ -->
 <!-- Reemplaza el scroll interminable: en mobile, tocar cada ícono lleva directo a esa sección -->
 <nav class="md:hidden fixed bottom-0 left-0 w-full z-50 bg-bg/95 backdrop-blur-lg border-t border-line/80 grid grid-cols-5" aria-label="Navegación principal">
-  <a href="#inicio" data-tab="inicio" class="mobile-tab flex flex-col items-center justify-center gap-1 py-2.5 text-stone transition-colors">
+  <a href="#inicio" data-tab="inicio" class="mobile-tab is-active flex flex-col items-center justify-center gap-1 py-2.5 text-stone transition-colors">
     <i data-lucide="home" class="w-5 h-5"></i>
     <span class="text-[10px] font-mono uppercase tracking-wide">Inicio</span>
   </a>
@@ -717,30 +732,35 @@
 <script>
   lucide.createIcons();
 
-  // Resalta la pestaña activa de la barra inferior (mobile) según la sección visible
+  // Barra de navegación inferior (mobile): tocar un ícono muestra ese panel
+  // directamente, sin necesidad de deslizar por el resto de las secciones.
   (function () {
-    var tabs = document.querySelectorAll('.mobile-tab');
-    if (!tabs.length) return;
-    var map = {
-      inicio: document.getElementById('inicio'),
-      disciplinas: document.getElementById('disciplinas'),
-      faq: document.getElementById('faq'),
-      contacto: document.getElementById('contacto'),
-    };
-    var observer = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (!entry.isIntersecting) return;
-        var id = entry.target.id;
-        tabs.forEach(function (tab) {
-          tab.classList.toggle('is-active', tab.dataset.tab === id);
-        });
+    var tabs = document.querySelectorAll('.mobile-tab[data-tab]');
+    var panels = document.querySelectorAll('.mobile-panel[data-panel]');
+    if (!tabs.length || !panels.length) return;
+
+    function showPanel(name) {
+      panels.forEach(function (panel) {
+        panel.classList.toggle('panel-active', panel.dataset.panel === name);
       });
-    }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
-    Object.keys(map).forEach(function (key) {
-      if (map[key]) observer.observe(map[key]);
+      tabs.forEach(function (tab) {
+        tab.classList.toggle('is-active', tab.dataset.tab === name);
+      });
+      window.scrollTo({ top: 0, behavior: 'auto' });
+    }
+
+    tabs.forEach(function (tab) {
+      tab.addEventListener('click', function (e) {
+        e.preventDefault();
+        showPanel(tab.dataset.tab);
+      });
     });
+
+    // Si la pantalla pasa a tamaño desktop, no hace falta ningún panel activo:
+    // el CSS de mobile ya deja de aplicar y se ve todo en scroll normal.
   })();
 </script>
 
 </body>
 </html>
+
