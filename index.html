@@ -152,15 +152,13 @@
     font-weight: 700;
   }
 
-  /* --- ANIMACIONES DE ENCABEZADO (HERO) REFORZADAS --- */
-  @keyframes heroFadeUp {
-    0% {
-      opacity: 0;
-      transform: translateY(50px);
+  /* --- ANIMACIÓN DINÁMICA CONTINUA PARA EL TÍTULO --- */
+  @keyframes floatTitle {
+    0%, 100% {
+      transform: translateY(0px);
     }
-    100% {
-      opacity: 1;
-      transform: translateY(0);
+    50% {
+      transform: translateY(-8px);
     }
   }
 
@@ -173,27 +171,11 @@
     animation: heroBgZoom 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 
-  .animate-hero-1 {
-    opacity: 0;
-    animation: heroFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
+  .animate-title-infinite {
+    animation: floatTitle 4s ease-in-out infinite;
   }
 
-  .animate-hero-2 {
-    opacity: 0;
-    animation: heroFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.25s forwards;
-  }
-
-  .animate-hero-3 {
-    opacity: 0;
-    animation: heroFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
-  }
-
-  .animate-hero-4 {
-    opacity: 0;
-    animation: heroFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.55s forwards;
-  }
-
-  /* --- SEPARADORES ONDULADOS SVG MEJORADOS --- */
+  /* --- SEPARADORES ONDULADOS SVG --- */
   .wave-divider {
     position: relative;
     width: 100%;
@@ -232,13 +214,8 @@
   @media (prefers-reduced-motion: reduce) {
     .whatsapp-float,
     .animate-hero-bg,
-    .animate-hero-1,
-    .animate-hero-2,
-    .animate-hero-3,
-    .animate-hero-4 {
+    .animate-title-infinite {
       animation: none !important;
-      opacity: 1 !important;
-      transform: none !important;
     }
     html { scroll-behavior: auto; }
   }
@@ -273,7 +250,7 @@
   </div>
 </header>
 
-<!-- ============ HERO (SECTOR 01) CON ANIMACIÓN MEJORADA ============ -->
+<!-- ============ HERO (SECTOR 01) CON TÍTULO EN MOVIMIENTO CONSTANTE ============ -->
 <section id="inicio" class="relative min-h-[85vh] flex items-center grid-map overflow-hidden pt-20 pb-16">
   <div class="absolute inset-0 overflow-hidden">
     <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1800&auto=format&fit=crop"
@@ -284,19 +261,20 @@
   </div>
 
   <div class="relative z-10 max-w-7xl mx-auto px-6 md:px-10 w-full py-12">
-    <p class="sector-tag mb-4 animate-hero-1">DISTRITO FITNESS CENTER — SECTOR 01 / INICIO</p>
+    <p class="sector-tag mb-4">DISTRITO FITNESS CENTER — SECTOR 01 / INICIO</p>
     
-    <h1 class="display-heading text-3xl sm:text-5xl lg:text-6xl uppercase max-w-3xl font-bold tracking-tight text-white leading-[1.15] animate-hero-2">
+    <!-- TÍTULO CON ANIMACIÓN CONTINUA (FLOTACIÓN) -->
+    <h1 class="display-heading text-3xl sm:text-5xl lg:text-6xl uppercase max-w-3xl font-bold tracking-tight text-white leading-[1.15] animate-title-infinite">
       EL LUGAR DONDE<br>
       NACE TU <span class="text-electric font-extrabold">MEJOR</span><br>
       VERSIÓN.
     </h1>
     
-    <p class="font-mono text-xs md:text-sm text-stone mt-4 max-w-lg uppercase tracking-widest leading-relaxed animate-hero-3">
+    <p class="font-mono text-xs md:text-sm text-stone mt-4 max-w-lg uppercase tracking-widest leading-relaxed">
       Bienvenido al Distrito. Musculación, CrossFit, Hyrox y Calistenia bajo un mismo techo, en el corazón de Caballito.
     </p>
 
-    <div class="flex flex-col sm:flex-row gap-4 mt-8 animate-hero-4">
+    <div class="flex flex-col sm:flex-row gap-4 mt-8">
       <a href="https://wa.me/5491130260359?text=Hola%20Distrito%20Fitness%20Center%2C%20quiero%20reservar%20una%20clase%20de%20prueba"
          target="_blank" rel="noopener"
          class="btn-cta inline-flex items-center justify-center gap-3 px-7 py-3.5 text-xs uppercase tracking-widest">
@@ -312,7 +290,7 @@
   </div>
 </section>
 
-<!-- SEPARADOR ONDULADO SVG MÁS VISIBLE -->
+<!-- SEPARADOR ONDULADO SVG -->
 <div class="wave-divider bg-bg">
   <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
     <path d="M0,0 C150,90 350,-40 500,50 C650,140 900,10 1200,40 L1200,120 L0,120 Z" fill="#111318"></path>
@@ -371,7 +349,7 @@
   </div>
 </section>
 
-<!-- SEPARADOR ONDULADO SVG MÁS VISIBLE -->
+<!-- SEPARADOR ONDULADO SVG -->
 <div class="wave-divider bg-surface">
   <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
     <path d="M0,40 C300,120 600,-40 900,60 C1050,110 1150,30 1200,20 L1200,120 L0,120 Z" fill="#0A0B0E"></path>
@@ -430,7 +408,7 @@
   </div>
 </section>
 
-<!-- SEPARADOR ONDULADO SVG MÁS VISIBLE -->
+<!-- SEPARADOR ONDULADO SVG -->
 <div class="wave-divider bg-bg">
   <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
     <path d="M0,60 C250,-30 550,130 850,30 C1000,-10 1100,80 1200,50 L1200,120 L0,120 Z" fill="#111318"></path>
@@ -517,7 +495,7 @@
   </div>
 </section>
 
-<!-- SEPARADOR ONDULADO SVG MÁS VISIBLE -->
+<!-- SEPARADOR ONDULADO SVG -->
 <div class="wave-divider bg-surface">
   <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
     <path d="M0,30 C350,110 650,-30 950,70 C1080,100 1150,30 1200,40 L1200,120 L0,120 Z" fill="#0A0B0E"></path>
@@ -551,7 +529,7 @@
   </div>
 </section>
 
-<!-- SEPARADOR ONDULADO SVG MÁS VISIBLE -->
+<!-- SEPARADOR ONDULADO SVG -->
 <div class="wave-divider bg-bg">
   <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
     <path d="M0,50 C200,-20 500,120 800,20 C1000,-40 1100,80 1200,60 L1200,120 L0,120 Z" fill="#111318"></path>
@@ -589,7 +567,7 @@
   </div>
 </section>
 
-<!-- SEPARADOR ONDULADO SVG MÁS VISIBLE -->
+<!-- SEPARADOR ONDULADO SVG -->
 <div class="wave-divider bg-surface">
   <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
     <path d="M0,80 C300,10 600,120 900,30 C1050,-10 1150,60 1200,40 L1200,120 L0,120 Z" fill="#0A0B0E"></path>
@@ -672,7 +650,7 @@
   </div>
 </section>
 
-<!-- SEPARADOR ONDULADO SVG MÁS VISIBLE -->
+<!-- SEPARADOR ONDULADO SVG -->
 <div class="wave-divider bg-bg">
   <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
     <path d="M0,20 C400,100 700,-40 1000,70 C1100,100 1160,30 1200,50 L1200,120 L0,120 Z" fill="#111318"></path>
@@ -737,7 +715,7 @@
   </div>
 </section>
 
-<!-- SEPARADOR ONDULADO SVG MÁS VISIBLE -->
+<!-- SEPARADOR ONDULADO SVG -->
 <div class="wave-divider bg-surface">
   <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
     <path d="M0,60 C300,-10 600,110 900,40 C1050,10 1150,80 1200,50 L1200,120 L0,120 Z" fill="#0A0B0E"></path>
