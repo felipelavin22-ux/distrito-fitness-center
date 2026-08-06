@@ -16,7 +16,7 @@
 <!-- Lucide Icons -->
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 
-<!-- GSAP para animaciones fluidas estilo CodePen -->
+<!-- GSAP -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
@@ -49,6 +49,13 @@
   body {
     background-color: #0A0B0E;
     font-family: 'Inter', sans-serif;
+  }
+
+  /* En móviles dejamos un espacio inferior para que la barra fija no tape contenido */
+  @media (max-width: 767px) {
+    body {
+      padding-bottom: 75px;
+    }
   }
 
   .grid-map {
@@ -86,7 +93,7 @@
     line-height: 1.1;
   }
 
-  /* --- ANIMACIÓN DE ONDA FLUIDA EN TÍTULO ESTILO CODEPEN --- */
+  /* --- ANIMACIÓN DE ONDA FLUIDA EN TÍTULO --- */
   .wave-title-container {
     position: relative;
     display: inline-block;
@@ -99,18 +106,10 @@
   }
 
   @keyframes waveDistortion {
-    0%, 100% {
-      transform: translateY(0px) skewX(0deg) scaleY(1);
-    }
-    25% {
-      transform: translateY(-6px) skewX(-2deg) scaleY(1.02);
-    }
-    50% {
-      transform: translateY(0px) skewX(0deg) scaleY(1);
-    }
-    75% {
-      transform: translateY(6px) skewX(2deg) scaleY(0.98);
-    }
+    0%, 100% { transform: translateY(0px) skewX(0deg) scaleY(1); }
+    25% { transform: translateY(-6px) skewX(-2deg) scaleY(1.02); }
+    50% { transform: translateY(0px) skewX(0deg) scaleY(1); }
+    75% { transform: translateY(6px) skewX(2deg) scaleY(0.98); }
   }
 
   .card-hover {
@@ -187,12 +186,10 @@
     0% { transform: scale(1.12); }
     100% { transform: scale(1); }
   }
-
   .animate-hero-bg {
     animation: heroBgZoom 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 
-  /* --- SEPARADORES ONDULADOS SVG --- */
   .wave-divider {
     position: relative;
     width: 100%;
@@ -200,7 +197,6 @@
     line-height: 0;
     z-index: 10;
   }
-
   .wave-divider svg {
     position: relative;
     display: block;
@@ -208,11 +204,8 @@
     height: 75px;
     filter: drop-shadow(0 -4px 10px rgba(47, 111, 255, 0.15));
   }
-
   @media (min-width: 768px) {
-    .wave-divider svg {
-      height: 110px;
-    }
+    .wave-divider svg { height: 110px; }
   }
 
   ::selection { background: #2F6FFF; color: #FFFFFF; }
@@ -229,11 +222,7 @@
   details.faq-item[open] summary { color: #5B8FFF; }
 
   @media (prefers-reduced-motion: reduce) {
-    .whatsapp-float,
-    .animate-hero-bg,
-    .wave-title-layer {
-      animation: none !important;
-    }
+    .whatsapp-float, .animate-hero-bg, .wave-title-layer { animation: none !important; }
     html { scroll-behavior: auto; }
   }
 </style>
@@ -241,7 +230,7 @@
 
 <body class="bg-bg text-white antialiased selection:bg-electric selection:text-white">
 
-<!-- ============ NAVBAR ============ -->
+<!-- ============ NAVBAR DESKTOP ============ -->
 <header class="fixed top-0 left-0 w-full z-50 bg-bg/85 backdrop-blur-lg border-b border-line/80">
   <div class="max-w-7xl mx-auto px-6 md:px-10 h-20 flex items-center justify-between">
     <a href="#inicio" class="flex items-center gap-3">
@@ -267,7 +256,7 @@
   </div>
 </header>
 
-<!-- ============ HERO (SECTOR 01) CON TÍTULO ONDULADO FLUIDO ============ -->
+<!-- ============ HERO (SECTOR 01) ============ -->
 <section id="inicio" class="relative min-h-[85vh] flex items-center grid-map overflow-hidden pt-20 pb-16">
   <div class="absolute inset-0 overflow-hidden">
     <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1800&auto=format&fit=crop"
@@ -280,7 +269,6 @@
   <div class="relative z-10 max-w-7xl mx-auto px-6 md:px-10 w-full py-12">
     <p class="sector-tag mb-4">DISTRITO FITNESS CENTER — SECTOR 01 / INICIO</p>
     
-    <!-- TÍTULO CON EFECTO DE ONDA FLUIDA (ESTILO CODEPEN) -->
     <div class="wave-title-container max-w-3xl my-2">
       <h1 class="display-heading text-3xl sm:text-5xl lg:text-6xl uppercase font-bold tracking-tight text-white leading-[1.15] wave-title-layer">
         EL LUGAR DONDE<br>
@@ -382,47 +370,31 @@
     <h2 class="display-heading text-4xl md:text-5xl uppercase mb-16 max-w-3xl leading-tight">No competimos<br>en precio. <span class="text-electric">Competimos en nivel.</span></h2>
 
     <div class="divide-y divide-line/80 border-y border-line/80">
-
       <div class="group grid md:grid-cols-12 gap-4 md:gap-8 py-8 items-start hover:bg-surface2/40 transition-colors px-4 -mx-4 rounded-xs">
-        <div class="md:col-span-1 flex md:justify-center">
-          <i data-lucide="users" class="w-6 h-6 text-electric"></i>
-        </div>
+        <div class="md:col-span-1 flex md:justify-center"><i data-lucide="users" class="w-6 h-6 text-electric"></i></div>
         <h3 class="md:col-span-4 display-heading text-xl md:text-2xl uppercase tracking-wider">Comunidad</h3>
         <p class="md:col-span-7 text-stone font-light leading-relaxed">Acá no entrenás al lado de desconocidos: entrenás con una crew que te conoce por tu nombre y te espera en cada clase.</p>
       </div>
-
       <div class="group grid md:grid-cols-12 gap-4 md:gap-8 py-8 items-start hover:bg-surface2/40 transition-colors px-4 -mx-4 rounded-xs">
-        <div class="md:col-span-1 flex md:justify-center">
-          <i data-lucide="sparkles" class="w-6 h-6 text-electric"></i>
-        </div>
+        <div class="md:col-span-1 flex md:justify-center"><i data-lucide="sparkles" class="w-6 h-6 text-electric"></i></div>
         <h3 class="md:col-span-4 display-heading text-xl md:text-2xl uppercase tracking-wider">Lugar innovador</h3>
         <p class="md:col-span-7 text-stone font-light leading-relaxed">Un concepto que rompe con el gimnasio tradicional de barrio: musculación, CrossFit, Hyrox y calistenia bajo un mismo techo.</p>
       </div>
-
       <div class="group grid md:grid-cols-12 gap-4 md:gap-8 py-8 items-start hover:bg-surface2/40 transition-colors px-4 -mx-4 rounded-xs">
-        <div class="md:col-span-1 flex md:justify-center">
-          <i data-lucide="sun" class="w-6 h-6 text-electric"></i>
-        </div>
+        <div class="md:col-span-1 flex md:justify-center"><i data-lucide="sun" class="w-6 h-6 text-electric"></i></div>
         <h3 class="md:col-span-4 display-heading text-xl md:text-2xl uppercase tracking-wider">Ambiente</h3>
         <p class="md:col-span-7 text-stone font-light leading-relaxed">Espacios amplios, luminosos y cuidados hasta el último detalle — pensados para que quieras quedarte más tiempo del que planeabas.</p>
       </div>
-
       <div class="group grid md:grid-cols-12 gap-4 md:gap-8 py-8 items-start hover:bg-surface2/40 transition-colors px-4 -mx-4 rounded-xs">
-        <div class="md:col-span-1 flex md:justify-center">
-          <i data-lucide="handshake" class="w-6 h-6 text-electric"></i>
-        </div>
+        <div class="md:col-span-1 flex md:justify-center"><i data-lucide="handshake" class="w-6 h-6 text-electric"></i></div>
         <h3 class="md:col-span-4 display-heading text-xl md:text-2xl uppercase tracking-wider">Dueños presentes</h3>
         <p class="md:col-span-7 text-stone font-light leading-relaxed">Los fundadores están en el piso todos los días, no en una oficina — conocen tu progreso y tus objetivos de primera mano.</p>
       </div>
-
       <div class="group grid md:grid-cols-12 gap-4 md:gap-8 py-8 items-start hover:bg-surface2/40 transition-colors px-4 -mx-4 rounded-xs">
-        <div class="md:col-span-1 flex md:justify-center">
-          <i data-lucide="gem" class="w-6 h-6 text-electric"></i>
-        </div>
+        <div class="md:col-span-1 flex md:justify-center"><i data-lucide="gem" class="w-6 h-6 text-electric"></i></div>
         <h3 class="md:col-span-4 display-heading text-xl md:text-2xl uppercase tracking-wider">Servicio premium</h3>
         <p class="md:col-span-7 text-stone font-light leading-relaxed">Equipamiento de última generación, vestuarios premium y una atención a la altura de lo que te merecés.</p>
       </div>
-
     </div>
   </div>
 </section>
@@ -446,13 +418,10 @@
     </div>
 
     <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-
       <!-- Musculación -->
       <div class="card-hover group relative border border-line bg-surface2 rounded-xs overflow-hidden shadow-xl">
         <div class="aspect-[4/5] overflow-hidden">
-          <img src="https://images.unsplash.com/photo-1545612036-2872840642dc?q=80&w=900&auto=format&fit=crop"
-               alt="Piso de musculación con máquinas de última generación"
-               class="w-full h-full object-cover filter brightness-75 contrast-110 group-hover:scale-105 transition-transform duration-700">
+          <img src="https://images.unsplash.com/photo-1545612036-2872840642dc?q=80&w=900&auto=format&fit=crop" alt="Musculación" class="w-full h-full object-cover filter brightness-75 contrast-110 group-hover:scale-105 transition-transform duration-700">
         </div>
         <div class="absolute inset-0 bg-gradient-to-t from-bg via-bg/60 to-transparent"></div>
         <div class="absolute bottom-0 left-0 right-0 p-6 flex flex-col">
@@ -461,13 +430,10 @@
           <p class="text-stone text-xs leading-relaxed font-light min-h-[60px]">Dos pisos con máquinas de última generación: tren inferior, core, tren superior y aeróbico.</p>
         </div>
       </div>
-
       <!-- CrossFit -->
       <div class="card-hover group relative border border-line bg-surface2 rounded-xs overflow-hidden shadow-xl">
         <div class="aspect-[4/5] overflow-hidden">
-          <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=900&auto=format&fit=crop"
-               alt="Clase de CrossFit de alta intensidad"
-               class="w-full h-full object-cover filter brightness-75 contrast-110 group-hover:scale-105 transition-transform duration-700">
+          <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=900&auto=format&fit=crop" alt="CrossFit" class="w-full h-full object-cover filter brightness-75 contrast-110 group-hover:scale-105 transition-transform duration-700">
         </div>
         <div class="absolute inset-0 bg-gradient-to-t from-bg via-bg/60 to-transparent"></div>
         <div class="absolute bottom-0 left-0 right-0 p-6 flex flex-col">
@@ -476,13 +442,10 @@
           <p class="text-stone text-xs leading-relaxed font-light min-h-[60px]">Alta intensidad y resultados reales, con una comunidad que te empuja a superarte en cada clase.</p>
         </div>
       </div>
-
       <!-- Hyrox -->
       <div class="card-hover group relative border border-line bg-surface2 rounded-xs overflow-hidden shadow-xl">
         <div class="aspect-[4/5] overflow-hidden">
-          <img src="https://images.unsplash.com/photo-1571388208497-71bedc66e932?q=80&w=900&auto=format&fit=crop"
-               alt="Entrenamiento estilo Hyrox de resistencia"
-               class="w-full h-full object-cover filter brightness-75 contrast-110 group-hover:scale-105 transition-transform duration-700">
+          <img src="https://images.unsplash.com/photo-1571388208497-71bedc66e932?q=80&w=900&auto=format&fit=crop" alt="Hyrox" class="w-full h-full object-cover filter brightness-75 contrast-110 group-hover:scale-105 transition-transform duration-700">
         </div>
         <div class="absolute inset-0 bg-gradient-to-t from-bg via-bg/60 to-transparent"></div>
         <div class="absolute bottom-0 left-0 right-0 p-6 flex flex-col">
@@ -494,13 +457,10 @@
           <p class="text-stone text-xs leading-relaxed font-light min-h-[60px]">Centro oficial licenciado, con prioridad de acceso para las carreras oficiales de Hyrox.</p>
         </div>
       </div>
-
       <!-- Calistenia -->
       <div class="card-hover group relative border border-line bg-surface2 rounded-xs overflow-hidden shadow-xl">
         <div class="aspect-[4/5] overflow-hidden">
-          <img src="https://images.unsplash.com/photo-1704375058325-e51b6382a95d?q=80&w=900&auto=format&fit=crop"
-               alt="Atleta de calistenia colgado de una barra de dominadas"
-               class="w-full h-full object-cover filter brightness-75 contrast-110 group-hover:scale-105 transition-transform duration-700">
+          <img src="https://images.unsplash.com/photo-1704375058325-e51b6382a95d?q=80&w=900&auto=format&fit=crop" alt="Calistenia" class="w-full h-full object-cover filter brightness-75 contrast-110 group-hover:scale-105 transition-transform duration-700">
         </div>
         <div class="absolute inset-0 bg-gradient-to-t from-bg via-bg/60 to-transparent"></div>
         <div class="absolute bottom-0 left-0 right-0 p-6 flex flex-col">
@@ -509,7 +469,6 @@
           <p class="text-stone text-xs leading-relaxed font-light min-h-[60px]">Dominá tu propio peso corporal y construí fuerza real, movilidad y control absoluto.</p>
         </div>
       </div>
-
     </div>
   </div>
 </section>
@@ -555,7 +514,7 @@
   </svg>
 </div>
 
-<!-- ============ TESTIMONIOS / PRÓXIMA APERTURA ============ -->
+<!-- ============ TESTIMONIOS ============ -->
 <section id="testimonios" class="relative py-20 md:py-28 bg-surface">
   <div class="max-w-7xl mx-auto px-6 md:px-10">
     <p class="sector-tag mb-6">SECTOR 06 / LA CREW</p>
@@ -600,71 +559,27 @@
     <h2 class="display-heading text-4xl md:text-5xl uppercase mb-14">Dudas comunes.</h2>
 
     <div class="space-y-4">
-
       <details class="faq-item border border-line bg-surface2/50 rounded-xs px-6 py-5 hover:border-electric/40 transition-colors" open>
         <summary class="flex items-center justify-between gap-4 font-mono text-sm uppercase tracking-wider text-stone">
           ¿Cuándo abre Distrito Fitness Center?
           <i data-lucide="plus" class="faq-icon w-4 h-4 text-electric shrink-0"></i>
         </summary>
-        <p class="text-stone font-light leading-relaxed mt-4 text-sm">
-          Estamos terminando de preparar nuestras instalaciones en Caballito. Escribinos por WhatsApp para
-          enterarte primero de la fecha de apertura y reservar tu lugar como socio fundador.
-        </p>
+        <p class="text-stone font-light leading-relaxed mt-4 text-sm">Estamos terminando de preparar nuestras instalaciones en Caballito. Escribinos por WhatsApp para enterarte primero de la fecha de apertura.</p>
       </details>
-
       <details class="faq-item border border-line bg-surface2/50 rounded-xs px-6 py-5 hover:border-electric/40 transition-colors">
         <summary class="flex items-center justify-between gap-4 font-mono text-sm uppercase tracking-wider text-stone">
-          ¿Necesito experiencia previa para empezar?
+          ¿Necesito experiencia previa?
           <i data-lucide="plus" class="faq-icon w-4 h-4 text-electric shrink-0"></i>
         </summary>
-        <p class="text-stone font-light leading-relaxed mt-4 text-sm">
-          No. Nuestros coaches certificados adaptan cada clase de CrossFit, Hyrox, Musculación y Calistenia
-          a tu nivel, sin importar si es tu primer día de entrenamiento o si ya competís.
-        </p>
+        <p class="text-stone font-light leading-relaxed mt-4 text-sm">No. Nuestros coaches adaptan cada clase de CrossFit, Hyrox, Musculación y Calistenia a tu nivel.</p>
       </details>
-
       <details class="faq-item border border-line bg-surface2/50 rounded-xs px-6 py-5 hover:border-electric/40 transition-colors">
         <summary class="flex items-center justify-between gap-4 font-mono text-sm uppercase tracking-wider text-stone">
-          ¿Están afiliados a WellHub (ex Gympass)?
+          ¿Aceptan WellHub (Gympass)?
           <i data-lucide="plus" class="faq-icon w-4 h-4 text-electric shrink-0"></i>
         </summary>
-        <p class="text-stone font-light leading-relaxed mt-4 text-sm">
-          Sí. Si sos usuario de la app WellHub (ex Gympass), podés entrenar en Distrito Fitness Center
-          con tu plan vigente.
-        </p>
+        <p class="text-stone font-light leading-relaxed mt-4 text-sm">Sí, podés entrenar en Distrito Fitness Center con tu plan vigente de WellHub.</p>
       </details>
-
-      <details class="faq-item border border-line bg-surface2/50 rounded-xs px-6 py-5 hover:border-electric/40 transition-colors">
-        <summary class="flex items-center justify-between gap-4 font-mono text-sm uppercase tracking-wider text-stone">
-          ¿Son centro oficial de Hyrox?
-          <i data-lucide="plus" class="faq-icon w-4 h-4 text-electric shrink-0"></i>
-        </summary>
-        <p class="text-stone font-light leading-relaxed mt-4 text-sm">
-          Sí, contamos con la licencia oficial de Hyrox, lo que nos da prioridad de acceso para las
-          carreras oficiales y una preparación específica para la competencia.
-        </p>
-      </details>
-
-      <details class="faq-item border border-line bg-surface2/50 rounded-xs px-6 py-5 hover:border-electric/40 transition-colors">
-        <summary class="flex items-center justify-between gap-4 font-mono text-sm uppercase tracking-wider text-stone">
-          ¿Cuáles son los horarios de atención?
-          <i data-lucide="plus" class="faq-icon w-4 h-4 text-electric shrink-0"></i>
-        </summary>
-        <p class="text-stone font-light leading-relaxed mt-4 text-sm">
-          Lunes a Viernes de 6:00 a 22:00hs, y Sábados de 9:00 a 14:00hs.
-        </p>
-      </details>
-
-      <details class="faq-item border border-line bg-surface2/50 rounded-xs px-6 py-5 hover:border-electric/40 transition-colors">
-        <summary class="flex items-center justify-between gap-4 font-mono text-sm uppercase tracking-wider text-stone">
-          ¿Puedo ir a probar antes de anotarme?
-          <i data-lucide="plus" class="faq-icon w-4 h-4 text-electric shrink-0"></i>
-        </summary>
-        <p class="text-stone font-light leading-relaxed mt-4 text-sm">
-          Sí, escribinos por WhatsApp y coordinamos tu clase de prueba sin costo y sin compromiso.
-        </p>
-      </details>
-
     </div>
   </div>
 </section>
@@ -699,64 +614,61 @@
       <div class="flex gap-4 border-b border-line/80 pb-8">
         <i data-lucide="clock" class="w-5 h-5 text-electric shrink-0 mt-1"></i>
         <div>
-          <p class="font-mono text-xs uppercase tracking-wider mb-1 text-white">Horarios de atención</p>
-          <p class="text-stone font-light text-sm">Lunes a Viernes: 6:00 — 22:00hs</p>
-          <p class="text-stone font-light text-sm">Sábados: 9:00 — 14:00hs</p>
+          <p class="font-mono text-xs uppercase tracking-wider mb-1 text-white">Horarios</p>
+          <p class="text-stone font-light text-sm">Lunes a Viernes: 6:00 — 22:00hs | Sábados: 9:00 — 14:00hs</p>
         </div>
       </div>
       <div class="flex gap-4 border-b border-line/80 pb-8">
         <i data-lucide="map-pin" class="w-5 h-5 text-electric shrink-0 mt-1"></i>
         <div>
           <p class="font-mono text-xs uppercase tracking-wider mb-1 text-white">Ubicación</p>
-          <p class="text-stone font-light text-sm">Federico García Lorca 357, Caballito, Buenos Aires, Argentina (C1405)</p>
-        </div>
-      </div>
-      <div class="flex gap-4 border-b border-line/80 pb-8">
-        <i data-lucide="mail" class="w-5 h-5 text-electric shrink-0 mt-1"></i>
-        <div>
-          <p class="font-mono text-xs uppercase tracking-wider mb-1 text-white">Email</p>
-          <a href="mailto:distritofitnesscenter@gmail.com" class="text-stone font-light text-sm hover:text-electric transition-colors">distritofitnesscenter@gmail.com</a>
-        </div>
-      </div>
-      <div class="flex gap-4 pb-4">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-electric shrink-0 mt-1">
-          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-          <circle cx="12" cy="12" r="4.2"></circle>
-          <circle cx="17.6" cy="6.4" r="0.9" fill="currentColor" stroke="none"></circle>
-        </svg>
-        <div>
-          <p class="font-mono text-xs uppercase tracking-wider mb-1 text-white">Seguinos</p>
-          <a href="https://instagram.com/distritofitnesscenter" target="_blank" rel="noopener"
-             class="text-stone font-light text-sm hover:text-electric transition-colors">@distritofitnesscenter</a>
+          <p class="text-stone font-light text-sm">Federico García Lorca 357, Caballito, Buenos Aires</p>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- SEPARADOR ONDULADO SVG -->
-<div class="wave-divider bg-surface">
-  <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
-    <path d="M0,60 C300,-10 600,110 900,40 C1050,10 1150,80 1200,50 L1200,120 L0,120 Z" fill="#0A0B0E"></path>
-  </svg>
-</div>
-
 <!-- ============ FOOTER ============ -->
 <footer class="py-10 bg-bg">
   <div class="max-w-7xl mx-auto px-6 md:px-10 flex flex-col md:flex-row items-center justify-between gap-4">
     <div class="flex items-center gap-3">
-      <img src="logo_distrito.png" alt="Distrito Fitness Center" class="w-7 h-7 object-contain">
+      <img src="logo_distrito.png" alt="Distrito" class="w-7 h-7 object-contain">
       <p class="display-heading text-base tracking-wider">DISTRITO FITNESS CENTER</p>
     </div>
-    <p class="font-mono text-[10px] text-stone/80 uppercase tracking-widest">© 2026 Distrito Fitness Center — Todos los derechos reservados</p>
+    <p class="font-mono text-[10px] text-stone/80 uppercase tracking-widest">© 2026 Distrito Fitness Center</p>
   </div>
 </footer>
+
+<!-- ============ BARRA DE NAVEGACIÓN INFERIOR FIJA (SOLO MÓVIL) ============ -->
+<nav aria-label="Navegación móvil" class="md:hidden fixed bottom-0 left-0 w-full bg-surface/95 backdrop-blur-md border-t border-line z-50 px-2 py-2 flex justify-around items-center">
+  <a href="#inicio" class="flex flex-col items-center text-stone hover:text-electric transition-colors p-1">
+    <i data-lucide="home" class="w-5 h-5 mb-1"></i>
+    <span class="font-mono text-[9px] uppercase tracking-wider">Inicio</span>
+  </a>
+  <a href="#nosotros" class="flex flex-col items-center text-stone hover:text-electric transition-colors p-1">
+    <i data-lucide="layers" class="w-5 h-5 mb-1"></i>
+    <span class="font-mono text-[9px] uppercase tracking-wider">Distrito</span>
+  </a>
+  <a href="#disciplinas" class="flex flex-col items-center text-stone hover:text-electric transition-colors p-1">
+    <i data-lucide="dumbbell" class="w-5 h-5 mb-1"></i>
+    <span class="font-mono text-[9px] uppercase tracking-wider">Disciplinas</span>
+  </a>
+  <a href="#faq" class="flex flex-col items-center text-stone hover:text-electric transition-colors p-1">
+    <i data-lucide="help-circle" class="w-5 h-5 mb-1"></i>
+    <span class="font-mono text-[9px] uppercase tracking-wider">FAQ</span>
+  </a>
+  <a href="#contacto" class="flex flex-col items-center text-stone hover:text-electric transition-colors p-1">
+    <i data-lucide="phone" class="w-5 h-5 mb-1"></i>
+    <span class="font-mono text-[9px] uppercase tracking-wider">Contacto</span>
+  </a>
+</nav>
 
 <!-- ============ WHATSAPP FLOTANTE ============ -->
 <a href="https://wa.me/5491130260359?text=Hola%20Distrito%20Fitness%20Center%2C%20quiero%20reservar%20una%20clase%20de%20prueba"
    target="_blank" rel="noopener"
    aria-label="Contactar por WhatsApp"
-   class="whatsapp-float fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform">
+   class="whatsapp-float fixed bottom-20 right-4 md:bottom-6 md:right-6 z-50 w-12 h-12 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform">
   <i data-lucide="message-circle" class="w-6 h-6"></i>
 </a>
 
