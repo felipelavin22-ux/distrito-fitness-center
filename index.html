@@ -8,10 +8,10 @@
 <!-- Tailwind CSS -->
 <script src="https://cdn.tailwindcss.com"></script>
 
-<!-- Google Fonts (fallback para "Forma DJR Banner", que es una fuente de pago — ver @font-face más abajo) -->
+<!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Outfit:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <!-- Lucide Icons -->
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
@@ -31,8 +31,8 @@
           line: '#202430',
         },
         fontFamily: {
-          display: ['"Forma DJR Banner"', 'Archivo', 'sans-serif'],
-          mono: ['"Forma DJR Banner"', 'Archivo', 'sans-serif'],
+          display: ['Cinzel', 'serif'],
+          mono: ['Outfit', 'sans-serif'],
           body: ['Inter', 'sans-serif'],
         },
       }
@@ -41,30 +41,6 @@
 </script>
 
 <style>
-  /*
-    "Forma DJR Banner" es una fuente PAGA de la fundición DJR (djr.com) —
-    no está disponible en Google Fonts ni en ningún CDN gratuito, por lo que
-    no se puede enlazar por URL como el resto de las tipografías.
-    Si ya tenés la licencia y los archivos (.woff2), subilos a una carpeta
-    /fonts en el mismo servidor que este archivo y descomentá el bloque de
-    abajo con las rutas correctas. Mientras tanto, el sitio usa "Archivo"
-    (Google Fonts, gratuita) como reemplazo visual: es una grotesca de trazo
-    firme y proporciones similares, pensada para no romper el diseño.
-
-    @font-face {
-      font-family: 'Forma DJR Banner';
-      src: url('fonts/FormaDJRBanner-Bold.woff2') format('woff2');
-      font-weight: 700;
-      font-display: swap;
-    }
-    @font-face {
-      font-family: 'Forma DJR Banner';
-      src: url('fonts/FormaDJRBanner-Medium.woff2') format('woff2');
-      font-weight: 500;
-      font-display: swap;
-    }
-  */
-
   html { scroll-behavior: smooth; }
   body {
     background-color: #0A0B0E;
@@ -82,7 +58,7 @@
 
   /* Sector Tag con color de marca */
   .sector-tag {
-    font-family: 'Forma DJR Banner', 'Archivo', sans-serif;
+    font-family: 'Outfit', sans-serif;
     letter-spacing: 0.25em;
     display: inline-flex;
     align-items: center;
@@ -103,8 +79,8 @@
   }
 
   .display-heading {
-    font-family: 'Forma DJR Banner', 'Archivo', sans-serif;
-    letter-spacing: 0.01em;
+    font-family: 'Cinzel', serif;
+    letter-spacing: 0.02em;
     line-height: 1.1;
   }
 
@@ -175,7 +151,7 @@
   }
 
   .stat-number {
-    font-family: 'Forma DJR Banner', 'Archivo', sans-serif;
+    font-family: 'Cinzel', serif;
     font-size: clamp(2.25rem, 5vw, 3.75rem);
     line-height: 1;
     font-weight: 700;
@@ -200,21 +176,10 @@
     .whatsapp-float { animation: none; }
     html { scroll-behavior: auto; }
   }
-
-  /* Barra de navegación inferior (mobile) */
-  .mobile-tab.is-active {
-    color: #2F6FFF;
-  }
-
-  /* Paneles tipo "app": en mobile se ve un solo panel a la vez (sin scroll entre secciones).
-     En desktop (md+) esta regla no aplica y todos los paneles se ven en su scroll normal. */
-  @media (max-width: 767px) {
-    .mobile-panel:not(.panel-active) { display: none; }
-  }
 </style>
 </head>
 
-<body class="bg-bg text-white antialiased selection:bg-electric selection:text-white pb-16 md:pb-0">
+<body class="bg-bg text-white antialiased selection:bg-electric selection:text-white">
 
 <!-- ============ NAVBAR ============ -->
 <header class="fixed top-0 left-0 w-full z-50 bg-bg/85 backdrop-blur-lg border-b border-line/80">
@@ -242,11 +207,8 @@
   </div>
 </header>
 
-<!-- ===== PANEL MOBILE 1: INICIO (Hero + El Distrito + Por qué elegirnos) ===== -->
-<div class="mobile-panel panel-active" data-panel="inicio">
-
 <!-- ============ HERO (SECTOR 01) ============ -->
-<section id="inicio" class="relative min-h-[70vh] md:min-h-[85vh] flex items-center grid-map overflow-hidden pt-20 pb-10 md:pb-12">
+<section id="inicio" class="relative min-h-[85vh] flex items-center grid-map overflow-hidden pt-20 pb-12">
   <div class="absolute inset-0">
     <!-- Imagen con mayor opacidad y nitidez como en el ejemplo -->
     <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1800&auto=format&fit=crop"
@@ -288,7 +250,7 @@
 </section>
 
 <!-- ============ SOBRE NOSOTROS ============ -->
-<section id="nosotros" class="relative py-14 md:py-28 lg:py-36 border-t border-line/80">
+<section id="nosotros" class="relative py-28 md:py-36 border-t border-line/80">
   <div class="max-w-7xl mx-auto px-6 md:px-10 grid md:grid-cols-2 gap-16 items-center">
     <div class="relative">
       <div class="aspect-[4/5] overflow-hidden rounded-xs border border-line shadow-2xl">
@@ -309,15 +271,19 @@
       </h2>
       <p class="text-stone text-base md:text-lg leading-relaxed mb-6 font-light">
         Dejamos atrás el gimnasio tradicional: filas de máquinas, auriculares puestos y nadie que te mire a los ojos.
-        Acá vas a encontrar un complejo pensado en varios niveles, con espacios para entrenar en serio y también
-        para socializar y descansar entre clase y clase.
+        En Distrito Fitness Center construimos 1500m² repartidos en 3 pisos, más cafetería y terraza al aire libre,
+        pensados para moverse en serio y para encontrarte con gente que empuja en la misma dirección que vos.
       </p>
       <p class="text-stone text-base md:text-lg leading-relaxed mb-10 font-light">
         Coaches certificados, equipamiento de última generación, vestuarios premium y los dueños presentes
         todos los días. Esto es entrenar con propósito — y con crew.
       </p>
 
-      <div class="grid grid-cols-3 gap-6 font-mono text-xs uppercase tracking-wider text-stone border-t border-line/80 pt-8">
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 font-mono text-xs uppercase tracking-wider text-stone border-t border-line/80 pt-8">
+        <div class="border-l border-electric/60 pl-4">
+          <i data-lucide="layers" class="w-4 h-4 text-electric mb-2"></i>
+          3 Pisos + Terraza
+        </div>
         <div class="border-l border-electric/60 pl-4">
           <i data-lucide="users" class="w-4 h-4 text-electric mb-2"></i>
           Comunidad Real
@@ -328,8 +294,7 @@
         </div>
         <div class="border-l border-electric/60 pl-4">
           <i data-lucide="shield-check" class="w-4 h-4 text-electric mb-2"></i>
-          <span class="block mb-2">Afiliados a</span>
-          <img src="wellhub_logo.png" alt="WellHub" class="h-4 w-auto object-contain">
+          Afiliados a WellHub
         </div>
       </div>
     </div>
@@ -337,14 +302,14 @@
 </section>
 
 <!-- ============ POR QUÉ ELEGIRNOS ============ -->
-<section id="por-que-elegirnos" class="relative py-14 md:py-28 lg:py-36 border-t border-line/80 bg-surface">
+<section id="por-que-elegirnos" class="relative py-28 md:py-36 border-t border-line/80 bg-surface">
   <div class="max-w-7xl mx-auto px-6 md:px-10">
     <p class="sector-tag mb-6">SECTOR 03 / POR QUÉ ELEGIRNOS</p>
-    <h2 class="display-heading text-4xl md:text-5xl uppercase mb-8 md:mb-16 max-w-3xl leading-tight">No competimos<br>en precio. <span class="text-electric">Competimos en nivel.</span></h2>
+    <h2 class="display-heading text-4xl md:text-5xl uppercase mb-16 max-w-3xl leading-tight">No competimos<br>en precio. <span class="text-electric">Competimos en nivel.</span></h2>
 
     <div class="divide-y divide-line/80 border-y border-line/80">
 
-      <div class="group grid md:grid-cols-12 gap-3 md:gap-8 py-5 md:py-8 items-start hover:bg-surface2/40 transition-colors px-4 -mx-4 rounded-xs">
+      <div class="group grid md:grid-cols-12 gap-4 md:gap-8 py-8 items-start hover:bg-surface2/40 transition-colors px-4 -mx-4 rounded-xs">
         <div class="md:col-span-1 flex md:justify-center">
           <i data-lucide="users" class="w-6 h-6 text-electric"></i>
         </div>
@@ -352,7 +317,7 @@
         <p class="md:col-span-7 text-stone font-light leading-relaxed">Acá no entrenás al lado de desconocidos: entrenás con una crew que te conoce por tu nombre y te espera en cada clase.</p>
       </div>
 
-      <div class="group grid md:grid-cols-12 gap-3 md:gap-8 py-5 md:py-8 items-start hover:bg-surface2/40 transition-colors px-4 -mx-4 rounded-xs">
+      <div class="group grid md:grid-cols-12 gap-4 md:gap-8 py-8 items-start hover:bg-surface2/40 transition-colors px-4 -mx-4 rounded-xs">
         <div class="md:col-span-1 flex md:justify-center">
           <i data-lucide="sparkles" class="w-6 h-6 text-electric"></i>
         </div>
@@ -360,7 +325,7 @@
         <p class="md:col-span-7 text-stone font-light leading-relaxed">Un concepto que rompe con el gimnasio tradicional de barrio: musculación, CrossFit, Hyrox y calistenia bajo un mismo techo.</p>
       </div>
 
-      <div class="group grid md:grid-cols-12 gap-3 md:gap-8 py-5 md:py-8 items-start hover:bg-surface2/40 transition-colors px-4 -mx-4 rounded-xs">
+      <div class="group grid md:grid-cols-12 gap-4 md:gap-8 py-8 items-start hover:bg-surface2/40 transition-colors px-4 -mx-4 rounded-xs">
         <div class="md:col-span-1 flex md:justify-center">
           <i data-lucide="sun" class="w-6 h-6 text-electric"></i>
         </div>
@@ -368,7 +333,7 @@
         <p class="md:col-span-7 text-stone font-light leading-relaxed">Espacios amplios, luminosos y cuidados hasta el último detalle — pensados para que quieras quedarte más tiempo del que planeabas.</p>
       </div>
 
-      <div class="group grid md:grid-cols-12 gap-3 md:gap-8 py-5 md:py-8 items-start hover:bg-surface2/40 transition-colors px-4 -mx-4 rounded-xs">
+      <div class="group grid md:grid-cols-12 gap-4 md:gap-8 py-8 items-start hover:bg-surface2/40 transition-colors px-4 -mx-4 rounded-xs">
         <div class="md:col-span-1 flex md:justify-center">
           <i data-lucide="handshake" class="w-6 h-6 text-electric"></i>
         </div>
@@ -376,7 +341,7 @@
         <p class="md:col-span-7 text-stone font-light leading-relaxed">Los fundadores están en el piso todos los días, no en una oficina — conocen tu progreso y tus objetivos de primera mano.</p>
       </div>
 
-      <div class="group grid md:grid-cols-12 gap-3 md:gap-8 py-5 md:py-8 items-start hover:bg-surface2/40 transition-colors px-4 -mx-4 rounded-xs">
+      <div class="group grid md:grid-cols-12 gap-4 md:gap-8 py-8 items-start hover:bg-surface2/40 transition-colors px-4 -mx-4 rounded-xs">
         <div class="md:col-span-1 flex md:justify-center">
           <i data-lucide="gem" class="w-6 h-6 text-electric"></i>
         </div>
@@ -388,16 +353,10 @@
   </div>
 </section>
 
-</div>
-<!-- ===== FIN PANEL MOBILE 1 ===== -->
-
-<!-- ===== PANEL MOBILE 2: DISCIPLINAS (Disciplinas + Logros) ===== -->
-<div class="mobile-panel" data-panel="disciplinas">
-
 <!-- ============ DISCIPLINAS ============ -->
-<section id="disciplinas" class="relative py-14 md:py-28 lg:py-36 border-t border-line/80">
+<section id="disciplinas" class="relative py-28 md:py-36 border-t border-line/80">
   <div class="max-w-7xl mx-auto px-6 md:px-10">
-    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-8 md:mb-16">
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
       <div>
         <p class="sector-tag mb-6">SECTOR 04 / DISCIPLINAS</p>
         <h2 class="display-heading text-4xl md:text-5xl uppercase">Elegí tu terreno.</h2>
@@ -475,7 +434,7 @@
 </section>
 
 <!-- ============ LOGROS / CIFRAS ============ -->
-<section id="logros" class="relative py-14 md:py-24 lg:py-32 border-t border-line/80 bg-surface/50 overflow-hidden">
+<section id="logros" class="relative py-24 md:py-32 border-t border-line/80 bg-surface/50 overflow-hidden">
   <div class="max-w-7xl mx-auto px-6 md:px-10 mb-14">
     <p class="sector-tag mb-6">SECTOR 05 / EN NÚMEROS</p>
     <h2 class="display-heading text-4xl md:text-5xl uppercase max-w-2xl">La crew, medida en cifras.</h2>
@@ -495,24 +454,18 @@
       <p class="font-mono text-xs uppercase tracking-wider text-stone mt-3">Licencia oficial</p>
     </div>
     <div class="border-t border-line pt-6">
-      <img src="wellhub_logo.png" alt="WellHub" class="h-12 md:h-16 w-auto object-contain mb-1">
+      <p class="stat-number text-white">WellHub</p>
       <p class="font-mono text-xs uppercase tracking-wider text-stone mt-3">Gimnasio afiliado</p>
     </div>
   </div>
 </section>
 
-</div>
-<!-- ===== FIN PANEL MOBILE 2 ===== -->
-
-<!-- ===== PANEL MOBILE 3: FAQ (La Crew + Preguntas frecuentes) ===== -->
-<div class="mobile-panel" data-panel="faq">
-
 <!-- ============ TESTIMONIOS / PRÓXIMA APERTURA ============ -->
-<section id="testimonios" class="relative py-14 md:py-28 lg:py-36 border-t border-line/80 bg-surface">
+<section id="testimonios" class="relative py-28 md:py-36 border-t border-line/80 bg-surface">
   <div class="max-w-7xl mx-auto px-6 md:px-10">
     <p class="sector-tag mb-6">SECTOR 06 / LA CREW</p>
     <h2 class="display-heading text-4xl md:text-5xl uppercase mb-6 max-w-2xl leading-tight">Todavía no abrimos.<br>Pero la crew ya se está formando.</h2>
-    <p class="text-stone text-base md:text-lg font-light leading-relaxed max-w-2xl mb-8 md:mb-16">
+    <p class="text-stone text-base md:text-lg font-light leading-relaxed max-w-2xl mb-16">
       Distrito Fitness Center está terminando de armarse en Caballito. Todavía no tenemos testimonios porque
       todavía no abrimos las puertas — pero acá vas a poder leer las historias reales de los primeros socios
       apenas empecemos.
@@ -522,7 +475,7 @@
       <div class="border border-line bg-surface2/80 p-8 rounded-xs card-hover">
         <i data-lucide="hammer" class="w-6 h-6 text-electric mb-6"></i>
         <h3 class="display-heading text-xl uppercase mb-3 tracking-wide">En construcción</h3>
-        <p class="text-stone font-light text-sm leading-relaxed">Estamos ultimando los últimos detalles antes de recibirte con todo lo que Distrito tiene para ofrecerte.</p>
+        <p class="text-stone font-light text-sm leading-relaxed">Estamos terminando los últimos detalles de nuestros 3 pisos, vestuarios premium y terraza.</p>
       </div>
       <div class="border border-line bg-surface2/80 p-8 rounded-xs card-hover">
         <i data-lucide="calendar-clock" class="w-6 h-6 text-electric mb-6"></i>
@@ -539,7 +492,7 @@
 </section>
 
 <!-- ============ FAQ ============ -->
-<section id="faq" class="relative py-14 md:py-28 lg:py-36 border-t border-line/80">
+<section id="faq" class="relative py-28 md:py-36 border-t border-line/80">
   <div class="max-w-4xl mx-auto px-6 md:px-10">
     <p class="sector-tag mb-6">SECTOR 07 / PREGUNTAS FRECUENTES</p>
     <h2 class="display-heading text-4xl md:text-5xl uppercase mb-14">Dudas comunes.</h2>
@@ -573,10 +526,9 @@
           ¿Están afiliados a WellHub (ex Gympass)?
           <i data-lucide="plus" class="faq-icon w-4 h-4 text-electric shrink-0"></i>
         </summary>
-        <p class="text-stone font-light leading-relaxed mt-4 text-sm flex flex-wrap items-center gap-2">
-          <span>Sí. Si sos usuario de la app</span>
-          <img src="wellhub_logo.png" alt="WellHub" class="h-4 w-auto object-contain inline-block align-middle">
-          <span>(ex Gympass), podés entrenar en Distrito Fitness Center con tu plan vigente.</span>
+        <p class="text-stone font-light leading-relaxed mt-4 text-sm">
+          Sí. Si sos usuario de la app WellHub (ex Gympass), podés entrenar en Distrito Fitness Center
+          con tu plan vigente.
         </p>
       </details>
 
@@ -615,14 +567,8 @@
   </div>
 </section>
 
-</div>
-<!-- ===== FIN PANEL MOBILE 3 ===== -->
-
-<!-- ===== PANEL MOBILE 4: CONTACTO (Contacto + Footer) ===== -->
-<div class="mobile-panel" data-panel="contacto">
-
 <!-- ============ CONTACTO ============ -->
-<section id="contacto" class="relative py-14 md:py-28 lg:py-36 border-t border-line/80 grid-map">
+<section id="contacto" class="relative py-28 md:py-36 border-t border-line/80 grid-map">
   <div class="max-w-7xl mx-auto px-6 md:px-10 grid md:grid-cols-2 gap-16">
     <div>
       <p class="sector-tag mb-6">SECTOR 08 / CONTACTO</p>
@@ -690,75 +636,16 @@
   </div>
 </footer>
 
-</div>
-<!-- ===== FIN PANEL MOBILE 4 ===== -->
-
-<!-- ============ WHATSAPP FLOTANTE (solo escritorio/tablet) ============ -->
+<!-- ============ WHATSAPP FLOTANTE ============ -->
 <a href="https://wa.me/5491130260359?text=Hola%20Distrito%20Fitness%20Center%2C%20quiero%20reservar%20una%20clase%20de%20prueba"
    target="_blank" rel="noopener"
    aria-label="Contactar por WhatsApp"
-   class="whatsapp-float hidden md:flex fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full items-center justify-center shadow-2xl hover:scale-110 transition-transform">
+   class="whatsapp-float fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform">
   <i data-lucide="message-circle" class="w-6 h-6"></i>
 </a>
 
-<!-- ============ BARRA DE NAVEGACIÓN INFERIOR (solo mobile) ============ -->
-<!-- Reemplaza el scroll interminable: en mobile, tocar cada ícono lleva directo a esa sección -->
-<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 bg-bg/95 backdrop-blur-lg border-t border-line/80 grid grid-cols-5" aria-label="Navegación principal">
-  <a href="#inicio" data-tab="inicio" class="mobile-tab is-active flex flex-col items-center justify-center gap-1 py-2.5 text-stone transition-colors">
-    <i data-lucide="home" class="w-5 h-5"></i>
-    <span class="text-[10px] font-mono uppercase tracking-wide">Inicio</span>
-  </a>
-  <a href="#disciplinas" data-tab="disciplinas" class="mobile-tab flex flex-col items-center justify-center gap-1 py-2.5 text-stone transition-colors">
-    <i data-lucide="dumbbell" class="w-5 h-5"></i>
-    <span class="text-[10px] font-mono uppercase tracking-wide">Clases</span>
-  </a>
-  <a href="https://wa.me/5491130260359?text=Hola%20Distrito%20Fitness%20Center%2C%20quiero%20reservar%20una%20clase%20de%20prueba"
-     target="_blank" rel="noopener"
-     class="flex flex-col items-center justify-center -mt-5">
-    <span class="w-12 h-12 rounded-full bg-electric flex items-center justify-center shadow-lg shadow-electric/40 border-4 border-bg">
-      <i data-lucide="message-circle" class="w-5 h-5 text-white"></i>
-    </span>
-  </a>
-  <a href="#faq" data-tab="faq" class="mobile-tab flex flex-col items-center justify-center gap-1 py-2.5 text-stone transition-colors">
-    <i data-lucide="help-circle" class="w-5 h-5"></i>
-    <span class="text-[10px] font-mono uppercase tracking-wide">FAQ</span>
-  </a>
-  <a href="#contacto" data-tab="contacto" class="mobile-tab flex flex-col items-center justify-center gap-1 py-2.5 text-stone transition-colors">
-    <i data-lucide="map-pin" class="w-5 h-5"></i>
-    <span class="text-[10px] font-mono uppercase tracking-wide">Contacto</span>
-  </a>
-</nav>
-
 <script>
   lucide.createIcons();
-
-  // Barra de navegación inferior (mobile): tocar un ícono muestra ese panel
-  // directamente, sin necesidad de deslizar por el resto de las secciones.
-  (function () {
-    var tabs = document.querySelectorAll('.mobile-tab[data-tab]');
-    var panels = document.querySelectorAll('.mobile-panel[data-panel]');
-    if (!tabs.length || !panels.length) return;
-
-    function showPanel(name) {
-      panels.forEach(function (panel) {
-        panel.classList.toggle('panel-active', panel.dataset.panel === name);
-      });
-      tabs.forEach(function (tab) {
-        tab.classList.toggle('is-active', tab.dataset.tab === name);
-      });
-      window.scrollTo({ top: 0, behavior: 'auto' });
-    }
-
-    tabs.forEach(function (tab) {
-      tab.addEventListener('click', function (e) {
-        e.preventDefault();
-        showPanel(tab.dataset.tab);
-      });
-    });
-
-    // Si la pantalla pasa a tamaño desktop, no hace falta ningún panel activo:
-    // el CSS de mobile ya deja de aplicar y se ve todo en scroll normal.
-  })();
 </script>
 
 </body>
