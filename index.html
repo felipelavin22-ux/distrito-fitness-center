@@ -24,7 +24,7 @@
           bg: '#0A0B0E',
           surface: '#111318',
           surface2: '#181B22',
-          electric: '#2F6FFF', /* Color de marca original */
+          electric: '#2F6FFF',
           electriclight: '#5B8FFF',
           steel: '#D1D5DB',
           stone: '#9CA3AF',
@@ -47,16 +47,14 @@
     font-family: 'Inter', sans-serif;
   }
 
-  /* Fondo técnico con grilla azul sutil original */
   .grid-map {
     background-image: 
-      radial-gradient(circle at 50% 0%, rgba(47, 111, 255, 0.12) 0%, transparent 60%),
+      radial-gradient(circle at 50% 0%, rgba(47, 111, 255, 0.15) 0%, transparent 60%),
       linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
       linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
     background-size: 100% 100%, 40px 40px, 40px 40px;
   }
 
-  /* Sector Tag con color de marca */
   .sector-tag {
     font-family: 'Outfit', sans-serif;
     letter-spacing: 0.25em;
@@ -84,7 +82,6 @@
     line-height: 1.1;
   }
 
-  /* Tarjetas con brillo azul eléctrico al pasar el mouse */
   .card-hover {
     position: relative;
     transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease, box-shadow 0.4s ease;
@@ -107,7 +104,6 @@
     box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.8), 0 0 25px -5px rgba(47, 111, 255, 0.25);
   }
 
-  /* Botón con azul eléctrico neón */
   .btn-cta {
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     background: linear-gradient(135deg, #2F6FFF 0%, #1A4BFF 100%);
@@ -138,7 +134,6 @@
   }
   .nav-link:hover::after { width: 100%; }
 
-  /* Whatsapp float pulse azul */
   @keyframes pulse-ring {
     0% { box-shadow: 0 0 0 0 rgba(47, 111, 255, 0.5); }
     70% { box-shadow: 0 0 0 14px rgba(47, 111, 255, 0); }
@@ -157,11 +152,11 @@
     font-weight: 700;
   }
 
-  /* --- ANIMACIONES DE ENCABEZADO (HERO) --- */
+  /* --- ANIMACIONES DE ENCABEZADO (HERO) REFORZADAS --- */
   @keyframes heroFadeUp {
     0% {
       opacity: 0;
-      transform: translateY(35px);
+      transform: translateY(50px);
     }
     100% {
       opacity: 1;
@@ -170,35 +165,35 @@
   }
 
   @keyframes heroBgZoom {
-    0% { transform: scale(1.08); }
+    0% { transform: scale(1.12); }
     100% { transform: scale(1); }
   }
 
   .animate-hero-bg {
-    animation: heroBgZoom 2.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation: heroBgZoom 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 
   .animate-hero-1 {
     opacity: 0;
-    animation: heroFadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
+    animation: heroFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
   }
 
   .animate-hero-2 {
     opacity: 0;
-    animation: heroFadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.35s forwards;
+    animation: heroFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.25s forwards;
   }
 
   .animate-hero-3 {
     opacity: 0;
-    animation: heroFadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.55s forwards;
+    animation: heroFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
   }
 
   .animate-hero-4 {
     opacity: 0;
-    animation: heroFadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.75s forwards;
+    animation: heroFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.55s forwards;
   }
 
-  /* --- SEPARADORES ONDULADOS SVG --- */
+  /* --- SEPARADORES ONDULADOS SVG MEJORADOS --- */
   .wave-divider {
     position: relative;
     width: 100%;
@@ -211,24 +206,23 @@
     position: relative;
     display: block;
     width: calc(100% + 1.3px);
-    height: 65px;
+    height: 75px;
+    filter: drop-shadow(0 -4px 10px rgba(47, 111, 255, 0.15));
   }
 
   @media (min-width: 768px) {
     .wave-divider svg {
-      height: 95px;
+      height: 110px;
     }
   }
 
   ::selection { background: #2F6FFF; color: #FFFFFF; }
 
-  /* focus visibility for accessibility */
   a:focus-visible, button:focus-visible, summary:focus-visible {
     outline: 2px solid #2F6FFF;
     outline-offset: 3px;
   }
 
-  /* FAQ accordion */
   details.faq-item summary { cursor: pointer; list-style: none; }
   details.faq-item summary::-webkit-details-marker { display: none; }
   details.faq-item .faq-icon { transition: transform 0.3s ease; }
@@ -279,14 +273,12 @@
   </div>
 </header>
 
-<!-- ============ HERO (SECTOR 01) CON ANIMACIÓN ============ -->
+<!-- ============ HERO (SECTOR 01) CON ANIMACIÓN MEJORADA ============ -->
 <section id="inicio" class="relative min-h-[85vh] flex items-center grid-map overflow-hidden pt-20 pb-16">
   <div class="absolute inset-0 overflow-hidden">
-    <!-- Imagen con animación de escala sutil al iniciar -->
     <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1800&auto=format&fit=crop"
          alt="Atleta entrenando con pesas en Distrito Fitness Center"
          class="w-full h-full object-cover opacity-60 animate-hero-bg">
-    <!-- Degradado suave hacia la izquierda -->
     <div class="absolute inset-0 bg-gradient-to-r from-bg via-bg/70 to-transparent"></div>
     <div class="absolute inset-0 bg-gradient-to-t from-bg via-transparent to-bg/30"></div>
   </div>
@@ -320,15 +312,15 @@
   </div>
 </section>
 
-<!-- SEPARADOR ONDULADO: HERO -> SOBRE NOSOTROS -->
+<!-- SEPARADOR ONDULADO SVG MÁS VISIBLE -->
 <div class="wave-divider bg-bg">
   <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
-    <path d="M0,0 C150,90 350,-40 500,50 C650,140 900,10 1200,40 L1200,120 L0,120 Z" fill="#0A0B0E"></path>
+    <path d="M0,0 C150,90 350,-40 500,50 C650,140 900,10 1200,40 L1200,120 L0,120 Z" fill="#111318"></path>
   </svg>
 </div>
 
 <!-- ============ SOBRE NOSOTROS ============ -->
-<section id="nosotros" class="relative py-20 md:py-28">
+<section id="nosotros" class="relative py-20 md:py-28 bg-surface">
   <div class="max-w-7xl mx-auto px-6 md:px-10 grid md:grid-cols-2 gap-16 items-center">
     <div class="relative">
       <div class="aspect-[4/5] overflow-hidden rounded-xs border border-line shadow-2xl">
@@ -379,15 +371,15 @@
   </div>
 </section>
 
-<!-- SEPARADOR ONDULADO: SOBRE NOSOTROS -> POR QUÉ ELEGIRNOS -->
-<div class="wave-divider bg-bg">
+<!-- SEPARADOR ONDULADO SVG MÁS VISIBLE -->
+<div class="wave-divider bg-surface">
   <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
-    <path d="M0,40 C300,120 600,-40 900,60 C1050,110 1150,30 1200,20 L1200,120 L0,120 Z" fill="#111318"></path>
+    <path d="M0,40 C300,120 600,-40 900,60 C1050,110 1150,30 1200,20 L1200,120 L0,120 Z" fill="#0A0B0E"></path>
   </svg>
 </div>
 
 <!-- ============ POR QUÉ ELEGIRNOS ============ -->
-<section id="por-que-elegirnos" class="relative py-20 md:py-28 bg-surface">
+<section id="por-que-elegirnos" class="relative py-20 md:py-28 bg-bg">
   <div class="max-w-7xl mx-auto px-6 md:px-10">
     <p class="sector-tag mb-6">SECTOR 03 / POR QUÉ ELEGIRNOS</p>
     <h2 class="display-heading text-4xl md:text-5xl uppercase mb-16 max-w-3xl leading-tight">No competimos<br>en precio. <span class="text-electric">Competimos en nivel.</span></h2>
@@ -438,15 +430,15 @@
   </div>
 </section>
 
-<!-- SEPARADOR ONDULADO: POR QUÉ ELEGIRNOS -> DISCIPLINAS -->
-<div class="wave-divider bg-surface">
+<!-- SEPARADOR ONDULADO SVG MÁS VISIBLE -->
+<div class="wave-divider bg-bg">
   <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
-    <path d="M0,60 C250,-30 550,130 850,30 C1000,-10 1100,80 1200,50 L1200,120 L0,120 Z" fill="#0A0B0E"></path>
+    <path d="M0,60 C250,-30 550,130 850,30 C1000,-10 1100,80 1200,50 L1200,120 L0,120 Z" fill="#111318"></path>
   </svg>
 </div>
 
 <!-- ============ DISCIPLINAS ============ -->
-<section id="disciplinas" class="relative py-20 md:py-28">
+<section id="disciplinas" class="relative py-20 md:py-28 bg-surface">
   <div class="max-w-7xl mx-auto px-6 md:px-10">
     <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
       <div>
@@ -525,15 +517,15 @@
   </div>
 </section>
 
-<!-- SEPARADOR ONDULADO: DISCIPLINAS -> EN NÚMEROS -->
-<div class="wave-divider bg-bg">
+<!-- SEPARADOR ONDULADO SVG MÁS VISIBLE -->
+<div class="wave-divider bg-surface">
   <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
-    <path d="M0,30 C350,110 650,-30 950,70 C1080,100 1150,30 1200,40 L1200,120 L0,120 Z" fill="#111318"></path>
+    <path d="M0,30 C350,110 650,-30 950,70 C1080,100 1150,30 1200,40 L1200,120 L0,120 Z" fill="#0A0B0E"></path>
   </svg>
 </div>
 
 <!-- ============ LOGROS / CIFRAS ============ -->
-<section id="logros" class="relative py-20 md:py-28 bg-surface/50 overflow-hidden">
+<section id="logros" class="relative py-20 md:py-28 bg-bg overflow-hidden">
   <div class="max-w-7xl mx-auto px-6 md:px-10 mb-14">
     <p class="sector-tag mb-6">SECTOR 05 / EN NÚMEROS</p>
     <h2 class="display-heading text-4xl md:text-5xl uppercase max-w-2xl">La crew, medida en cifras.</h2>
@@ -559,8 +551,8 @@
   </div>
 </section>
 
-<!-- SEPARADOR ONDULADO: EN NÚMEROS -> TESTIMONIOS -->
-<div class="wave-divider bg-surface/50">
+<!-- SEPARADOR ONDULADO SVG MÁS VISIBLE -->
+<div class="wave-divider bg-bg">
   <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
     <path d="M0,50 C200,-20 500,120 800,20 C1000,-40 1100,80 1200,60 L1200,120 L0,120 Z" fill="#111318"></path>
   </svg>
@@ -597,7 +589,7 @@
   </div>
 </section>
 
-<!-- SEPARADOR ONDULADO: TESTIMONIOS -> FAQ -->
+<!-- SEPARADOR ONDULADO SVG MÁS VISIBLE -->
 <div class="wave-divider bg-surface">
   <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
     <path d="M0,80 C300,10 600,120 900,30 C1050,-10 1150,60 1200,40 L1200,120 L0,120 Z" fill="#0A0B0E"></path>
@@ -605,7 +597,7 @@
 </div>
 
 <!-- ============ FAQ ============ -->
-<section id="faq" class="relative py-20 md:py-28">
+<section id="faq" class="relative py-20 md:py-28 bg-bg">
   <div class="max-w-4xl mx-auto px-6 md:px-10">
     <p class="sector-tag mb-6">SECTOR 07 / PREGUNTAS FRECUENTES</p>
     <h2 class="display-heading text-4xl md:text-5xl uppercase mb-14">Dudas comunes.</h2>
@@ -680,15 +672,15 @@
   </div>
 </section>
 
-<!-- SEPARADOR ONDULADO: FAQ -> CONTACTO -->
+<!-- SEPARADOR ONDULADO SVG MÁS VISIBLE -->
 <div class="wave-divider bg-bg">
   <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
-    <path d="M0,20 C400,100 700,-40 1000,70 C1100,100 1160,30 1200,50 L1200,120 L0,120 Z" fill="#0A0B0E"></path>
+    <path d="M0,20 C400,100 700,-40 1000,70 C1100,100 1160,30 1200,50 L1200,120 L0,120 Z" fill="#111318"></path>
   </svg>
 </div>
 
 <!-- ============ CONTACTO ============ -->
-<section id="contacto" class="relative py-20 md:py-28 grid-map">
+<section id="contacto" class="relative py-20 md:py-28 bg-surface grid-map">
   <div class="max-w-7xl mx-auto px-6 md:px-10 grid md:grid-cols-2 gap-16">
     <div>
       <p class="sector-tag mb-6">SECTOR 08 / CONTACTO</p>
@@ -745,8 +737,8 @@
   </div>
 </section>
 
-<!-- SEPARADOR ONDULADO FINAL: CONTACTO -> FOOTER -->
-<div class="wave-divider bg-bg">
+<!-- SEPARADOR ONDULADO SVG MÁS VISIBLE -->
+<div class="wave-divider bg-surface">
   <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
     <path d="M0,60 C300,-10 600,110 900,40 C1050,10 1150,80 1200,50 L1200,120 L0,120 Z" fill="#0A0B0E"></path>
   </svg>
