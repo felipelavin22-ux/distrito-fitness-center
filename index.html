@@ -16,6 +16,10 @@
 <!-- Lucide Icons -->
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 
+<!-- GSAP para animaciones fluidas estilo CodePen -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
 <script>
   tailwind.config = {
     theme: {
@@ -80,6 +84,33 @@
     font-family: 'Cinzel', serif;
     letter-spacing: 0.02em;
     line-height: 1.1;
+  }
+
+  /* --- ANIMACIÓN DE ONDA FLUIDA EN TÍTULO ESTILO CODEPEN --- */
+  .wave-title-container {
+    position: relative;
+    display: inline-block;
+  }
+
+  .wave-title-layer {
+    position: relative;
+    display: inline-block;
+    animation: waveDistortion 5s ease-in-out infinite;
+  }
+
+  @keyframes waveDistortion {
+    0%, 100% {
+      transform: translateY(0px) skewX(0deg) scaleY(1);
+    }
+    25% {
+      transform: translateY(-6px) skewX(-2deg) scaleY(1.02);
+    }
+    50% {
+      transform: translateY(0px) skewX(0deg) scaleY(1);
+    }
+    75% {
+      transform: translateY(6px) skewX(2deg) scaleY(0.98);
+    }
   }
 
   .card-hover {
@@ -152,16 +183,6 @@
     font-weight: 700;
   }
 
-  /* --- ANIMACIÓN DINÁMICA CONTINUA PARA EL TÍTULO --- */
-  @keyframes floatTitle {
-    0%, 100% {
-      transform: translateY(0px);
-    }
-    50% {
-      transform: translateY(-8px);
-    }
-  }
-
   @keyframes heroBgZoom {
     0% { transform: scale(1.12); }
     100% { transform: scale(1); }
@@ -169,10 +190,6 @@
 
   .animate-hero-bg {
     animation: heroBgZoom 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  }
-
-  .animate-title-infinite {
-    animation: floatTitle 4s ease-in-out infinite;
   }
 
   /* --- SEPARADORES ONDULADOS SVG --- */
@@ -214,7 +231,7 @@
   @media (prefers-reduced-motion: reduce) {
     .whatsapp-float,
     .animate-hero-bg,
-    .animate-title-infinite {
+    .wave-title-layer {
       animation: none !important;
     }
     html { scroll-behavior: auto; }
@@ -250,7 +267,7 @@
   </div>
 </header>
 
-<!-- ============ HERO (SECTOR 01) CON TÍTULO EN MOVIMIENTO CONSTANTE ============ -->
+<!-- ============ HERO (SECTOR 01) CON TÍTULO ONDULADO FLUIDO ============ -->
 <section id="inicio" class="relative min-h-[85vh] flex items-center grid-map overflow-hidden pt-20 pb-16">
   <div class="absolute inset-0 overflow-hidden">
     <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1800&auto=format&fit=crop"
@@ -263,12 +280,14 @@
   <div class="relative z-10 max-w-7xl mx-auto px-6 md:px-10 w-full py-12">
     <p class="sector-tag mb-4">DISTRITO FITNESS CENTER — SECTOR 01 / INICIO</p>
     
-    <!-- TÍTULO CON ANIMACIÓN CONTINUA (FLOTACIÓN) -->
-    <h1 class="display-heading text-3xl sm:text-5xl lg:text-6xl uppercase max-w-3xl font-bold tracking-tight text-white leading-[1.15] animate-title-infinite">
-      EL LUGAR DONDE<br>
-      NACE TU <span class="text-electric font-extrabold">MEJOR</span><br>
-      VERSIÓN.
-    </h1>
+    <!-- TÍTULO CON EFECTO DE ONDA FLUIDA (ESTILO CODEPEN) -->
+    <div class="wave-title-container max-w-3xl my-2">
+      <h1 class="display-heading text-3xl sm:text-5xl lg:text-6xl uppercase font-bold tracking-tight text-white leading-[1.15] wave-title-layer">
+        EL LUGAR DONDE<br>
+        NACE TU <span class="text-electric font-extrabold">MEJOR</span><br>
+        VERSIÓN.
+      </h1>
+    </div>
     
     <p class="font-mono text-xs md:text-sm text-stone mt-4 max-w-lg uppercase tracking-widest leading-relaxed">
       Bienvenido al Distrito. Musculación, CrossFit, Hyrox y Calistenia bajo un mismo techo, en el corazón de Caballito.
