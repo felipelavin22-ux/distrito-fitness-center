@@ -8,7 +8,7 @@
 <!-- Tailwind CSS -->
 <script src="https://cdn.tailwindcss.com"></script>
 
-<!-- Google Fonts (fallback para "Forma DJR Banner", que es una fuente de pago — ver @font-face más abajo) -->
+<!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -24,7 +24,7 @@
           bg: '#0A0B0E',
           surface: '#111318',
           surface2: '#181B22',
-          electric: '#2F6FFF', /* Color de marca original */
+          electric: '#2F6FFF',
           electriclight: '#5B8FFF',
           steel: '#D1D5DB',
           stone: '#9CA3AF',
@@ -41,46 +41,26 @@
 </script>
 
 <style>
-  /*
-    "Forma DJR Banner" es una fuente PAGA de la fundición DJR (djr.com) —
-    no está disponible en Google Fonts ni en ningún CDN gratuito, por lo que
-    no se puede enlazar por URL como el resto de las tipografías.
-    Si ya tenés la licencia y los archivos (.woff2), subilos a una carpeta
-    /fonts en el mismo servidor que este archivo y descomentá el bloque de
-    abajo con las rutas correctas. Mientras tanto, el sitio usa "Archivo"
-    (Google Fonts, gratuita) como reemplazo visual: es una grotesca de trazo
-    firme y proporciones similares, pensada para no romper el diseño.
-
-    @font-face {
-      font-family: 'Forma DJR Banner';
-      src: url('fonts/FormaDJRBanner-Bold.woff2') format('woff2');
-      font-weight: 700;
-      font-display: swap;
-    }
-    @font-face {
-      font-family: 'Forma DJR Banner';
-      src: url('fonts/FormaDJRBanner-Medium.woff2') format('woff2');
-      font-weight: 500;
-      font-display: swap;
-    }
-  */
-
   html { scroll-behavior: smooth; }
   body {
     background-color: #0A0B0E;
     font-family: 'Inter', sans-serif;
+    position: relative;
+    overflow-x: hidden;
   }
 
-  /* Fondo técnico con grilla azul sutil original */
-  .grid-map {
-    background-image: 
-      radial-gradient(circle at 50% 0%, rgba(47, 111, 255, 0.12) 0%, transparent 60%),
-      linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-    background-size: 100% 100%, 40px 40px, 40px 40px;
+  /* Animación de Fondo Global (Canvas más visible y dinámica) */
+  #bg-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.75; /* Subido para mayor visibilidad */
   }
 
-  /* Sector Tag con color de marca */
   .sector-tag {
     font-family: 'Forma DJR Banner', 'Archivo', sans-serif;
     letter-spacing: 0.25em;
@@ -108,7 +88,140 @@
     line-height: 1.1;
   }
 
-  /* Tarjetas con brillo azul eléctrico al pasar el mouse */
+  /* ============ CANVAS TEXT — HERO / MEJOR ============ */
+  /*
+     Adaptación fiel al concepto de Aceternity Canvas Text:
+     - la palabra permanece sólida y estable;
+     - las curvas animadas se dibujan DENTRO del relleno de las letras;
+     - la animación no modifica la geometría, tamaño ni posición del texto.
+  */
+  .canvas-text-word {
+    position: relative;
+    display: inline-block;
+    color: transparent;
+    isolation: isolate;
+    line-height: 1;
+    vertical-align: baseline;
+    min-width: 3.75em;
+    padding-right: 0.08em;
+    box-sizing: border-box;
+  }
+  .canvas-text-word > span {
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    user-select: none;
+  }
+  .canvas-text-word canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .canvas-text-word::after {
+    content: "";
+    position: absolute;
+    inset: -4% -2%;
+    border-radius: 999px;
+    background: radial-gradient(circle, rgba(47,111,255,.10), transparent 70%);
+    filter: blur(12px);
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  /* ============ ENCRYPTED TEXT — HERO DESCRIPTION ============ */
+  .encrypted-text {
+    display: inline;
+    color: #9CA3AF;
+  }
+  .encrypted-text .encrypted-char {
+    color: rgba(91,143,255,.82);
+    text-shadow: 0 0 8px rgba(47,111,255,.28);
+  }
+  .encrypted-text .revealed-char {
+    color: #9CA3AF;
+  }
+
+
+  /* ============ 3D CARD EFFECT — DISCIPLINAS ============ */
+  /* Adaptación en CSS/JS puro del efecto 3D Card de Aceternity UI.
+     Se limita exclusivamente a las cuatro tarjetas de disciplinas. */
+  .discipline-3d-card {
+    position: relative;
+    transform-style: preserve-3d;
+    transform-origin: center center;
+    perspective: 1000px;
+    transition:
+      transform 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 0.4s ease,
+      box-shadow 0.4s ease;
+    will-change: transform;
+  }
+
+  .discipline-3d-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #2F6FFF, transparent);
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.5s ease;
+    z-index: 40;
+    pointer-events: none;
+  }
+
+  .discipline-3d-card:hover::before {
+    transform: scaleX(1);
+  }
+
+  .discipline-3d-card:hover {
+    border-color: rgba(47, 111, 255, 0.5);
+    box-shadow:
+      0 24px 45px -18px rgba(0, 0, 0, 0.85),
+      0 0 30px -8px rgba(47, 111, 255, 0.3);
+  }
+
+  .discipline-3d-card .discipline-3d-layer {
+    transform-style: preserve-3d;
+    transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform;
+  }
+
+  @media (pointer: coarse) and (prefers-reduced-motion: no-preference) {
+    .discipline-3d-card {
+      animation: disciplineMobileFloat 5.2s ease-in-out infinite;
+    }
+    .discipline-3d-card:nth-child(2) { animation-delay: -1.3s; }
+    .discipline-3d-card:nth-child(3) { animation-delay: -2.6s; }
+    .discipline-3d-card:nth-child(4) { animation-delay: -3.9s; }
+
+    .discipline-3d-card .discipline-3d-layer {
+      transform: translate3d(0, 0, 20px);
+    }
+  }
+
+  @keyframes disciplineMobileFloat {
+    0%, 100% {
+      transform: perspective(1000px) rotateX(0deg) rotateY(-1.4deg) translateY(0);
+    }
+    50% {
+      transform: perspective(1000px) rotateX(1.2deg) rotateY(1.4deg) translateY(-3px);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .discipline-3d-card,
+    .discipline-3d-card .discipline-3d-layer {
+      animation: none !important;
+      transform: none !important;
+      transition: none !important;
+    }
+  }
+
   .card-hover {
     position: relative;
     transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease, box-shadow 0.4s ease;
@@ -131,7 +244,6 @@
     box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.8), 0 0 25px -5px rgba(47, 111, 255, 0.25);
   }
 
-  /* Botón con azul eléctrico neón */
   .btn-cta {
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     background: linear-gradient(135deg, #2F6FFF 0%, #1A4BFF 100%);
@@ -148,7 +260,7 @@
 
   .nav-link {
     position: relative;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.08em;
   }
   .nav-link::after {
     content: "";
@@ -162,7 +274,6 @@
   }
   .nav-link:hover::after { width: 100%; }
 
-  /* Whatsapp float pulse azul */
   @keyframes pulse-ring {
     0% { box-shadow: 0 0 0 0 rgba(47, 111, 255, 0.5); }
     70% { box-shadow: 0 0 0 14px rgba(47, 111, 255, 0); }
@@ -174,6 +285,146 @@
     color: #FFFFFF;
   }
 
+
+  /* ============ INSTAGRAM FLOTANTE — VISIBILIDAD SOCIAL ============ */
+  /* Inspirado en el tooltip animado de Uiverse (vinodjangid07),
+     adaptado a la identidad visual de Distrito Fitness Center. */
+  .instagram-float {
+    position: fixed;
+    width: 3.25rem;
+    height: 3.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    right: 1.5rem;
+    bottom: 5.5rem;
+    z-index: 49;
+    border: 1px solid rgba(47,111,255,.55);
+    border-radius: .45rem;
+    background: linear-gradient(145deg, #181B22 0%, #101217 100%);
+    color: #5B8FFF;
+    box-shadow: 0 10px 28px rgba(0,0,0,.38), 0 0 0 0 rgba(47,111,255,.32);
+    transition: transform .3s cubic-bezier(.16,1,.3,1), border-color .3s ease, color .3s ease, box-shadow .3s ease;
+    isolation: isolate;
+  }
+  .instagram-float::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    background: linear-gradient(135deg, rgba(47,111,255,.28), transparent 55%, rgba(91,143,255,.18));
+    opacity: 0;
+    z-index: -1;
+    transition: opacity .3s ease;
+  }
+  .instagram-float .instagram-icon {
+    width: 1.45rem;
+    height: 1.45rem;
+    transition: transform .35s cubic-bezier(.16,1,.3,1);
+  }
+  .instagram-float .instagram-tooltip {
+    position: absolute;
+    right: calc(100% + .7rem);
+    top: 50%;
+    transform: translateX(12px) translateY(-50%) scaleX(.88) scaleY(.96);
+    transform-origin: right center;
+    width: 280px;
+    max-width: calc(100vw - 5.5rem);
+    padding: .65rem .8rem;
+    border: 1px solid rgba(47,111,255,.38);
+    border-radius: .35rem;
+    background: rgba(17,19,24,.96);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    color: #fff;
+    font-family: 'Archivo', sans-serif;
+    font-size: .68rem;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    white-space: normal;
+    line-height: 1.35;
+    text-align: right;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    box-shadow: 0 12px 30px rgba(0,0,0,.4);
+    transition: opacity .25s ease, transform .35s cubic-bezier(.16,1,.3,1), visibility .25s ease;
+  }
+  .instagram-float .instagram-tooltip::after {
+    content: "";
+    position: absolute;
+    right: -.38rem;
+    top: 50%;
+    width: .65rem;
+    height: .65rem;
+    background: rgba(17,19,24,.96);
+    border-top: 1px solid rgba(47,111,255,.38);
+    border-right: 1px solid rgba(47,111,255,.38);
+    transform: translateY(-50%) rotate(45deg);
+  }
+  .instagram-float:hover,
+  .instagram-float:focus-visible {
+    transform: translateY(-3px) scale(1.04);
+    border-color: #2F6FFF;
+    color: #fff;
+    box-shadow: 0 14px 32px rgba(0,0,0,.45), 0 0 24px rgba(47,111,255,.28);
+  }
+  .instagram-float:hover::before,
+  .instagram-float:focus-visible::before {
+    opacity: 1;
+  }
+  .instagram-float:hover .instagram-icon,
+  .instagram-float:focus-visible .instagram-icon {
+    transform: scale(1.08) rotate(-5deg);
+  }
+  .instagram-float:hover .instagram-tooltip,
+  .instagram-float:focus-visible .instagram-tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0) translateY(-50%) scaleX(1) scaleY(1);
+  }
+  .instagram-float::after {
+    content: "";
+    position: absolute;
+    inset: -6px;
+    border-radius: .55rem;
+    border: 1px solid rgba(47,111,255,.22);
+    animation: instagram-pulse 2.8s ease-out infinite;
+    pointer-events: none;
+  }
+  @keyframes instagram-pulse {
+    0% { opacity: .8; transform: scale(.92); }
+    70% { opacity: 0; transform: scale(1.22); }
+    100% { opacity: 0; transform: scale(1.22); }
+  }
+  @media (max-width: 767px) {
+    .instagram-float {
+      width: 3rem;
+      height: 3rem;
+      right: 1rem;
+      bottom: 5.75rem;
+    }
+    .instagram-float .instagram-tooltip {
+      right: calc(100% + .6rem);
+      width: 230px;
+      max-width: calc(100vw - 5rem);
+      padding: .58rem .7rem;
+      font-size: .61rem;
+      line-height: 1.35;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .instagram-float,
+    .instagram-float .instagram-icon,
+    .instagram-float .instagram-tooltip {
+      transition: none;
+    }
+    .instagram-float::after {
+      animation: none;
+    }
+  }
+
   .stat-number {
     font-family: 'Forma DJR Banner', 'Archivo', sans-serif;
     font-size: clamp(2.25rem, 5vw, 3.75rem);
@@ -183,13 +434,11 @@
 
   ::selection { background: #2F6FFF; color: #FFFFFF; }
 
-  /* focus visibility for accessibility */
   a:focus-visible, button:focus-visible, summary:focus-visible {
     outline: 2px solid #2F6FFF;
     outline-offset: 3px;
   }
 
-  /* FAQ accordion */
   details.faq-item summary { cursor: pointer; list-style: none; }
   details.faq-item summary::-webkit-details-marker { display: none; }
   details.faq-item .faq-icon { transition: transform 0.3s ease; }
@@ -199,33 +448,56 @@
   @media (prefers-reduced-motion: reduce) {
     .whatsapp-float { animation: none; }
     html { scroll-behavior: auto; }
+    #bg-canvas { display: none; }
   }
 
-  /* Barra de navegación inferior (mobile) */
   .mobile-tab.is-active {
     color: #2F6FFF;
   }
 
-  /* Paneles tipo "app": en mobile se ve un solo panel a la vez (sin scroll entre secciones).
-     En desktop (md+) esta regla no aplica y todos los paneles se ven en su scroll normal. */
   @media (max-width: 767px) {
     .mobile-panel:not(.panel-active) { display: none; }
+  }
+
+  .hero-slide {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center 30%;
+    opacity: 0;
+    transition: opacity 1.2s ease-in-out;
+  }
+  @media (max-width: 767px) {
+    .hero-slide {
+      background-size: cover;
+      background-position: center center;
+    }
+  }
+  .hero-slide.active {
+    opacity: 1;
   }
 </style>
 </head>
 
 <body class="bg-bg text-white antialiased selection:bg-electric selection:text-white pb-16 md:pb-0">
 
+<!-- Canvas para la animación de fondo global activa -->
+<canvas id="bg-canvas"></canvas>
+
 <!-- ============ NAVBAR ============ -->
-<header class="fixed top-0 left-0 w-full z-50 bg-bg/85 backdrop-blur-lg border-b border-line/80">
-  <div class="max-w-7xl mx-auto px-6 md:px-10 h-20 flex items-center justify-between">
-    <a href="#inicio" class="flex items-center gap-3">
+<header class="fixed top-0 left-0 w-full z-50 bg-bg/90 backdrop-blur-md border-b border-line/80">
+  <div class="max-w-7xl mx-auto px-6 md:px-10 h-20 flex items-center justify-between gap-4">
+    
+    <!-- Logo -->
+    <a href="#inicio" class="flex items-center gap-3 shrink-0 menu-item-click" data-target-tab="inicio" data-target-section="inicio">
       <img src="logo_distrito.png" alt="Distrito Fitness Center" class="w-9 h-9 object-contain">
-      <span class="display-heading text-lg md:text-xl tracking-wider leading-none text-white">
-        DISTRITO FITNESS <span class="hidden sm:inline font-light text-electric">CENTER</span>
+      <span class="display-heading text-sm sm:text-base md:text-lg tracking-wider leading-none text-white">
+        DISTRITO FITNESS <span class="hidden xl:inline font-light text-electric">CENTER</span>
       </span>
     </a>
-    <nav class="hidden md:flex items-center gap-8 font-mono text-xs uppercase tracking-widest text-stone">
+
+    <!-- Menú Desktop Optimizado -->
+    <nav class="hidden lg:flex items-center gap-6 xl:gap-8 font-mono text-[11px] uppercase tracking-widest text-stone">
       <a href="#nosotros" class="nav-link hover:text-white transition-colors">El Distrito</a>
       <a href="#por-que-elegirnos" class="nav-link hover:text-white transition-colors">Por qué</a>
       <a href="#disciplinas" class="nav-link hover:text-white transition-colors">Disciplinas</a>
@@ -233,42 +505,69 @@
       <a href="#faq" class="nav-link hover:text-white transition-colors">FAQ</a>
       <a href="#contacto" class="nav-link hover:text-white transition-colors">Contacto</a>
     </nav>
-    <a href="https://wa.me/5491130260359?text=Hola%20Distrito%20Fitness%20Center%2C%20quiero%20reservar%20una%20clase%20de%20prueba"
-       target="_blank" rel="noopener"
-       class="btn-cta hidden sm:inline-flex items-center gap-2 text-xs uppercase px-6 py-3 rounded-xs shadow-md">
-      <i data-lucide="message-circle" class="w-4 h-4"></i>
-      Unirme a la Crew
-    </a>
+
+    <!-- Acciones Derecha -->
+    <div class="flex items-center gap-4 shrink-0">
+      <a href="https://wa.me/5491130260359?text=Hola%20Distrito%20Fitness%20Center%2C%20quiero%20reservar%20una%20clase%20de%20prueba"
+         target="_blank" rel="noopener"
+         class="btn-cta hidden sm:inline-flex items-center gap-2 text-xs uppercase px-5 py-2.5 rounded-xs shadow-md">
+        <i data-lucide="message-circle" class="w-4 h-4"></i>
+        <span>Unirme a la Crew</span>
+      </a>
+
+      <!-- Botón Menú Hamburguesa Tablets/Móvil -->
+      <button id="menu-toggle" aria-label="Abrir menú" class="lg:hidden p-2 text-stone hover:text-white transition-colors">
+        <i data-lucide="menu" class="w-6 h-6"></i>
+      </button>
+    </div>
+
+  </div>
+
+  <!-- Menú desplegable para Tablets / Móvil con enrutamiento de paneles sincronizado -->
+  <div id="dropdown-menu" class="hidden lg:hidden bg-surface border-b border-line px-6 py-6 space-y-4 font-mono text-xs uppercase tracking-widest">
+    <a href="#nosotros" class="block text-stone hover:text-electric transition-colors py-1 menu-item-click" data-target-tab="inicio" data-target-section="nosotros">El Distrito</a>
+    <a href="#por-que-elegirnos" class="block text-stone hover:text-electric transition-colors py-1 menu-item-click" data-target-tab="inicio" data-target-section="por-que-elegirnos">Por qué elegirnos</a>
+    <a href="#disciplinas" class="block text-stone hover:text-electric transition-colors py-1 menu-item-click" data-target-tab="disciplinas" data-target-section="disciplinas">Disciplinas</a>
+    <a href="#logros" class="block text-stone hover:text-electric transition-colors py-1 menu-item-click" data-target-tab="disciplinas" data-target-section="logros">Logros</a>
+    <a href="#faq" class="block text-stone hover:text-electric transition-colors py-1 menu-item-click" data-target-tab="faq" data-target-section="faq">FAQ</a>
+    <a href="#contacto" class="block text-stone hover:text-electric transition-colors py-1 menu-item-click" data-target-tab="contacto" data-target-section="contacto">Contacto</a>
+    <div class="pt-2 sm:hidden">
+      <a href="https://wa.me/5491130260359?text=Hola%20Distrito%20Fitness%20Center%2C%20quiero%20reservar%20una%20clase%20de%20prueba"
+         target="_blank" rel="noopener"
+         class="btn-cta inline-flex items-center justify-center gap-2 text-xs uppercase px-5 py-3 w-full rounded-xs">
+        <i data-lucide="message-circle" class="w-4 h-4"></i>
+        Unirme a la Crew
+      </a>
+    </div>
   </div>
 </header>
 
-<!-- ===== PANEL MOBILE 1: INICIO (Hero + El Distrito + Por qué elegirnos) ===== -->
+<!-- ===== PANEL MOBILE 1: INICIO (Hero con Slider de Fondo + El Distrito + Por qué elegirnos) ===== -->
 <div class="mobile-panel panel-active" data-panel="inicio">
 
-<!-- ============ HERO (SECTOR 01) ============ -->
-<section id="inicio" class="relative min-h-[70vh] md:min-h-[85vh] flex items-center grid-map overflow-hidden pt-20 pb-10 md:pb-12">
-  <div class="absolute inset-0">
-    <!-- Imagen con mayor opacidad y nitidez como en el ejemplo -->
-    <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1800&auto=format&fit=crop"
-         alt="Atleta entrenando con pesas en Distrito Fitness Center"
-         class="w-full h-full object-cover opacity-60">
-    <!-- Degradado suave hacia la izquierda para dar legibilidad al texto sin tapar la foto -->
-    <div class="absolute inset-0 bg-gradient-to-r from-bg via-bg/70 to-transparent"></div>
+<!-- ============ HERO CON SLIDER DE FONDO (SECTOR 01) ============ -->
+<section id="inicio" class="relative min-h-[75vh] md:min-h-[85vh] flex items-center overflow-hidden pt-24 pb-12 md:pb-12">
+  <div class="absolute inset-0 z-0">
+    <div class="hero-slide active" style="background-image: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=85&w=2000&auto=format&fit=crop');" data-title="Sala de Musculación" data-subtitle="Piso Principal"></div>
+    <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1540497077202-7c8a3999166f?q=80&w=1800&auto=format&fit=crop');" data-title="Zona de Pesas Libres" data-subtitle="Equipamiento Olímpico"></div>
+    <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=1800&auto=format&fit=crop');" data-title="Box de CrossFit & Hyrox" data-subtitle="Alta Intensidad"></div>
+    <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1599058917212-d750089bc07e?q=85&w=2000&auto=format&fit=crop');" data-title="Espacio de Calistenia" data-subtitle="Control y Movilidad"></div>
+
+    <div class="absolute inset-0 bg-gradient-to-r from-bg via-bg/85 to-transparent"></div>
     <div class="absolute inset-0 bg-gradient-to-t from-bg via-transparent to-bg/30"></div>
   </div>
 
   <div class="relative z-10 max-w-7xl mx-auto px-6 md:px-10 w-full py-12">
     <p class="sector-tag mb-4">DISTRITO FITNESS CENTER — SECTOR 01 / INICIO</p>
     
-    <!-- Título ajustado en escala proporcional al ejemplo -->
     <h1 class="display-heading text-3xl sm:text-5xl lg:text-6xl uppercase max-w-3xl font-bold tracking-tight text-white leading-[1.15]">
       EL LUGAR DONDE<br>
-      NACE TU <span class="text-electric font-extrabold">MEJOR</span><br>
+      NACE TU <span class="canvas-text-word" data-canvas-text="MEJOR"><span>MEJOR</span><canvas aria-hidden="true"></canvas></span><br>
       VERSIÓN.
     </h1>
     
     <p class="font-mono text-xs md:text-sm text-stone mt-4 max-w-lg uppercase tracking-widest leading-relaxed">
-      Bienvenido al Distrito. Musculación, CrossFit, Hyrox y Calistenia bajo un mismo techo, en el corazón de Caballito.
+      <span class="encrypted-text" data-encrypted-text="Bienvenido al Distrito. Musculación, CrossFit, Hyrox y Calistenia bajo un mismo techo, en el corazón de Caballito."></span>
     </p>
 
     <div class="flex flex-col sm:flex-row gap-4 mt-8">
@@ -279,16 +578,22 @@
         Reservar Clase de Prueba
       </a>
       <a href="#disciplinas"
-         class="inline-flex items-center justify-center gap-3 border border-line text-stone font-mono text-xs uppercase tracking-widest px-7 py-3.5 hover:border-electric hover:text-white transition-all backdrop-blur-sm">
+         class="menu-item-click inline-flex items-center justify-center gap-3 border border-line text-stone font-mono text-xs uppercase tracking-widest px-7 py-3.5 hover:border-electric hover:text-white transition-all backdrop-blur-sm"
+         data-target-tab="disciplinas" data-target-section="disciplinas">
         Ver Disciplinas
         <i data-lucide="arrow-down" class="w-4 h-4 text-electric"></i>
       </a>
     </div>
   </div>
+
+  <div id="heroCaptionBox" class="absolute bottom-4 right-4 z-20 bg-surface2/90 backdrop-blur-md border border-line/80 px-4 py-2.5 rounded-xs shadow-xl transition-opacity duration-500 max-w-[220px]">
+    <p id="heroCaptionTitle" class="display-heading text-xs uppercase tracking-wider text-white">Sala de Musculación</p>
+    <p id="heroCaptionSubtitle" class="font-mono text-[9px] text-electric uppercase tracking-widest">Piso Principal</p>
+  </div>
 </section>
 
 <!-- ============ SOBRE NOSOTROS ============ -->
-<section id="nosotros" class="relative py-14 md:py-28 lg:py-36 border-t border-line/80">
+<section id="nosotros" class="relative py-14 md:py-28 lg:py-36 border-t border-line/85">
   <div class="max-w-7xl mx-auto px-6 md:px-10 grid md:grid-cols-2 gap-16 items-center">
     <div class="relative">
       <div class="aspect-[4/5] overflow-hidden rounded-xs border border-line shadow-2xl">
@@ -296,7 +601,7 @@
              alt="Comunidad entrenando juntos en Distrito Fitness Center"
              class="w-full h-full object-cover filter brightness-90 contrast-110 hover:scale-105 transition-all duration-700">
       </div>
-      <div class="absolute -bottom-6 -right-6 bg-surface2/95 border border-electric/40 backdrop-blur-md text-white font-mono text-xs px-6 py-5 uppercase tracking-widest shadow-xl hidden sm:block">
+      <div class="mt-4 sm:absolute sm:-bottom-6 sm:-right-6 bg-surface2/95 border border-electric/40 backdrop-blur-md text-white font-mono text-xs px-5 py-4 uppercase tracking-widest shadow-xl">
         <span class="text-electric block mb-1 font-semibold">Exclusive Space</span>
         No es un gym. Es un distrito.
       </div>
@@ -408,65 +713,65 @@
     <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
 
       <!-- Musculación -->
-      <div class="card-hover group relative border border-line bg-surface2 rounded-xs overflow-hidden shadow-xl">
-        <div class="aspect-[4/5] overflow-hidden">
-          <img src="https://images.unsplash.com/photo-1545612036-2872840642dc?q=80&w=900&auto=format&fit=crop"
+      <div class="discipline-3d-card group relative border border-line bg-surface2 rounded-xs overflow-hidden shadow-xl" data-3d-discipline-card>
+        <div class="aspect-[4/5] overflow-hidden discipline-3d-layer" data-3d-depth="20">
+          <img data-3d-depth="28" src="https://images.unsplash.com/photo-1545612036-2872840642dc?q=80&w=900&auto=format&fit=crop"
                alt="Piso de musculación con máquinas de última generación"
                class="w-full h-full object-cover filter brightness-75 contrast-110 group-hover:scale-105 transition-transform duration-700">
         </div>
-        <div class="absolute inset-0 bg-gradient-to-t from-bg via-bg/60 to-transparent"></div>
-        <div class="absolute bottom-0 left-0 right-0 p-6 flex flex-col">
-          <i data-lucide="dumbbell" class="w-5 h-5 text-electric mb-3"></i>
-          <h3 class="display-heading text-2xl uppercase mb-2 leading-none">Musculación</h3>
-          <p class="text-stone text-xs leading-relaxed font-light min-h-[60px]">Dos pisos con máquinas de última generación: tren inferior, core, tren superior y aeróbico.</p>
+        <div class="absolute inset-0 bg-gradient-to-t from-bg via-bg/60 to-transparent discipline-3d-layer" data-3d-depth="12"></div>
+        <div class="absolute bottom-0 left-0 right-0 p-6 flex flex-col discipline-3d-layer" data-3d-depth="48">
+          <i data-lucide="dumbbell" data-3d-depth="68" class="discipline-3d-layer w-5 h-5 text-electric mb-3"></i>
+          <h3 data-3d-depth="62" class="discipline-3d-layer display-heading text-2xl uppercase mb-2 leading-none">Musculación</h3>
+          <p data-3d-depth="42" class="discipline-3d-layer text-stone text-xs leading-relaxed font-light min-h-[60px]">Dos pisos con máquinas de última generación: tren inferior, core, tren superior y aeróbico.</p>
         </div>
       </div>
 
       <!-- CrossFit -->
-      <div class="card-hover group relative border border-line bg-surface2 rounded-xs overflow-hidden shadow-xl">
-        <div class="aspect-[4/5] overflow-hidden">
-          <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=900&auto=format&fit=crop"
+      <div class="discipline-3d-card group relative border border-line bg-surface2 rounded-xs overflow-hidden shadow-xl" data-3d-discipline-card>
+        <div class="aspect-[4/5] overflow-hidden discipline-3d-layer" data-3d-depth="20">
+          <img data-3d-depth="28" src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=900&auto=format&fit=crop"
                alt="Clase de CrossFit de alta intensidad"
                class="w-full h-full object-cover filter brightness-75 contrast-110 group-hover:scale-105 transition-transform duration-700">
         </div>
-        <div class="absolute inset-0 bg-gradient-to-t from-bg via-bg/60 to-transparent"></div>
-        <div class="absolute bottom-0 left-0 right-0 p-6 flex flex-col">
-          <i data-lucide="flame" class="w-5 h-5 text-electric mb-3"></i>
-          <h3 class="display-heading text-2xl uppercase mb-2 leading-none">CrossFit</h3>
-          <p class="text-stone text-xs leading-relaxed font-light min-h-[60px]">Alta intensidad y resultados reales, con una comunidad que te empuja a superarte en cada clase.</p>
+        <div class="absolute inset-0 bg-gradient-to-t from-bg via-bg/60 to-transparent discipline-3d-layer" data-3d-depth="12"></div>
+        <div class="absolute bottom-0 left-0 right-0 p-6 flex flex-col discipline-3d-layer" data-3d-depth="48">
+          <i data-lucide="flame" data-3d-depth="68" class="discipline-3d-layer w-5 h-5 text-electric mb-3"></i>
+          <h3 data-3d-depth="62" class="discipline-3d-layer display-heading text-2xl uppercase mb-2 leading-none">CrossFit</h3>
+          <p data-3d-depth="42" class="discipline-3d-layer text-stone text-xs leading-relaxed font-light min-h-[60px]">Alta intensidad y resultados reales, con una comunidad que te empuja a superarte en cada clase.</p>
         </div>
       </div>
 
       <!-- Hyrox -->
-      <div class="card-hover group relative border border-line bg-surface2 rounded-xs overflow-hidden shadow-xl">
-        <div class="aspect-[4/5] overflow-hidden">
-          <img src="https://images.unsplash.com/photo-1571388208497-71bedc66e932?q=80&w=900&auto=format&fit=crop"
+      <div class="discipline-3d-card group relative border border-line bg-surface2 rounded-xs overflow-hidden shadow-xl" data-3d-discipline-card>
+        <div class="aspect-[4/5] overflow-hidden discipline-3d-layer" data-3d-depth="20">
+          <img data-3d-depth="28" src="https://images.unsplash.com/photo-1571388208497-71bedc66e932?q=80&w=900&auto=format&fit=crop"
                alt="Entrenamiento estilo Hyrox de resistencia"
                class="w-full h-full object-cover filter brightness-75 contrast-110 group-hover:scale-105 transition-transform duration-700">
         </div>
-        <div class="absolute inset-0 bg-gradient-to-t from-bg via-bg/60 to-transparent"></div>
-        <div class="absolute bottom-0 left-0 right-0 p-6 flex flex-col">
-          <i data-lucide="activity" class="w-5 h-5 text-electric mb-3"></i>
+        <div class="absolute inset-0 bg-gradient-to-t from-bg via-bg/60 to-transparent discipline-3d-layer" data-3d-depth="12"></div>
+        <div class="absolute bottom-0 left-0 right-0 p-6 flex flex-col discipline-3d-layer" data-3d-depth="48">
+          <i data-lucide="activity" data-3d-depth="68" class="discipline-3d-layer w-5 h-5 text-electric mb-3"></i>
           <div class="flex items-center gap-2 mb-2">
-            <h3 class="display-heading text-2xl uppercase leading-none">Hyrox</h3>
-            <span class="bg-electric text-white font-mono text-[8px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-xs">Centro Oficial</span>
+            <h3 data-3d-depth="62" class="discipline-3d-layer display-heading text-2xl uppercase leading-none">Hyrox</h3>
+            <span data-3d-depth="72" class="discipline-3d-layer bg-electric text-white font-mono text-[8px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-xs">Centro Oficial</span>
           </div>
-          <p class="text-stone text-xs leading-relaxed font-light min-h-[60px]">Centro oficial licenciado, con prioridad de acceso para las carreras oficiales de Hyrox.</p>
+          <p data-3d-depth="42" class="discipline-3d-layer text-stone text-xs leading-relaxed font-light min-h-[60px]">Centro oficial licenciado, con prioridad de acceso para las carreras oficiales de Hyrox.</p>
         </div>
       </div>
 
       <!-- Calistenia -->
-      <div class="card-hover group relative border border-line bg-surface2 rounded-xs overflow-hidden shadow-xl">
-        <div class="aspect-[4/5] overflow-hidden">
-          <img src="https://images.unsplash.com/photo-1704375058325-e51b6382a95d?q=80&w=900&auto=format&fit=crop"
+      <div class="discipline-3d-card group relative border border-line bg-surface2 rounded-xs overflow-hidden shadow-xl" data-3d-discipline-card>
+        <div class="aspect-[4/5] overflow-hidden discipline-3d-layer" data-3d-depth="20">
+          <img data-3d-depth="28" src="https://images.unsplash.com/photo-1704375058325-e51b6382a95d?q=80&w=900&auto=format&fit=crop"
                alt="Atleta de calistenia colgado de una barra de dominadas"
                class="w-full h-full object-cover filter brightness-75 contrast-110 group-hover:scale-105 transition-transform duration-700">
         </div>
-        <div class="absolute inset-0 bg-gradient-to-t from-bg via-bg/60 to-transparent"></div>
-        <div class="absolute bottom-0 left-0 right-0 p-6 flex flex-col">
-          <i data-lucide="move-3d" class="w-5 h-5 text-electric mb-3"></i>
-          <h3 class="display-heading text-2xl uppercase mb-2 leading-none">Calistenia</h3>
-          <p class="text-stone text-xs leading-relaxed font-light min-h-[60px]">Dominá tu propio peso corporal y construí fuerza real, movilidad y control absoluto.</p>
+        <div class="absolute inset-0 bg-gradient-to-t from-bg via-bg/60 to-transparent discipline-3d-layer" data-3d-depth="12"></div>
+        <div class="absolute bottom-0 left-0 right-0 p-6 flex flex-col discipline-3d-layer" data-3d-depth="48">
+          <i data-lucide="move-3d" data-3d-depth="68" class="discipline-3d-layer w-5 h-5 text-electric mb-3"></i>
+          <h3 data-3d-depth="62" class="discipline-3d-layer display-heading text-2xl uppercase mb-2 leading-none">Calistenia</h3>
+          <p data-3d-depth="42" class="discipline-3d-layer text-stone text-xs leading-relaxed font-light min-h-[60px]">Dominá tu propio peso corporal y construí fuerza real, movilidad y control absoluto.</p>
         </div>
       </div>
 
@@ -506,37 +811,6 @@
 
 <!-- ===== PANEL MOBILE 3: FAQ (La Crew + Preguntas frecuentes) ===== -->
 <div class="mobile-panel" data-panel="faq">
-
-<!-- ============ TESTIMONIOS / PRÓXIMA APERTURA ============ -->
-<section id="testimonios" class="relative py-14 md:py-28 lg:py-36 border-t border-line/80 bg-surface">
-  <div class="max-w-7xl mx-auto px-6 md:px-10">
-    <p class="sector-tag mb-6">SECTOR 06 / LA CREW</p>
-    <h2 class="display-heading text-4xl md:text-5xl uppercase mb-6 max-w-2xl leading-tight">Todavía no abrimos.<br>Pero la crew ya se está formando.</h2>
-    <p class="text-stone text-base md:text-lg font-light leading-relaxed max-w-2xl mb-8 md:mb-16">
-      Distrito Fitness Center está terminando de armarse en Caballito. Todavía no tenemos testimonios porque
-      todavía no abrimos las puertas — pero acá vas a poder leer las historias reales de los primeros socios
-      apenas empecemos.
-    </p>
-
-    <div class="grid md:grid-cols-3 gap-6">
-      <div class="border border-line bg-surface2/80 p-8 rounded-xs card-hover">
-        <i data-lucide="hammer" class="w-6 h-6 text-electric mb-6"></i>
-        <h3 class="display-heading text-xl uppercase mb-3 tracking-wide">En construcción</h3>
-        <p class="text-stone font-light text-sm leading-relaxed">Estamos ultimando los últimos detalles antes de recibirte con todo lo que Distrito tiene para ofrecerte.</p>
-      </div>
-      <div class="border border-line bg-surface2/80 p-8 rounded-xs card-hover">
-        <i data-lucide="calendar-clock" class="w-6 h-6 text-electric mb-6"></i>
-        <h3 class="display-heading text-xl uppercase mb-3 tracking-wide">Apertura próximamente</h3>
-        <p class="text-stone font-light text-sm leading-relaxed">Escribinos por WhatsApp y sé de los primeros en enterarte de la fecha exacta de apertura.</p>
-      </div>
-      <div class="border border-line bg-surface2/80 p-8 rounded-xs card-hover">
-        <i data-lucide="star" class="w-6 h-6 text-electric mb-6"></i>
-        <h3 class="display-heading text-xl uppercase mb-3 tracking-wide">Socio fundador</h3>
-        <p class="text-stone font-light text-sm leading-relaxed">Sumate ahora y formá parte de la primera generación de la crew del Distrito.</p>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- ============ FAQ ============ -->
 <section id="faq" class="relative py-14 md:py-28 lg:py-36 border-t border-line/80">
@@ -622,7 +896,7 @@
 <div class="mobile-panel" data-panel="contacto">
 
 <!-- ============ CONTACTO ============ -->
-<section id="contacto" class="relative py-14 md:py-28 lg:py-36 border-t border-line/80 grid-map">
+<section id="contacto" class="relative py-14 md:py-28 lg:py-36 border-t border-line/80">
   <div class="max-w-7xl mx-auto px-6 md:px-10 grid md:grid-cols-2 gap-16">
     <div>
       <p class="sector-tag mb-6">SECTOR 08 / CONTACTO</p>
@@ -693,7 +967,22 @@
 </div>
 <!-- ===== FIN PANEL MOBILE 4 ===== -->
 
-<!-- ============ WHATSAPP FLOTANTE (solo escritorio/tablet) ============ -->
+<!-- ============ ACCIONES SOCIALES FLOTANTES ============ -->
+<!-- Instagram: más visible para impulsar el crecimiento de redes.
+     El tooltip aparece al pasar el cursor o enfocar con teclado. -->
+<a href="https://instagram.com/distritofitnesscenter"
+   target="_blank" rel="noopener noreferrer"
+   aria-label="Seguir a Distrito Fitness Center en Instagram"
+   class="instagram-float">
+  <svg class="instagram-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <rect x="3" y="3" width="18" height="18" rx="5"></rect>
+    <circle cx="12" cy="12" r="4.2"></circle>
+    <circle cx="17.6" cy="6.4" r=".85" fill="currentColor" stroke="none"></circle>
+  </svg>
+  <span class="instagram-tooltip">Seguinos en Instagram · @distritofitnesscenter</span>
+</a>
+
+<!-- WhatsApp conserva su posición y comportamiento original. -->
 <a href="https://wa.me/5491130260359?text=Hola%20Distrito%20Fitness%20Center%2C%20quiero%20reservar%20una%20clase%20de%20prueba"
    target="_blank" rel="noopener"
    aria-label="Contactar por WhatsApp"
@@ -702,7 +991,6 @@
 </a>
 
 <!-- ============ BARRA DE NAVEGACIÓN INFERIOR (solo mobile) ============ -->
-<!-- Reemplaza el scroll interminable: en mobile, tocar cada ícono lleva directo a esa sección -->
 <nav class="md:hidden fixed bottom-0 left-0 w-full z-50 bg-bg/95 backdrop-blur-lg border-t border-line/80 grid grid-cols-5" aria-label="Navegación principal">
   <a href="#inicio" data-tab="inicio" class="mobile-tab is-active flex flex-col items-center justify-center gap-1 py-2.5 text-stone transition-colors">
     <i data-lucide="home" class="w-5 h-5"></i>
@@ -732,20 +1020,170 @@
 <script>
   lucide.createIcons();
 
-  // Barra de navegación inferior (mobile): tocar un ícono muestra ese panel
-  // directamente, sin necesidad de deslizar por el resto de las secciones.
+  // Script para animación de fondo altamente visible e interactiva
+  const canvas = document.getElementById('bg-canvas');
+  const ctx = canvas.getContext('2d');
+
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+
+  // Variables para seguir la posición del mouse
+  let mouse = {
+    x: null,
+    y: null,
+    radius: 140
+  };
+
+  window.addEventListener('mousemove', (event) => {
+    mouse.x = event.clientX;
+    mouse.y = event.clientY;
+  });
+
+  window.addEventListener('mouseout', () => {
+    mouse.x = null;
+    mouse.y = null;
+  });
+
+  const particlesArray = [];
+  const numberOfParticles = Math.floor(window.innerWidth / 25); // Más densidad de partículas
+
+  class Particle {
+    constructor() {
+      this.x = Math.random() * canvas.width;
+      this.y = Math.random() * canvas.height;
+      this.vx = (Math.random() - 0.5) * 1.2; // Movimiento más dinámico
+      this.vy = (Math.random() - 0.5) * 1.2;
+      this.size = Math.random() * 2.2 + 1; // Partículas más grandes y visibles
+    }
+    update() {
+      this.x += this.vx;
+      this.y += this.vy;
+      if (this.x < 0 || this.x > canvas.width) this.vx = -this.vx;
+      if (this.y < 0 || this.y > canvas.height) this.vy = -this.vy;
+    }
+    draw() {
+      ctx.fillStyle = '#5B8FFF'; // Tono eléctrico más brillante
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  for (let i = 0; i < numberOfParticles; i++) {
+    particlesArray.push(new Particle());
+  }
+
+  function animateBackground() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    for (let i = 0; i < particlesArray.length; i++) {
+      particlesArray[i].update();
+      particlesArray[i].draw();
+
+      // Conexiones entre partículas cercanas
+      for (let j = i; j < particlesArray.length; j++) {
+        const dx = particlesArray[i].x - particlesArray[j].x;
+        const dy = particlesArray[i].y - particlesArray[j].y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance < 130) {
+          ctx.strokeStyle = `rgba(47, 111, 255, ${0.4 * (1 - distance / 130)})`;
+          ctx.lineWidth = 0.8; // Líneas más marcadas
+          ctx.beginPath();
+          ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
+          ctx.lineTo(particlesArray[j].x, particlesArray[j].y);
+          ctx.stroke();
+        }
+      }
+
+      // Conexión interactiva con el cursor del mouse
+      if (mouse.x != null && mouse.y != null) {
+        const mdx = particlesArray[i].x - mouse.x;
+        const mdy = particlesArray[i].y - mouse.y;
+        const mDistance = Math.sqrt(mdx * mdx + mdy * mdy);
+
+        if (mDistance < mouse.radius) {
+          ctx.strokeStyle = `rgba(91, 143, 255, ${1 - mDistance / mouse.radius})`;
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
+          ctx.lineTo(mouse.x, mouse.y);
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(animateBackground);
+  }
+  animateBackground();
+
+  // Menú hamburguesa interactivo e intuitivo
+  const menuToggle = document.getElementById('menu-toggle');
+  const dropdownMenu = document.getElementById('dropdown-menu');
+
+  if (menuToggle && dropdownMenu) {
+    menuToggle.addEventListener('click', () => {
+      dropdownMenu.classList.toggle('hidden');
+    });
+  }
+
+  const menuPanelMapping = {
+    'inicio': 'inicio',
+    'nosotros': 'inicio',
+    'por-que-elegirnos': 'inicio',
+    'disciplinas': 'disciplinas',
+    'logros': 'disciplinas',
+    'testimonios': 'faq',
+    'faq': 'faq',
+    'contacto': 'contacto'
+  };
+
+  const menuItemClicks = document.querySelectorAll('.menu-item-click');
+  const panels = document.querySelectorAll('.mobile-panel[data-panel]');
+  const tabs = document.querySelectorAll('.mobile-tab[data-tab]');
+
+  function switchMobilePanel(panelName) {
+    panels.forEach(function (panel) {
+      panel.classList.toggle('panel-active', panel.dataset.panel === panelName);
+    });
+    tabs.forEach(function (tab) {
+      tab.classList.toggle('is-active', tab.dataset.tab === panelName);
+    });
+  }
+
+  menuItemClicks.forEach(item => {
+    item.addEventListener('click', function (e) {
+      const href = this.getAttribute('href');
+      if (href && href.startsWith('#')) {
+        const targetId = href.substring(1);
+        const targetPanel = menuPanelMapping[targetId];
+
+        if (dropdownMenu) {
+          dropdownMenu.classList.add('hidden');
+        }
+
+        if (targetPanel) {
+          switchMobilePanel(targetPanel);
+        }
+
+        setTimeout(() => {
+          const targetEl = document.getElementById(targetId);
+          if (targetEl) {
+            targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }, 50);
+      }
+    });
+  });
+
   (function () {
-    var tabs = document.querySelectorAll('.mobile-tab[data-tab]');
-    var panels = document.querySelectorAll('.mobile-panel[data-panel]');
     if (!tabs.length || !panels.length) return;
 
     function showPanel(name) {
-      panels.forEach(function (panel) {
-        panel.classList.toggle('panel-active', panel.dataset.panel === name);
-      });
-      tabs.forEach(function (tab) {
-        tab.classList.toggle('is-active', tab.dataset.tab === name);
-      });
+      switchMobilePanel(name);
       window.scrollTo({ top: 0, behavior: 'auto' });
     }
 
@@ -755,9 +1193,265 @@
         showPanel(tab.dataset.tab);
       });
     });
+  })();
 
-    // Si la pantalla pasa a tamaño desktop, no hace falta ningún panel activo:
-    // el CSS de mobile ya deja de aplicar y se ve todo en scroll normal.
+  let currentHeroSlide = 0;
+  const heroSlides = document.querySelectorAll('.hero-slide');
+  const heroCaptionTitle = document.getElementById('heroCaptionTitle');
+  const heroCaptionSubtitle = document.getElementById('heroCaptionSubtitle');
+  const heroCaptionBox = document.getElementById('heroCaptionBox');
+  let heroInterval;
+
+  function showHeroSlide(index) {
+    if (index >= heroSlides.length) currentHeroSlide = 0;
+    else if (index < 0) currentHeroSlide = heroSlides.length - 1;
+    else currentHeroSlide = index;
+
+    heroSlides.forEach((slide, i) => {
+      slide.classList.toggle('active', i === currentHeroSlide);
+    });
+
+    if (heroCaptionTitle && heroCaptionSubtitle && heroSlides[currentHeroSlide]) {
+      const title = heroSlides[currentHeroSlide].getAttribute('data-title');
+      const subtitle = heroSlides[currentHeroSlide].getAttribute('data-subtitle');
+      
+      heroCaptionBox.style.opacity = '0';
+      setTimeout(() => {
+        heroCaptionTitle.textContent = title;
+        heroCaptionSubtitle.textContent = subtitle;
+        heroCaptionBox.style.opacity = '1';
+      }, 250);
+    }
+  }
+
+  function nextHeroSlide() {
+    showHeroSlide(currentHeroSlide + 1);
+  }
+
+  if (heroSlides.length > 0) {
+    showHeroSlide(0);
+    heroInterval = setInterval(nextHeroSlide, 5000);
+  }
+</script>
+
+<!-- ============ CANVAS TEXT + ENCRYPTED TEXT — HERO ============ -->
+<script>
+  (function () {
+    var canvasText = document.querySelector('[data-canvas-text="MEJOR"]');
+    var encryptedText = document.querySelector('[data-encrypted-text]');
+    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /* ==========================================================
+       CANVAS TEXT — inspirado directamente en Aceternity UI
+       Las líneas se recortan al alpha del texto mediante
+       globalCompositeOperation = source-atop. Así MEJOR conserva
+       un relleno sólido y estable, mientras las curvas se mueven
+       exclusivamente dentro de las letras.
+       ========================================================== */
+    if (canvasText) {
+      var canvas = canvasText.querySelector('canvas');
+      var label = canvasText.querySelector('span');
+      var ctx = canvas && canvas.getContext('2d');
+      var raf = null;
+      var start = performance.now();
+
+      function resizeCanvas() {
+        if (!canvas || !ctx || !label) return;
+        var rect = canvasText.getBoundingClientRect();
+        var dpr = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = Math.max(1, Math.round(rect.width * dpr));
+        canvas.height = Math.max(1, Math.round(rect.height * dpr));
+        canvas.style.width = rect.width + 'px';
+        canvas.style.height = rect.height + 'px';
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+
+      function drawCanvasText(time) {
+        if (!canvas || !ctx || !label) return;
+
+        var w = canvas.clientWidth || canvasText.getBoundingClientRect().width;
+        var h = canvas.clientHeight || canvasText.getBoundingClientRect().height;
+        var style = getComputedStyle(label);
+        var text = label.textContent || 'MEJOR';
+        var t = (time - start) / 1000;
+
+        ctx.clearRect(0, 0, w, h);
+        ctx.globalCompositeOperation = 'source-over';
+
+        /* Texto base: sólido, estable y sin fluctuación. */
+        ctx.font = style.font;
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'alphabetic';
+        ctx.fillStyle = '#2F6FFF';
+
+        var baseline = h * 0.82;
+        ctx.fillText(text, 0, baseline);
+
+        if (!reduceMotion) {
+          /*
+             Curvas tipo Aceternity: movimiento suave, poca amplitud
+             y líneas separadas para que el relleno siga siendo sólido.
+          */
+          var gap = Math.max(9, h * 0.16);
+          var amplitude = Math.max(3.5, h * 0.085);
+          var speed = (Math.PI * 2) / 5; // ciclo de ~5 s
+
+          ctx.globalCompositeOperation = 'source-atop';
+          ctx.lineWidth = Math.max(1.15, h * 0.028);
+          ctx.lineCap = 'round';
+          ctx.lineJoin = 'round';
+
+          var colors = ['#2F6FFF', '#5B8FFF', '#3E78FF', '#7BA4FF'];
+
+          for (var y = -h; y < h * 2; y += gap) {
+            var color = colors[Math.abs(Math.round(y / gap)) % colors.length];
+            var gradient = ctx.createLinearGradient(0, 0, w, 0);
+            gradient.addColorStop(0, color);
+            gradient.addColorStop(0.5, '#8AAEFF');
+            gradient.addColorStop(1, color);
+            ctx.strokeStyle = gradient;
+            ctx.beginPath();
+
+            for (var x = -24; x <= w + 24; x += 7) {
+              var normalizedX = x / Math.max(24, w);
+              var yy = y + Math.sin(normalizedX * Math.PI * 2.2 + t * speed + y * 0.018) * amplitude;
+              if (x === -24) ctx.moveTo(x, yy);
+              else ctx.lineTo(x, yy);
+            }
+            ctx.stroke();
+          }
+
+          ctx.globalCompositeOperation = 'source-over';
+        }
+
+        if (!reduceMotion) raf = requestAnimationFrame(drawCanvasText);
+      }
+
+      resizeCanvas();
+      window.addEventListener('resize', resizeCanvas, { passive: true });
+      drawCanvasText(start);
+    }
+
+    /* ==========================================================
+       ENCRYPTED TEXT — velocidad moderada.
+       50 ms es el valor de referencia de Aceternity; usamos 52 ms
+       para que el efecto sea perceptible sin hacerse pesado.
+       ========================================================== */
+    if (encryptedText) {
+      var finalText = encryptedText.getAttribute('data-encrypted-text') || '';
+      var charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-={}[];:,.<>/?';
+      var index = 0;
+      var timer = null;
+      var revealDelayMs = 52;
+
+      function renderEncrypted() {
+        var out = '';
+        for (var i = 0; i < finalText.length; i++) {
+          var char = finalText[i];
+          if (char === ' ' || char === '\n') {
+            out += char;
+          } else if (i < index) {
+            out += '<span class="revealed-char">' + char + '</span>';
+          } else {
+            var scrambled = charset[Math.floor(Math.random() * charset.length)];
+            out += '<span class="encrypted-char">' + scrambled + '</span>';
+          }
+        }
+        encryptedText.innerHTML = out;
+      }
+
+      function revealNext() {
+        if (reduceMotion) {
+          encryptedText.textContent = finalText;
+          return;
+        }
+
+        renderEncrypted();
+        index += 1;
+
+        if (index <= finalText.length) {
+          timer = window.setTimeout(revealNext, revealDelayMs);
+        } else {
+          encryptedText.textContent = finalText;
+        }
+      }
+
+      /* Una pequeña pausa inicial evita que el efecto pase inadvertido. */
+      if (reduceMotion) {
+        encryptedText.textContent = finalText;
+      } else {
+        timer = window.setTimeout(revealNext, 220);
+      }
+    }
+  })();
+</script>
+
+<!-- ============ 3D CARD EFFECT — DISCIPLINAS ============ -->
+<script>
+  // Efecto 3D de las tarjetas de disciplinas, inspirado en Aceternity UI.
+  // Solo escucha el puntero dentro de estas cuatro tarjetas.
+  (function () {
+    var cards3D = document.querySelectorAll('[data-3d-discipline-card]');
+    if (!cards3D.length) return;
+
+    var reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reducedMotion) return;
+
+    cards3D.forEach(function (card) {
+      var frame = null;
+      var targetX = 0;
+      var targetY = 0;
+      var currentX = 0;
+      var currentY = 0;
+      var layers = card.querySelectorAll('[data-3d-depth]');
+
+      function render() {
+        frame = null;
+
+        currentX += (targetX - currentX) * 0.14;
+        currentY += (targetY - currentY) * 0.14;
+
+        card.style.transform =
+          'perspective(1000px) rotateX(' + (-currentY).toFixed(2) + 'deg) rotateY(' + currentX.toFixed(2) + 'deg)';
+
+        layers.forEach(function (layer) {
+          var depth = parseFloat(layer.getAttribute('data-3d-depth')) || 0;
+          var offsetX = currentX * 0.10;
+          var offsetY = -currentY * 0.10;
+          layer.style.transform =
+            'translate3d(' + offsetX.toFixed(2) + 'px, ' +
+            offsetY.toFixed(2) + 'px, ' + depth + 'px)';
+        });
+
+        if (Math.abs(targetX - currentX) > 0.01 || Math.abs(targetY - currentY) > 0.01) {
+          frame = requestAnimationFrame(render);
+        }
+      }
+
+      function reset() {
+        targetX = 0;
+        targetY = 0;
+        if (!frame) frame = requestAnimationFrame(render);
+      }
+
+      card.addEventListener('pointermove', function (event) {
+        var rect = card.getBoundingClientRect();
+        var x = (event.clientX - rect.left) / rect.width;
+        var y = (event.clientY - rect.top) / rect.height;
+
+        // Inclinación contenida para mantener intactas las dimensiones y el layout.
+        targetX = (x - 0.5) * 12;
+        targetY = (y - 0.5) * 10;
+
+        if (!frame) frame = requestAnimationFrame(render);
+      });
+
+      card.addEventListener('pointerleave', reset);
+      card.addEventListener('pointercancel', reset);
+      card.addEventListener('pointerup', function (event) {
+        if (event.pointerType === 'touch') reset();
+      });
+    });
   })();
 </script>
 
