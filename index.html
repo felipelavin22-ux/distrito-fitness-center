@@ -144,158 +144,82 @@
   }
 
 
-  /* ============ CARRUSEL EDITORIAL — DISCIPLINAS ============ */
-  /*
-     Las piezas gráficas de cada disciplina ya incluyen título y descripción.
-     Por eso se muestran completas, en formato vertical y sin usar object-fit: cover.
-     En desktop se insinúan las piezas vecinas para evitar grandes zonas vacías;
-     en mobile cada pieza ocupa casi todo el ancho disponible.
-  */
-  .discipline-carousel {
+  /* ============ 3D CARD EFFECT — DISCIPLINAS ============ */
+  /* Adaptación en CSS/JS puro del efecto 3D Card de Aceternity UI.
+     Se limita exclusivamente a las cuatro tarjetas de disciplinas. */
+  .discipline-3d-card {
     position: relative;
-    width: 100%;
-  }
-
-  .discipline-carousel-viewport {
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-    padding: 10px 0 22px;
-  }
-
-  .discipline-slider-track {
-    display: flex;
-    align-items: center;
-    gap: clamp(14px, 2vw, 28px);
-    transition: transform .72s cubic-bezier(.22,.8,.2,1);
+    transform-style: preserve-3d;
+    transform-origin: center center;
+    perspective: 1000px;
+    transition:
+      transform 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 0.4s ease,
+      box-shadow 0.4s ease;
     will-change: transform;
   }
 
-  .discipline-slide {
-    flex: 0 0 clamp(310px, 52vw, 650px);
-    position: relative;
-    margin: 0;
-    opacity: .34;
-    transform: scale(.93);
-    transition: opacity .45s ease, transform .55s cubic-bezier(.22,.8,.2,1), filter .45s ease;
-    filter: saturate(.72) brightness(.72);
-  }
-
-  .discipline-slide.is-active {
-    opacity: 1;
-    transform: scale(1);
-    filter: none;
-    z-index: 2;
-  }
-
-  .discipline-slide::before {
+  .discipline-3d-card::before {
     content: "";
     position: absolute;
-    inset: -1px;
-    z-index: -1;
-    border: 1px solid rgba(255,255,255,.12);
-    box-shadow: 0 28px 70px rgba(0,0,0,.28);
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #2F6FFF, transparent);
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.5s ease;
+    z-index: 40;
     pointer-events: none;
   }
 
-  .discipline-slide img {
-    display: block;
-    width: 100%;
-    height: auto;
-    max-height: none;
-    object-fit: contain;
-    object-position: center;
-    user-select: none;
-    -webkit-user-drag: none;
+  .discipline-3d-card:hover::before {
+    transform: scaleX(1);
   }
 
-  .discipline-slider-btn {
-    position: absolute;
-    top: 50%;
-    z-index: 8;
-    width: 48px;
-    height: 48px;
-    border-radius: 999px;
-    display: grid;
-    place-items: center;
-    transform: translateY(-50%);
-    color: #fff;
-    background: rgba(10,11,14,.78);
-    border: 1px solid rgba(255,255,255,.18);
-    backdrop-filter: blur(12px);
-    box-shadow: 0 10px 30px rgba(0,0,0,.28);
-    transition: transform .25s ease, background .25s ease, border-color .25s ease;
+  .discipline-3d-card:hover {
+    border-color: rgba(47, 111, 255, 0.5);
+    box-shadow:
+      0 24px 45px -18px rgba(0, 0, 0, 0.85),
+      0 0 30px -8px rgba(47, 111, 255, 0.3);
   }
 
-  .discipline-slider-btn:hover {
-    background: #2F6FFF;
-    border-color: #2F6FFF;
-    transform: translateY(-50%) scale(1.06);
+  .discipline-3d-card .discipline-3d-layer {
+    transform-style: preserve-3d;
+    transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform;
   }
 
-  .discipline-slider-btn.prev { left: clamp(4px, 1.5vw, 18px); }
-  .discipline-slider-btn.next { right: clamp(4px, 1.5vw, 18px); }
+  @media (pointer: coarse) and (prefers-reduced-motion: no-preference) {
+    .discipline-3d-card {
+      animation: disciplineMobileFloat 5.2s ease-in-out infinite;
+    }
+    .discipline-3d-card:nth-child(2) { animation-delay: -1.3s; }
+    .discipline-3d-card:nth-child(3) { animation-delay: -2.6s; }
+    .discipline-3d-card:nth-child(4) { animation-delay: -3.9s; }
 
-  .discipline-slider-dots {
-    display: flex;
-    justify-content: center;
-    gap: 9px;
-    margin-top: 8px;
-  }
-
-  .discipline-slider-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 999px;
-    background: rgba(255,255,255,.23);
-    transition: width .3s ease, background .3s ease;
-  }
-
-  .discipline-slider-dot.active {
-    width: 30px;
-    background: #2F6FFF;
-  }
-
-  @media (min-width: 1280px) {
-    .discipline-slide {
-      flex-basis: min(48vw, 640px);
+    .discipline-3d-card .discipline-3d-layer {
+      transform: translate3d(0, 0, 20px);
     }
   }
 
-  @media (max-width: 767px) {
-    .discipline-carousel-viewport {
-      margin-left: -24px;
-      width: calc(100% + 48px);
-      padding: 4px 0 18px;
+  @keyframes disciplineMobileFloat {
+    0%, 100% {
+      transform: perspective(1000px) rotateX(0deg) rotateY(-1.4deg) translateY(0);
     }
-
-    .discipline-slider-track {
-      gap: 12px;
+    50% {
+      transform: perspective(1000px) rotateX(1.2deg) rotateY(1.4deg) translateY(-3px);
     }
-
-    .discipline-slide {
-      flex-basis: calc(100vw - 36px);
-      transform: scale(.96);
-      opacity: .22;
-    }
-
-    .discipline-slide.is-active {
-      transform: scale(1);
-    }
-
-    .discipline-slider-btn {
-      width: 40px;
-      height: 40px;
-      background: rgba(10,11,14,.72);
-    }
-
-    .discipline-slider-btn.prev { left: 8px; }
-    .discipline-slider-btn.next { right: 8px; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .discipline-slider-track,
-    .discipline-slide { transition: none; }
+    .discipline-3d-card,
+    .discipline-3d-card .discipline-3d-layer {
+      animation: none !important;
+      transform: none !important;
+      transition: none !important;
+    }
   }
 
   .card-hover {
@@ -783,29 +707,75 @@
         <p class="sector-tag mb-6">SECTOR 04 / DISCIPLINAS</p>
         <h2 class="display-heading text-4xl md:text-5xl uppercase">Elegí tu terreno.</h2>
       </div>
-      <p class="text-stone font-light max-w-sm">Cinco disciplinas, un mismo estándar de exigencia. Combinalas o elegí tu favorita.</p>
+      <p class="text-stone font-light max-w-sm">Cuatro disciplinas, un mismo estándar de exigencia. Combinalas o elegí tu favorita.</p>
     </div>
 
-    <div class="discipline-carousel" data-discipline-slider aria-label="Disciplinas de Distrito Fitness">
-      <div class="discipline-carousel-viewport" data-slider-viewport>
-        <div class="discipline-slider-track" data-slider-track>
-          <figure class="discipline-slide"><img src="assets/disciplinas/musculacion.png" alt="Musculación y cardio en Distrito Fitness"></figure>
-          <figure class="discipline-slide"><img src="assets/disciplinas/crossfit.png" alt="CrossFit en Distrito Fitness"></figure>
-          <figure class="discipline-slide"><img src="assets/disciplinas/hyrox.png" alt="Hyrox en Distrito Fitness"></figure>
-          <figure class="discipline-slide"><img src="assets/disciplinas/calistenia.png" alt="Calistenia en Distrito Fitness"></figure>
-          <figure class="discipline-slide"><img src="assets/disciplinas/funcional.png" alt="Entrenamiento funcional en Distrito Fitness"></figure>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+      <!-- Musculación -->
+      <div class="discipline-3d-card group relative border border-line bg-surface2 rounded-xs overflow-hidden shadow-xl" data-3d-discipline-card>
+        <div class="aspect-[4/5] overflow-hidden discipline-3d-layer" data-3d-depth="20">
+          <img data-3d-depth="28" src="https://images.unsplash.com/photo-1545612036-2872840642dc?q=80&w=900&auto=format&fit=crop"
+               alt="Piso de musculación con máquinas de última generación"
+               class="w-full h-full object-cover filter brightness-75 contrast-110 group-hover:scale-105 transition-transform duration-700">
+        </div>
+        <div class="absolute inset-0 bg-gradient-to-t from-bg via-bg/60 to-transparent discipline-3d-layer" data-3d-depth="12"></div>
+        <div class="absolute bottom-0 left-0 right-0 p-6 flex flex-col discipline-3d-layer" data-3d-depth="48">
+          <i data-lucide="dumbbell" data-3d-depth="68" class="discipline-3d-layer w-5 h-5 text-electric mb-3"></i>
+          <h3 data-3d-depth="62" class="discipline-3d-layer display-heading text-2xl uppercase mb-2 leading-none">Musculación</h3>
+          <p data-3d-depth="42" class="discipline-3d-layer text-stone text-xs leading-relaxed font-light min-h-[60px]">Dos pisos con máquinas de última generación: tren inferior, core, tren superior y aeróbico.</p>
         </div>
       </div>
 
-      <button class="discipline-slider-btn prev" type="button" data-slider-prev aria-label="Disciplina anterior">
-        <i data-lucide="chevron-left" class="w-5 h-5"></i>
-      </button>
-      <button class="discipline-slider-btn next" type="button" data-slider-next aria-label="Disciplina siguiente">
-        <i data-lucide="chevron-right" class="w-5 h-5"></i>
-      </button>
-    </div>
+      <!-- CrossFit -->
+      <div class="discipline-3d-card group relative border border-line bg-surface2 rounded-xs overflow-hidden shadow-xl" data-3d-discipline-card>
+        <div class="aspect-[4/5] overflow-hidden discipline-3d-layer" data-3d-depth="20">
+          <img data-3d-depth="28" src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=900&auto=format&fit=crop"
+               alt="Clase de CrossFit de alta intensidad"
+               class="w-full h-full object-cover filter brightness-75 contrast-110 group-hover:scale-105 transition-transform duration-700">
+        </div>
+        <div class="absolute inset-0 bg-gradient-to-t from-bg via-bg/60 to-transparent discipline-3d-layer" data-3d-depth="12"></div>
+        <div class="absolute bottom-0 left-0 right-0 p-6 flex flex-col discipline-3d-layer" data-3d-depth="48">
+          <i data-lucide="flame" data-3d-depth="68" class="discipline-3d-layer w-5 h-5 text-electric mb-3"></i>
+          <h3 data-3d-depth="62" class="discipline-3d-layer display-heading text-2xl uppercase mb-2 leading-none">CrossFit</h3>
+          <p data-3d-depth="42" class="discipline-3d-layer text-stone text-xs leading-relaxed font-light min-h-[60px]">Alta intensidad y resultados reales, con una comunidad que te empuja a superarte en cada clase.</p>
+        </div>
+      </div>
 
-    <div class="discipline-slider-dots" data-slider-dots aria-label="Seleccionar disciplina"></div>
+      <!-- Hyrox -->
+      <div class="discipline-3d-card group relative border border-line bg-surface2 rounded-xs overflow-hidden shadow-xl" data-3d-discipline-card>
+        <div class="aspect-[4/5] overflow-hidden discipline-3d-layer" data-3d-depth="20">
+          <img data-3d-depth="28" src="https://images.unsplash.com/photo-1571388208497-71bedc66e932?q=80&w=900&auto=format&fit=crop"
+               alt="Entrenamiento estilo Hyrox de resistencia"
+               class="w-full h-full object-cover filter brightness-75 contrast-110 group-hover:scale-105 transition-transform duration-700">
+        </div>
+        <div class="absolute inset-0 bg-gradient-to-t from-bg via-bg/60 to-transparent discipline-3d-layer" data-3d-depth="12"></div>
+        <div class="absolute bottom-0 left-0 right-0 p-6 flex flex-col discipline-3d-layer" data-3d-depth="48">
+          <i data-lucide="activity" data-3d-depth="68" class="discipline-3d-layer w-5 h-5 text-electric mb-3"></i>
+          <div class="flex items-center gap-2 mb-2">
+            <h3 data-3d-depth="62" class="discipline-3d-layer display-heading text-2xl uppercase leading-none">Hyrox</h3>
+            <span data-3d-depth="72" class="discipline-3d-layer bg-electric text-white font-mono text-[8px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-xs">Centro Oficial</span>
+          </div>
+          <p data-3d-depth="42" class="discipline-3d-layer text-stone text-xs leading-relaxed font-light min-h-[60px]">Centro oficial licenciado, con prioridad de acceso para las carreras oficiales de Hyrox.</p>
+        </div>
+      </div>
+
+      <!-- Calistenia -->
+      <div class="discipline-3d-card group relative border border-line bg-surface2 rounded-xs overflow-hidden shadow-xl" data-3d-discipline-card>
+        <div class="aspect-[4/5] overflow-hidden discipline-3d-layer" data-3d-depth="20">
+          <img data-3d-depth="28" src="https://images.unsplash.com/photo-1704375058325-e51b6382a95d?q=80&w=900&auto=format&fit=crop"
+               alt="Atleta de calistenia colgado de una barra de dominadas"
+               class="w-full h-full object-cover filter brightness-75 contrast-110 group-hover:scale-105 transition-transform duration-700">
+        </div>
+        <div class="absolute inset-0 bg-gradient-to-t from-bg via-bg/60 to-transparent discipline-3d-layer" data-3d-depth="12"></div>
+        <div class="absolute bottom-0 left-0 right-0 p-6 flex flex-col discipline-3d-layer" data-3d-depth="48">
+          <i data-lucide="move-3d" data-3d-depth="68" class="discipline-3d-layer w-5 h-5 text-electric mb-3"></i>
+          <h3 data-3d-depth="62" class="discipline-3d-layer display-heading text-2xl uppercase mb-2 leading-none">Calistenia</h3>
+          <p data-3d-depth="42" class="discipline-3d-layer text-stone text-xs leading-relaxed font-light min-h-[60px]">Dominá tu propio peso corporal y construí fuerza real, movilidad y control absoluto.</p>
+        </div>
+      </div>
+
+    </div>
   </div>
 </section>
 
@@ -1416,88 +1386,72 @@
   })();
 </script>
 
-<!-- ============ CARRUSEL — DISCIPLINAS ============ -->
+<!-- ============ 3D CARD EFFECT — DISCIPLINAS ============ -->
 <script>
+  // Efecto 3D de las tarjetas de disciplinas, inspirado en Aceternity UI.
+  // Solo escucha el puntero dentro de estas cuatro tarjetas.
   (function () {
-    var slider = document.querySelector('[data-discipline-slider]');
-    if (!slider) return;
+    var cards3D = document.querySelectorAll('[data-3d-discipline-card]');
+    if (!cards3D.length) return;
 
-    var viewport = slider.querySelector('[data-slider-viewport]');
-    var track = slider.querySelector('[data-slider-track]');
-    var slides = Array.from(track.children);
-    var prev = slider.querySelector('[data-slider-prev]');
-    var next = slider.querySelector('[data-slider-next]');
-    var dotsWrap = document.querySelector('[data-slider-dots]');
-    var index = 0;
-    var autoplay = null;
-    var startX = 0;
-    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reducedMotion) return;
 
-    slides.forEach(function (_, i) {
-      var dot = document.createElement('button');
-      dot.type = 'button';
-      dot.className = 'discipline-slider-dot';
-      dot.setAttribute('aria-label', 'Ver disciplina ' + (i + 1));
-      dot.addEventListener('click', function () { goTo(i, true); });
-      dotsWrap.appendChild(dot);
-    });
+    cards3D.forEach(function (card) {
+      var frame = null;
+      var targetX = 0;
+      var targetY = 0;
+      var currentX = 0;
+      var currentY = 0;
+      var layers = card.querySelectorAll('[data-3d-depth]');
 
-    var dots = Array.from(dotsWrap.children);
+      function render() {
+        frame = null;
 
-    function render() {
-      var active = slides[index];
-      var slideCenter = active.offsetLeft + active.offsetWidth / 2;
-      var viewportCenter = viewport.clientWidth / 2;
-      var x = viewportCenter - slideCenter;
+        currentX += (targetX - currentX) * 0.14;
+        currentY += (targetY - currentY) * 0.14;
 
-      track.style.transform = 'translate3d(' + x + 'px,0,0)';
+        card.style.transform =
+          'perspective(1000px) rotateX(' + (-currentY).toFixed(2) + 'deg) rotateY(' + currentX.toFixed(2) + 'deg)';
 
-      slides.forEach(function (slide, i) {
-        slide.classList.toggle('is-active', i === index);
-        slide.setAttribute('aria-hidden', i === index ? 'false' : 'true');
+        layers.forEach(function (layer) {
+          var depth = parseFloat(layer.getAttribute('data-3d-depth')) || 0;
+          var offsetX = currentX * 0.10;
+          var offsetY = -currentY * 0.10;
+          layer.style.transform =
+            'translate3d(' + offsetX.toFixed(2) + 'px, ' +
+            offsetY.toFixed(2) + 'px, ' + depth + 'px)';
+        });
+
+        if (Math.abs(targetX - currentX) > 0.01 || Math.abs(targetY - currentY) > 0.01) {
+          frame = requestAnimationFrame(render);
+        }
+      }
+
+      function reset() {
+        targetX = 0;
+        targetY = 0;
+        if (!frame) frame = requestAnimationFrame(render);
+      }
+
+      card.addEventListener('pointermove', function (event) {
+        var rect = card.getBoundingClientRect();
+        var x = (event.clientX - rect.left) / rect.width;
+        var y = (event.clientY - rect.top) / rect.height;
+
+        // Inclinación contenida para mantener intactas las dimensiones y el layout.
+        targetX = (x - 0.5) * 12;
+        targetY = (y - 0.5) * 10;
+
+        if (!frame) frame = requestAnimationFrame(render);
       });
 
-      dots.forEach(function (dot, i) {
-        dot.classList.toggle('active', i === index);
-        dot.setAttribute('aria-current', i === index ? 'true' : 'false');
+      card.addEventListener('pointerleave', reset);
+      card.addEventListener('pointercancel', reset);
+      card.addEventListener('pointerup', function (event) {
+        if (event.pointerType === 'touch') reset();
       });
-    }
-
-    function goTo(i, userAction) {
-      index = (i + slides.length) % slides.length;
-      render();
-      if (userAction) restartAutoplay();
-    }
-
-    function restartAutoplay() {
-      if (reduceMotion) return;
-      window.clearInterval(autoplay);
-      autoplay = window.setInterval(function () { goTo(index + 1, false); }, 5600);
-    }
-
-    prev.addEventListener('click', function () { goTo(index - 1, true); });
-    next.addEventListener('click', function () { goTo(index + 1, true); });
-
-    viewport.addEventListener('pointerdown', function (e) { startX = e.clientX; });
-    viewport.addEventListener('pointerup', function (e) {
-      var delta = e.clientX - startX;
-      if (Math.abs(delta) > 45) goTo(index + (delta < 0 ? 1 : -1), true);
     });
-
-    slider.addEventListener('mouseenter', function () { window.clearInterval(autoplay); });
-    slider.addEventListener('mouseleave', restartAutoplay);
-
-    window.addEventListener('resize', function () {
-      window.requestAnimationFrame(render);
-    }, { passive: true });
-
-    slides.forEach(function (slide) {
-      var img = slide.querySelector('img');
-      if (img && !img.complete) img.addEventListener('load', render, { once: true });
-    });
-
-    render();
-    restartAutoplay();
   })();
 </script>
 
