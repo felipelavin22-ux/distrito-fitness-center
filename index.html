@@ -144,87 +144,110 @@
   }
 
 
-  /* ============ SLIDER MODERNO — DISCIPLINAS ============ */
-  .discipline-slider {
+  /* ============ CARRUSEL EDITORIAL — DISCIPLINAS ============ */
+  /*
+     Las piezas gráficas de cada disciplina ya incluyen título y descripción.
+     Por eso se muestran completas, en formato vertical y sin usar object-fit: cover.
+     En desktop se insinúan las piezas vecinas para evitar grandes zonas vacías;
+     en mobile cada pieza ocupa casi todo el ancho disponible.
+  */
+  .discipline-carousel {
+    position: relative;
+    width: 100%;
+  }
+
+  .discipline-carousel-viewport {
     position: relative;
     overflow: hidden;
-    border: 1px solid rgba(255,255,255,.12);
-    background: #0b0b0d;
-    box-shadow: 0 28px 70px rgba(0,0,0,.35);
+    width: 100%;
+    padding: 10px 0 22px;
   }
 
   .discipline-slider-track {
     display: flex;
+    align-items: center;
+    gap: clamp(14px, 2vw, 28px);
     transition: transform .72s cubic-bezier(.22,.8,.2,1);
     will-change: transform;
   }
 
   .discipline-slide {
-    flex: 0 0 100%;
+    flex: 0 0 clamp(310px, 52vw, 650px);
     position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 0;
-    background: #111;
+    margin: 0;
+    opacity: .34;
+    transform: scale(.93);
+    transition: opacity .45s ease, transform .55s cubic-bezier(.22,.8,.2,1), filter .45s ease;
+    filter: saturate(.72) brightness(.72);
+  }
+
+  .discipline-slide.is-active {
+    opacity: 1;
+    transform: scale(1);
+    filter: none;
+    z-index: 2;
+  }
+
+  .discipline-slide::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    z-index: -1;
+    border: 1px solid rgba(255,255,255,.12);
+    box-shadow: 0 28px 70px rgba(0,0,0,.28);
+    pointer-events: none;
   }
 
   .discipline-slide img {
     display: block;
     width: 100%;
     height: auto;
-    max-height: 82vh;
+    max-height: none;
     object-fit: contain;
     object-position: center;
     user-select: none;
     -webkit-user-drag: none;
   }
 
-  .discipline-slider::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    box-shadow: inset 0 0 0 1px rgba(255,255,255,.03);
-  }
-
   .discipline-slider-btn {
     position: absolute;
     top: 50%;
-    z-index: 5;
-    width: 46px;
-    height: 46px;
+    z-index: 8;
+    width: 48px;
+    height: 48px;
     border-radius: 999px;
     display: grid;
     place-items: center;
     transform: translateY(-50%);
     color: #fff;
-    background: rgba(8,8,10,.66);
-    border: 1px solid rgba(255,255,255,.2);
-    backdrop-filter: blur(10px);
+    background: rgba(10,11,14,.78);
+    border: 1px solid rgba(255,255,255,.18);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 10px 30px rgba(0,0,0,.28);
     transition: transform .25s ease, background .25s ease, border-color .25s ease;
   }
 
   .discipline-slider-btn:hover {
-    background: rgba(47,111,255,.88);
-    border-color: rgba(47,111,255,1);
+    background: #2F6FFF;
+    border-color: #2F6FFF;
+    transform: translateY(-50%) scale(1.06);
   }
 
-  .discipline-slider-btn.prev { left: 16px; }
-  .discipline-slider-btn.next { right: 16px; }
+  .discipline-slider-btn.prev { left: clamp(4px, 1.5vw, 18px); }
+  .discipline-slider-btn.next { right: clamp(4px, 1.5vw, 18px); }
 
   .discipline-slider-dots {
     display: flex;
     justify-content: center;
     gap: 9px;
-    margin-top: 20px;
+    margin-top: 8px;
   }
 
   .discipline-slider-dot {
     width: 8px;
     height: 8px;
     border-radius: 999px;
-    background: rgba(255,255,255,.25);
+    background: rgba(255,255,255,.23);
     transition: width .3s ease, background .3s ease;
   }
 
@@ -233,18 +256,46 @@
     background: #2F6FFF;
   }
 
-  @media (max-width: 640px) {
+  @media (min-width: 1280px) {
+    .discipline-slide {
+      flex-basis: min(48vw, 640px);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .discipline-carousel-viewport {
+      margin-left: -24px;
+      width: calc(100% + 48px);
+      padding: 4px 0 18px;
+    }
+
+    .discipline-slider-track {
+      gap: 12px;
+    }
+
+    .discipline-slide {
+      flex-basis: calc(100vw - 36px);
+      transform: scale(.96);
+      opacity: .22;
+    }
+
+    .discipline-slide.is-active {
+      transform: scale(1);
+    }
+
     .discipline-slider-btn {
       width: 40px;
       height: 40px;
+      background: rgba(10,11,14,.72);
     }
-    .discipline-slider-btn.prev { left: 10px; }
-    .discipline-slider-btn.next { right: 10px; }
-    .discipline-slide img { max-height: none; }
+
+    .discipline-slider-btn.prev { left: 8px; }
+    .discipline-slider-btn.next { right: 8px; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .discipline-slider-track { transition: none; }
+    .discipline-slider-track,
+    .discipline-slide { transition: none; }
   }
 
   .card-hover {
@@ -735,13 +786,15 @@
       <p class="text-stone font-light max-w-sm">Cinco disciplinas, un mismo estándar de exigencia. Combinalas o elegí tu favorita.</p>
     </div>
 
-    <div class="discipline-slider rounded-xs" data-discipline-slider aria-label="Disciplinas de Distrito Fitness">
-      <div class="discipline-slider-track" data-slider-track>
-        <figure class="discipline-slide"><img src="assets/disciplinas/musculacion.png" alt="Musculación y cardio en Distrito Fitness"></figure>
-        <figure class="discipline-slide"><img src="assets/disciplinas/crossfit.png" alt="CrossFit en Distrito Fitness"></figure>
-        <figure class="discipline-slide"><img src="assets/disciplinas/hyrox.png" alt="Hyrox en Distrito Fitness"></figure>
-        <figure class="discipline-slide"><img src="assets/disciplinas/calistenia.png" alt="Calistenia en Distrito Fitness"></figure>
-        <figure class="discipline-slide"><img src="assets/disciplinas/funcional.png" alt="Entrenamiento funcional en Distrito Fitness"></figure>
+    <div class="discipline-carousel" data-discipline-slider aria-label="Disciplinas de Distrito Fitness">
+      <div class="discipline-carousel-viewport" data-slider-viewport>
+        <div class="discipline-slider-track" data-slider-track>
+          <figure class="discipline-slide"><img src="assets/disciplinas/musculacion.png" alt="Musculación y cardio en Distrito Fitness"></figure>
+          <figure class="discipline-slide"><img src="assets/disciplinas/crossfit.png" alt="CrossFit en Distrito Fitness"></figure>
+          <figure class="discipline-slide"><img src="assets/disciplinas/hyrox.png" alt="Hyrox en Distrito Fitness"></figure>
+          <figure class="discipline-slide"><img src="assets/disciplinas/calistenia.png" alt="Calistenia en Distrito Fitness"></figure>
+          <figure class="discipline-slide"><img src="assets/disciplinas/funcional.png" alt="Entrenamiento funcional en Distrito Fitness"></figure>
+        </div>
       </div>
 
       <button class="discipline-slider-btn prev" type="button" data-slider-prev aria-label="Disciplina anterior">
@@ -1363,12 +1416,13 @@
   })();
 </script>
 
-<!-- ============ SLIDER — DISCIPLINAS ============ -->
+<!-- ============ CARRUSEL — DISCIPLINAS ============ -->
 <script>
   (function () {
     var slider = document.querySelector('[data-discipline-slider]');
     if (!slider) return;
 
+    var viewport = slider.querySelector('[data-slider-viewport]');
     var track = slider.querySelector('[data-slider-track]');
     var slides = Array.from(track.children);
     var prev = slider.querySelector('[data-slider-prev]');
@@ -1391,7 +1445,18 @@
     var dots = Array.from(dotsWrap.children);
 
     function render() {
-      track.style.transform = 'translate3d(' + (-index * 100) + '%,0,0)';
+      var active = slides[index];
+      var slideCenter = active.offsetLeft + active.offsetWidth / 2;
+      var viewportCenter = viewport.clientWidth / 2;
+      var x = viewportCenter - slideCenter;
+
+      track.style.transform = 'translate3d(' + x + 'px,0,0)';
+
+      slides.forEach(function (slide, i) {
+        slide.classList.toggle('is-active', i === index);
+        slide.setAttribute('aria-hidden', i === index ? 'false' : 'true');
+      });
+
       dots.forEach(function (dot, i) {
         dot.classList.toggle('active', i === index);
         dot.setAttribute('aria-current', i === index ? 'true' : 'false');
@@ -1407,20 +1472,29 @@
     function restartAutoplay() {
       if (reduceMotion) return;
       window.clearInterval(autoplay);
-      autoplay = window.setInterval(function () { goTo(index + 1, false); }, 5200);
+      autoplay = window.setInterval(function () { goTo(index + 1, false); }, 5600);
     }
 
     prev.addEventListener('click', function () { goTo(index - 1, true); });
     next.addEventListener('click', function () { goTo(index + 1, true); });
 
-    slider.addEventListener('pointerdown', function (e) { startX = e.clientX; });
-    slider.addEventListener('pointerup', function (e) {
+    viewport.addEventListener('pointerdown', function (e) { startX = e.clientX; });
+    viewport.addEventListener('pointerup', function (e) {
       var delta = e.clientX - startX;
       if (Math.abs(delta) > 45) goTo(index + (delta < 0 ? 1 : -1), true);
     });
 
     slider.addEventListener('mouseenter', function () { window.clearInterval(autoplay); });
     slider.addEventListener('mouseleave', restartAutoplay);
+
+    window.addEventListener('resize', function () {
+      window.requestAnimationFrame(render);
+    }, { passive: true });
+
+    slides.forEach(function (slide) {
+      var img = slide.querySelector('img');
+      if (img && !img.complete) img.addEventListener('load', render, { once: true });
+    });
 
     render();
     restartAutoplay();
