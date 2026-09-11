@@ -517,6 +517,101 @@
     font-weight: 700;
   }
 
+  /* ---- Tarjeta "Cafetería" con flip a video ---- */
+  .cafeteria-flip {
+    position: relative;
+    min-height: 4.75rem;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  @media (min-width: 768px) {
+    .cafeteria-flip { min-height: 6.25rem; }
+  }
+
+  .cafeteria-flip-inner {
+    position: relative;
+    width: 100%;
+    transform-style: preserve-3d;
+    perspective: 1200px;
+    transition: transform .55s cubic-bezier(.22,1,.36,1),
+                width .55s cubic-bezier(.22,1,.36,1),
+                height .55s cubic-bezier(.22,1,.36,1);
+  }
+
+  .cafeteria-flip-front,
+  .cafeteria-flip-back {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  .cafeteria-flip-back {
+    position: absolute;
+    inset: 0;
+    transform: rotateY(180deg);
+    border-radius: 12px;
+    overflow: hidden;
+    background: #05060a;
+    border: 1px solid rgba(255,255,255,.08);
+  }
+
+  .cafeteria-flip-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .cafeteria-flip-back-label {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    padding: .6rem .75rem;
+    background: linear-gradient(to top, rgba(0,0,0,.88), transparent);
+    color: #fff;
+    font-family: 'Forma DJR Banner', 'Archivo', sans-serif;
+    font-weight: 700;
+    font-size: .8rem;
+    letter-spacing: .01em;
+  }
+
+  .cafeteria-flip-hint {
+    display: inline-flex;
+    align-items: center;
+    gap: .3rem;
+    margin-top: .6rem;
+    font-family: 'Inter', sans-serif;
+    font-size: .65rem;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: #9CA3AF;
+    opacity: .8;
+  }
+
+  .cafeteria-flip:hover .cafeteria-flip-inner,
+  .cafeteria-flip:focus-within .cafeteria-flip-inner,
+  .cafeteria-flip.is-flipped .cafeteria-flip-inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 168px;
+    height: 224px;
+    max-width: calc(100vw - 3.5rem);
+    transform: rotateY(180deg);
+    z-index: 40;
+    box-shadow: 0 24px 60px -12px rgba(0,0,0,.65);
+  }
+  @media (min-width: 768px) {
+    .cafeteria-flip:hover .cafeteria-flip-inner,
+    .cafeteria-flip:focus-within .cafeteria-flip-inner,
+    .cafeteria-flip.is-flipped .cafeteria-flip-inner {
+      width: 190px;
+      height: 250px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cafeteria-flip-inner { transition: none; }
+  }
+
   ::selection { background: #2F6FFF; color: #FFFFFF; }
 
   a:focus-visible, button:focus-visible, summary:focus-visible {
@@ -841,7 +936,7 @@
 </section>
 
 <!-- ============ LOGROS / CIFRAS ============ -->
-<section id="logros" class="relative py-14 md:py-24 lg:py-32 border-t border-line/80 bg-surface/50 overflow-hidden">
+<section id="logros" class="relative py-14 md:py-24 lg:py-32 border-t border-line/80 bg-surface/50 overflow-visible">
   <div class="max-w-7xl mx-auto px-6 md:px-10 mb-14">
     <p class="sector-tag mb-6">SECTOR 05 / EN NÚMEROS</p>
     <h2 class="display-heading text-4xl md:text-5xl uppercase max-w-2xl">La crew, medida en cifras.</h2>
@@ -853,8 +948,20 @@
       <p class="font-mono text-xs uppercase tracking-wider text-stone mt-3">m² en 3 pisos</p>
     </div>
     <div class="border-t border-line pt-6">
-      <p class="stat-number text-white">+ Café</p>
-      <p class="font-mono text-xs uppercase tracking-wider text-stone mt-3" aria-hidden="true">&nbsp;</p>
+      <div class="cafeteria-flip" tabindex="0" role="group" aria-label="Cafetería, baristas especializados. Pasá el cursor para ver el video.">
+        <div class="cafeteria-flip-inner">
+          <div class="cafeteria-flip-front">
+            <p class="stat-number text-white">Cafetería</p>
+            <p class="font-mono text-xs uppercase tracking-wider text-stone mt-3">Baristas especializados</p>
+          </div>
+          <div class="cafeteria-flip-back">
+            <video class="cafeteria-flip-video" muted loop playsinline preload="none" aria-hidden="true">
+              <source data-src="assets/cafeteria-hover.mp4" type="video/mp4">
+            </video>
+            <span class="cafeteria-flip-back-label">Cafetería</span>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="border-t border-electric/80 pt-6">
       <p class="stat-number text-electric">Hyrox</p>
@@ -1460,7 +1567,54 @@
   })();
 </script>
 
+<!-- ============ FLIP CARD — CAFETERÍA (video al pasar el cursor) ============ -->
+<script>
+  (function () {
+    var flip = document.querySelector('.cafeteria-flip');
+    if (!flip) return;
 
+    var video = flip.querySelector('.cafeteria-flip-video');
+    var source = video ? video.querySelector('source') : null;
+    var videoLoaded = false;
+
+    function ensureVideoSource() {
+      // Carga el video recién cuando hace falta, para no pesar la página al inicio.
+      if (!videoLoaded && source && source.dataset.src) {
+        source.src = source.dataset.src;
+        video.load();
+        videoLoaded = true;
+      }
+    }
+
+    function playVideo() {
+      if (!video) return;
+      ensureVideoSource();
+      video.currentTime = 0;
+      video.play().catch(function () { /* el navegador puede bloquear autoplay; no pasa nada */ });
+    }
+
+    function pauseVideo() {
+      if (!video) return;
+      video.pause();
+    }
+
+    flip.addEventListener('mouseenter', playVideo);
+    flip.addEventListener('mouseleave', pauseVideo);
+    flip.addEventListener('focusin', playVideo);
+    flip.addEventListener('focusout', pauseVideo);
+
+    // Soporte táctil: primer toque da vuelta la tarjeta y reproduce, segundo toque la vuelve a su estado normal.
+    flip.addEventListener('touchend', function (event) {
+      event.preventDefault();
+      var flipped = flip.classList.toggle('is-flipped');
+      if (flipped) {
+        playVideo();
+      } else {
+        pauseVideo();
+      }
+    }, { passive: false });
+  })();
+</script>
 
 
 </body>
