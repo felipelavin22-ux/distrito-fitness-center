@@ -186,26 +186,43 @@
     min-height: 390px;
     overflow: hidden;
     background: #0a0a0b;
+    isolation: isolate;
+  }
+  .discipline-media::before {
+    content: "";
+    position: absolute;
+    inset: -7%;
+    z-index: 0;
+    background-image: var(--discipline-image);
+    background-size: cover;
+    background-position: center;
+    filter: blur(22px) brightness(.42) saturate(.75);
+    transform: scale(1.08);
+    opacity: .9;
   }
   .discipline-media::after {
     content: "";
     position: absolute;
     inset: 0;
+    z-index: 2;
     background: linear-gradient(90deg, transparent 66%, rgba(8,8,10,.55) 100%),
                 linear-gradient(0deg, rgba(8,8,10,.18), transparent 48%);
     pointer-events: none;
   }
   .discipline-media img {
+    position: relative;
+    z-index: 1;
+    display: block;
     width: 100%;
     height: 100%;
     min-height: 390px;
-    object-fit: cover;
+    object-fit: contain;
     object-position: center;
-    filter: saturate(.88) contrast(1.06) brightness(.84);
-    transform: scale(1.015);
+    filter: saturate(.94) contrast(1.035) brightness(.91);
+    transform: scale(1);
     transition: transform 5.5s ease;
   }
-  .discipline-slide.is-active .discipline-media img { transform: scale(1.065); }
+  .discipline-slide.is-active .discipline-media img { transform: scale(1.012); }
   .discipline-index {
     position: absolute;
     top: 20px;
@@ -270,9 +287,9 @@
     color: #fff;
     font-family: 'Forma DJR Banner', 'Archivo', sans-serif;
     font-size: clamp(34px, 4vw, 62px);
-    line-height: .92;
-    font-weight: 900;
-    letter-spacing: -.055em;
+    line-height: .96;
+    font-weight: 500;
+    letter-spacing: -.035em;
     text-transform: uppercase;
   }
   .discipline-title span { color: #5B8FFF; }
@@ -657,17 +674,28 @@
     .mobile-panel:not(.panel-active) { display: none; }
   }
 
+  .hero-video-backdrop,
   .hero-video {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
+    pointer-events: none;
+  }
+  .hero-video-backdrop {
     object-fit: cover;
+    object-position: center center;
+    filter: blur(18px) brightness(.45) saturate(.85);
+    transform: scale(1.045);
+  }
+  .hero-video {
+    object-fit: contain;
     object-position: center center;
   }
   @media (max-width: 767px) {
-    .hero-video {
-      object-position: center center;
+    .hero-video-backdrop {
+      filter: blur(12px) brightness(.40) saturate(.82);
+      transform: scale(1.06);
     }
   }
 </style>
@@ -742,6 +770,9 @@
 <!-- ============ HERO CON SLIDER DE FONDO (SECTOR 01) ============ -->
 <section id="inicio" class="relative min-h-[75vh] md:min-h-[85vh] flex items-center overflow-hidden pt-24 pb-12 md:pb-12">
   <div class="absolute inset-0 z-0">
+    <video class="hero-video-backdrop" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
+      <source src="video-encabezado.mp4" type="video/mp4">
+    </video>
     <video class="hero-video" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
       <source src="video-encabezado.mp4" type="video/mp4">
     </video>
@@ -903,8 +934,8 @@
       <div class="discipline-track" aria-live="polite">
 
         <article class="discipline-slide is-active" data-discipline-slide aria-hidden="false">
-          <div class="discipline-media">
-            <img src="disciplinas/disciplinas/crossfit.jpg" alt="Entrenamiento de CrossFit en Distrito Fitness" loading="lazy">
+          <div class="discipline-media" style="--discipline-image: url('https://images.pexels.com/photos/18986401/pexels-photo-18986401.jpeg?auto=compress&cs=tinysrgb&w=1400');">
+            <img src="https://images.pexels.com/photos/18986401/pexels-photo-18986401.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Entrenamiento de CrossFit en Distrito Fitness" loading="lazy">
             <span class="discipline-index">01 / 05</span>
           </div>
           <div class="discipline-copy" data-watermark="WOD">
@@ -915,8 +946,8 @@
         </article>
 
         <article class="discipline-slide" data-discipline-slide aria-hidden="true">
-          <div class="discipline-media">
-            <img src="disciplinas/disciplinas/hyrox.jpg" alt="Entrenamiento de Hyrox en Distrito Fitness" loading="lazy">
+          <div class="discipline-media" style="--discipline-image: url('https://images.pexels.com/photos/37955628/pexels-photo-37955628.jpeg?auto=compress&cs=tinysrgb&w=1400');">
+            <img src="https://images.pexels.com/photos/37955628/pexels-photo-37955628.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Entrenamiento de Hyrox en Distrito Fitness" loading="lazy">
             <span class="discipline-index">02 / 05</span>
           </div>
           <div class="discipline-copy" data-watermark="RACE">
@@ -927,8 +958,8 @@
         </article>
 
         <article class="discipline-slide" data-discipline-slide aria-hidden="true">
-          <div class="discipline-media">
-            <img src="disciplinas/disciplinas/funcional.jpg" alt="Entrenamiento funcional en Distrito Fitness" loading="lazy">
+          <div class="discipline-media" style="--discipline-image: url('https://images.pexels.com/photos/4720235/pexels-photo-4720235.jpeg?auto=compress&cs=tinysrgb&w=1400');">
+            <img src="https://images.pexels.com/photos/4720235/pexels-photo-4720235.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Entrenamiento funcional en Distrito Fitness" loading="lazy">
             <span class="discipline-index">03 / 05</span>
           </div>
           <div class="discipline-copy" data-watermark="MOVE">
@@ -939,8 +970,8 @@
         </article>
 
         <article class="discipline-slide" data-discipline-slide aria-hidden="true">
-          <div class="discipline-media">
-            <img src="disciplinas/disciplinas/calistenia.jpg" alt="Entrenamiento de calistenia en Distrito Fitness" loading="lazy">
+          <div class="discipline-media" style="--discipline-image: url('https://images.pexels.com/photos/6572618/pexels-photo-6572618.jpeg?auto=compress&cs=tinysrgb&w=1400');">
+            <img src="https://images.pexels.com/photos/6572618/pexels-photo-6572618.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Entrenamiento de calistenia en Distrito Fitness" loading="lazy">
             <span class="discipline-index">04 / 05</span>
           </div>
           <div class="discipline-copy" data-watermark="BODY">
@@ -951,8 +982,8 @@
         </article>
 
         <article class="discipline-slide" data-discipline-slide aria-hidden="true">
-          <div class="discipline-media">
-            <img src="disciplinas/disciplinas/musculacion-cardio.jpg" alt="Musculación y cardio en Distrito Fitness" loading="lazy">
+          <div class="discipline-media" style="--discipline-image: url('https://images.pexels.com/photos/7293698/pexels-photo-7293698.jpeg?auto=compress&cs=tinysrgb&w=1400');">
+            <img src="https://images.pexels.com/photos/7293698/pexels-photo-7293698.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Musculación y cardio en Distrito Fitness" loading="lazy">
             <span class="discipline-index">05 / 05</span>
           </div>
           <div class="discipline-copy" data-watermark="WORK">
