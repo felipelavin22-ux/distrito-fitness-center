@@ -223,6 +223,105 @@
     }
   }
 
+
+  /* ============ SLIDER DISCIPLINAS ============ */
+  .discipline-slider {
+    position: relative;
+    max-width: 920px;
+    margin: 0 auto;
+  }
+  .discipline-slider-viewport {
+    overflow: hidden;
+    border: 1px solid #202430;
+    background: #111318;
+    box-shadow: 0 24px 60px -28px rgba(0,0,0,.9);
+  }
+  .discipline-slider-track { position: relative; min-height: 430px; }
+  .discipline-slide {
+    position: absolute; inset: 0;
+    opacity: 0; visibility: hidden;
+    transform: translateX(36px) scale(.985);
+    transition: opacity .55s ease, transform .55s cubic-bezier(.16,1,.3,1), visibility .55s ease;
+    overflow: hidden;
+  }
+  .discipline-slide.is-active {
+    opacity: 1; visibility: visible; transform: translateX(0) scale(1); z-index: 2;
+  }
+  .discipline-slide-media { position:absolute; inset:0; }
+  .discipline-slide-media img {
+    width:100%; height:100%; object-fit:cover; object-position:center;
+    filter: brightness(.78) contrast(1.08);
+    transform: scale(1.01);
+    transition: transform 5.8s ease;
+  }
+  .discipline-slide.is-active .discipline-slide-media img { transform: scale(1.055); }
+  .discipline-slide-shade {
+    position:absolute; inset:0;
+    background:
+      linear-gradient(90deg, rgba(10,11,14,.95) 0%, rgba(10,11,14,.82) 38%, rgba(10,11,14,.22) 72%, rgba(10,11,14,.08) 100%),
+      linear-gradient(0deg, rgba(10,11,14,.62), transparent 46%);
+  }
+  .discipline-slide-content {
+    position:relative; z-index:3;
+    min-height:430px;
+    width:min(54%, 500px);
+    display:flex; flex-direction:column; justify-content:flex-end;
+    padding:46px 50px 48px;
+  }
+  .discipline-slide-title {
+    font-size: clamp(2.5rem, 5vw, 4.9rem);
+    line-height:.94;
+    margin-bottom:1rem;
+    color:#fff;
+  }
+  .discipline-slide-content p {
+    max-width: 460px;
+    color:#b6bac3;
+    font-size:clamp(.92rem, 1.2vw, 1.05rem);
+    line-height:1.62;
+    font-weight:300;
+  }
+  .discipline-slider-arrow {
+    position:absolute; top:50%; transform:translateY(-50%); z-index:10;
+    width:48px; height:48px; border:1px solid rgba(47,111,255,.5);
+    background:rgba(10,11,14,.82); color:#fff;
+    display:flex; align-items:center; justify-content:center;
+    transition:background .25s ease, border-color .25s ease, transform .25s ease;
+    backdrop-filter:blur(8px);
+  }
+  .discipline-slider-arrow:hover { background:#2F6FFF; border-color:#2F6FFF; }
+  .discipline-slider-prev { left:-24px; }
+  .discipline-slider-next { right:-24px; }
+  .discipline-slider-footer {
+    display:flex; align-items:center; justify-content:center; gap:18px; margin-top:18px;
+  }
+  .discipline-slider-dots { display:flex; gap:8px; }
+  .discipline-slider-dot {
+    width:7px; height:7px; border-radius:999px; background:#555b67; border:0; padding:0;
+    transition:width .3s ease, background .3s ease;
+  }
+  .discipline-slider-dot.is-active { width:26px; background:#2F6FFF; }
+  .discipline-slider-count {
+    font-family:'Forma DJR Banner','Archivo',sans-serif;
+    color:#9CA3AF; font-size:.72rem; letter-spacing:.18em;
+  }
+  @media (max-width: 768px) {
+    .discipline-slider-track { min-height: 500px; }
+    .discipline-slide-content {
+      min-height:500px; width:100%; justify-content:flex-end; padding:30px 28px 34px;
+    }
+    .discipline-slide-shade {
+      background:linear-gradient(0deg, rgba(10,11,14,.98) 0%, rgba(10,11,14,.88) 35%, rgba(10,11,14,.24) 72%, rgba(10,11,14,.08) 100%);
+    }
+    .discipline-slide-title { font-size:clamp(2.35rem, 11vw, 3.8rem); }
+    .discipline-slider-prev { left:10px; }
+    .discipline-slider-next { right:10px; }
+    .discipline-slider-arrow { top:44%; width:42px; height:42px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .discipline-slide, .discipline-slide-media img { transition:none !important; }
+  }
+
   .card-hover {
     position: relative;
     transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease, box-shadow 0.4s ease;
@@ -696,9 +795,9 @@
 <div class="mobile-panel" data-panel="disciplinas">
 
 <!-- ============ DISCIPLINAS ============ -->
-<section id="disciplinas" class="relative py-14 md:py-28 lg:py-36 border-t border-line/80">
-  <div class="max-w-[1440px] mx-auto px-6 md:px-10">
-    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-8 md:mb-16">
+<section id="disciplinas" class="relative py-14 md:py-28 lg:py-32 border-t border-line/80">
+  <div class="max-w-[1180px] mx-auto px-6 md:px-10">
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-8 md:mb-12">
       <div>
         <p class="sector-tag mb-6">SECTOR 04 / DISCIPLINAS</p>
         <h2 class="display-heading text-4xl md:text-5xl uppercase">Elegí tu terreno.</h2>
@@ -706,82 +805,88 @@
       <p class="text-stone font-light max-w-sm">Cinco disciplinas, un mismo estándar de exigencia. Combinalas o elegí tu favorita.</p>
     </div>
 
-    <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5">
+    <div class="discipline-slider" data-discipline-slider>
+      <button class="discipline-slider-arrow discipline-slider-prev" type="button" aria-label="Disciplina anterior" data-discipline-prev>
+        <i data-lucide="chevron-left" class="w-5 h-5"></i>
+      </button>
 
-      <!-- Musculación -->
-      <div class="discipline-3d-card group relative border border-line bg-surface2 rounded-xs overflow-hidden shadow-xl" data-3d-discipline-card>
-        <div class="aspect-[4/5] overflow-hidden discipline-3d-layer" data-3d-depth="20">
-          <img data-3d-depth="28" src="https://images.unsplash.com/photo-1545612036-2872840642dc?q=80&w=900&auto=format&fit=crop"
-               alt="Piso de musculación con máquinas de última generación"
-               class="w-full h-full object-cover filter brightness-75 contrast-110 group-hover:scale-105 transition-transform duration-700">
-        </div>
-        <div class="absolute inset-0 bg-gradient-to-t from-bg via-bg/60 to-transparent discipline-3d-layer" data-3d-depth="12"></div>
-        <div class="absolute bottom-0 left-0 right-0 p-5 xl:p-6 flex flex-col discipline-3d-layer" data-3d-depth="48">
-          <i data-lucide="dumbbell" data-3d-depth="68" class="discipline-3d-layer w-5 h-5 text-electric mb-3"></i>
-          <h3 data-3d-depth="62" class="discipline-3d-layer display-heading text-2xl uppercase mb-2 leading-none">Musculación y Cardio</h3>
-          <p data-3d-depth="42" class="discipline-3d-layer text-stone text-[13px] leading-[1.45] font-light">Entrenamiento con máquinas y peso libre que se adapta a múltiples objetivos como mejorar la salud en general, hipertrofia y descenso de peso, a través de una rutina personalizada.</p>
+      <div class="discipline-slider-viewport">
+        <div class="discipline-slider-track" data-discipline-track>
+
+          <!-- Musculación -->
+          <article class="discipline-slide is-active" data-discipline-slide>
+            <div class="discipline-slide-media">
+              <img src="https://images.unsplash.com/photo-1545612036-2872840642dc?q=80&w=1200&auto=format&fit=crop" alt="Piso de musculación con máquinas de última generación">
+            </div>
+            <div class="discipline-slide-shade"></div>
+            <div class="discipline-slide-content">
+              <i data-lucide="dumbbell" class="w-6 h-6 text-electric mb-4"></i>
+              <h3 class="display-heading uppercase discipline-slide-title">Musculación y Cardio</h3>
+              <p>Entrenamiento con máquinas y peso libre que se adapta a múltiples objetivos como mejorar la salud en general, hipertrofia y descenso de peso, a través de una rutina personalizada.</p>
+            </div>
+          </article>
+
+          <!-- CrossFit -->
+          <article class="discipline-slide" data-discipline-slide>
+            <div class="discipline-slide-media">
+              <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=1200&auto=format&fit=crop" alt="Clase de CrossFit de alta intensidad">
+            </div>
+            <div class="discipline-slide-shade"></div>
+            <div class="discipline-slide-content">
+              <i data-lucide="flame" class="w-6 h-6 text-electric mb-4"></i>
+              <h3 class="display-heading uppercase discipline-slide-title">CrossFit</h3>
+              <p>Entrenamiento grupal que combina fuerza, técnica de levantamiento y resistencia.</p>
+            </div>
+          </article>
+
+          <!-- Hyrox -->
+          <article class="discipline-slide" data-discipline-slide>
+            <div class="discipline-slide-media">
+              <img src="https://images.unsplash.com/photo-1571388208497-71bedc66e932?q=80&w=1200&auto=format&fit=crop" alt="Entrenamiento estilo Hyrox de resistencia">
+            </div>
+            <div class="discipline-slide-shade"></div>
+            <div class="discipline-slide-content">
+              <i data-lucide="activity" class="w-6 h-6 text-electric mb-4"></i>
+              <h3 class="display-heading uppercase discipline-slide-title">Hyrox</h3>
+              <p>Entrenamiento grupal que combina carrera con estaciones de fuerza. Se alterna correr 1 km con diversos ejercicios.</p>
+            </div>
+          </article>
+
+          <!-- Calistenia -->
+          <article class="discipline-slide" data-discipline-slide>
+            <div class="discipline-slide-media">
+              <img src="https://images.unsplash.com/photo-1704375058325-e51b6382a95d?q=80&w=1200&auto=format&fit=crop" alt="Atleta de calistenia colgado de una barra de dominadas">
+            </div>
+            <div class="discipline-slide-shade"></div>
+            <div class="discipline-slide-content">
+              <i data-lucide="move-3d" class="w-6 h-6 text-electric mb-4"></i>
+              <h3 class="display-heading uppercase discipline-slide-title">Calistenia</h3>
+              <p>Entrenamiento grupal en el que se usa el propio peso corporal como única resistencia en suelo, barras y anillas.</p>
+            </div>
+          </article>
+
+          <!-- Funcional -->
+          <article class="discipline-slide" data-discipline-slide>
+            <div class="discipline-slide-media">
+              <img src="https://images.pexels.com/photos/4720235/pexels-photo-4720235.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Entrenamiento funcional de cuerpo completo">
+            </div>
+            <div class="discipline-slide-shade"></div>
+            <div class="discipline-slide-content">
+              <i data-lucide="zap" class="w-6 h-6 text-electric mb-4"></i>
+              <h3 class="display-heading uppercase discipline-slide-title">Funcional</h3>
+              <p>Entrenamiento grupal que pone a trabajar todos los músculos con movimientos de la vida diaria como empujar, levantar, agacharse y saltar.</p>
+            </div>
+          </article>
         </div>
       </div>
 
-      <!-- CrossFit -->
-      <div class="discipline-3d-card group relative border border-line bg-surface2 rounded-xs overflow-hidden shadow-xl" data-3d-discipline-card>
-        <div class="aspect-[4/5] overflow-hidden discipline-3d-layer" data-3d-depth="20">
-          <img data-3d-depth="28" src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=900&auto=format&fit=crop"
-               alt="Clase de CrossFit de alta intensidad"
-               class="w-full h-full object-cover filter brightness-75 contrast-110 group-hover:scale-105 transition-transform duration-700">
-        </div>
-        <div class="absolute inset-0 bg-gradient-to-t from-bg via-bg/60 to-transparent discipline-3d-layer" data-3d-depth="12"></div>
-        <div class="absolute bottom-0 left-0 right-0 p-5 xl:p-6 flex flex-col discipline-3d-layer" data-3d-depth="48">
-          <i data-lucide="flame" data-3d-depth="68" class="discipline-3d-layer w-5 h-5 text-electric mb-3"></i>
-          <h3 data-3d-depth="62" class="discipline-3d-layer display-heading text-2xl uppercase mb-2 leading-none">CrossFit</h3>
-          <p data-3d-depth="42" class="discipline-3d-layer text-stone text-[13px] leading-[1.45] font-light">Entrenamiento grupal que combina fuerza, técnica de levantamiento y resistencia.</p>
-        </div>
-      </div>
+      <button class="discipline-slider-arrow discipline-slider-next" type="button" aria-label="Siguiente disciplina" data-discipline-next>
+        <i data-lucide="chevron-right" class="w-5 h-5"></i>
+      </button>
 
-      <!-- Hyrox -->
-      <div class="discipline-3d-card group relative border border-line bg-surface2 rounded-xs overflow-hidden shadow-xl" data-3d-discipline-card>
-        <div class="aspect-[4/5] overflow-hidden discipline-3d-layer" data-3d-depth="20">
-          <img data-3d-depth="28" src="https://images.unsplash.com/photo-1571388208497-71bedc66e932?q=80&w=900&auto=format&fit=crop"
-               alt="Entrenamiento estilo Hyrox de resistencia"
-               class="w-full h-full object-cover filter brightness-75 contrast-110 group-hover:scale-105 transition-transform duration-700">
-        </div>
-        <div class="absolute inset-0 bg-gradient-to-t from-bg via-bg/60 to-transparent discipline-3d-layer" data-3d-depth="12"></div>
-        <div class="absolute bottom-0 left-0 right-0 p-5 xl:p-6 flex flex-col discipline-3d-layer" data-3d-depth="48">
-          <i data-lucide="activity" data-3d-depth="68" class="discipline-3d-layer w-5 h-5 text-electric mb-3"></i>
-          <h3 data-3d-depth="62" class="discipline-3d-layer display-heading text-2xl uppercase mb-2 leading-none">Hyrox</h3>
-          <p data-3d-depth="42" class="discipline-3d-layer text-stone text-[13px] leading-[1.45] font-light">Entrenamiento grupal que combina carrera con estaciones de fuerza. Se alterna correr 1 km con diversos ejercicios.</p>
-        </div>
-      </div>
-
-      <!-- Calistenia -->
-      <div class="discipline-3d-card group relative border border-line bg-surface2 rounded-xs overflow-hidden shadow-xl" data-3d-discipline-card>
-        <div class="aspect-[4/5] overflow-hidden discipline-3d-layer" data-3d-depth="20">
-          <img data-3d-depth="28" src="https://images.unsplash.com/photo-1704375058325-e51b6382a95d?q=80&w=900&auto=format&fit=crop"
-               alt="Atleta de calistenia colgado de una barra de dominadas"
-               class="w-full h-full object-cover filter brightness-75 contrast-110 group-hover:scale-105 transition-transform duration-700">
-        </div>
-        <div class="absolute inset-0 bg-gradient-to-t from-bg via-bg/60 to-transparent discipline-3d-layer" data-3d-depth="12"></div>
-        <div class="absolute bottom-0 left-0 right-0 p-5 xl:p-6 flex flex-col discipline-3d-layer" data-3d-depth="48">
-          <i data-lucide="move-3d" data-3d-depth="68" class="discipline-3d-layer w-5 h-5 text-electric mb-3"></i>
-          <h3 data-3d-depth="62" class="discipline-3d-layer display-heading text-2xl uppercase mb-2 leading-none">Calistenia</h3>
-          <p data-3d-depth="42" class="discipline-3d-layer text-stone text-[13px] leading-[1.45] font-light">Entrenamiento grupal en el que se usa el propio peso corporal como única resistencia en suelo, barras y anillas.</p>
-        </div>
-      </div>
-
-
-      <!-- Funcional -->
-      <div class="discipline-3d-card group relative border border-line bg-surface2 rounded-xs overflow-hidden shadow-xl" data-3d-discipline-card>
-        <div class="aspect-[4/5] overflow-hidden discipline-3d-layer" data-3d-depth="20">
-          <img data-3d-depth="28" src="https://images.pexels.com/photos/4720235/pexels-photo-4720235.jpeg?auto=compress&cs=tinysrgb&w=900"
-               alt="Entrenamiento funcional de cuerpo completo"
-               class="w-full h-full object-cover filter brightness-75 contrast-110 group-hover:scale-105 transition-transform duration-700">
-        </div>
-        <div class="absolute inset-0 bg-gradient-to-t from-bg via-bg/60 to-transparent discipline-3d-layer" data-3d-depth="12"></div>
-        <div class="absolute bottom-0 left-0 right-0 p-5 xl:p-6 flex flex-col discipline-3d-layer" data-3d-depth="48">
-          <i data-lucide="zap" data-3d-depth="68" class="discipline-3d-layer w-5 h-5 text-electric mb-3"></i>
-          <h3 data-3d-depth="62" class="discipline-3d-layer display-heading text-2xl uppercase mb-2 leading-none">Funcional</h3>
-          <p data-3d-depth="42" class="discipline-3d-layer text-stone text-[13px] leading-[1.45] font-light">Entrenamiento grupal que pone a trabajar todos los músculos con movimientos de la vida diaria como empujar, levantar, agacharse y saltar.</p>
-        </div>
+      <div class="discipline-slider-footer">
+        <div class="discipline-slider-dots" data-discipline-dots aria-label="Seleccionar disciplina"></div>
+        <span class="discipline-slider-count" data-discipline-count>01 / 05</span>
       </div>
     </div>
   </div>
@@ -1424,6 +1529,61 @@
       });
     });
   })();
+</script>
+
+
+<script>
+(() => {
+  const slider = document.querySelector('[data-discipline-slider]');
+  if (!slider) return;
+  const slides = [...slider.querySelectorAll('[data-discipline-slide]')];
+  const dotsWrap = slider.querySelector('[data-discipline-dots]');
+  const count = slider.querySelector('[data-discipline-count]');
+  const prev = slider.querySelector('[data-discipline-prev]');
+  const next = slider.querySelector('[data-discipline-next]');
+  let index = 0;
+  let timer = null;
+  const delay = 5500;
+
+  slides.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.type = 'button';
+    dot.className = 'discipline-slider-dot' + (i === 0 ? ' is-active' : '');
+    dot.setAttribute('aria-label', `Ver disciplina ${i + 1}`);
+    dot.addEventListener('click', () => { show(i); restart(); });
+    dotsWrap.appendChild(dot);
+  });
+  const dots = [...dotsWrap.children];
+
+  function show(i) {
+    index = (i + slides.length) % slides.length;
+    slides.forEach((slide, n) => slide.classList.toggle('is-active', n === index));
+    dots.forEach((dot, n) => dot.classList.toggle('is-active', n === index));
+    count.textContent = `${String(index + 1).padStart(2,'0')} / ${String(slides.length).padStart(2,'0')}`;
+  }
+  function start() { timer = setInterval(() => show(index + 1), delay); }
+  function stop() { if (timer) clearInterval(timer); timer = null; }
+  function restart() { stop(); start(); }
+
+  prev.addEventListener('click', () => { show(index - 1); restart(); });
+  next.addEventListener('click', () => { show(index + 1); restart(); });
+  slider.addEventListener('mouseenter', stop);
+  slider.addEventListener('mouseleave', start);
+  slider.addEventListener('focusin', stop);
+  slider.addEventListener('focusout', start);
+
+  let x0 = null;
+  slider.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; }, {passive:true});
+  slider.addEventListener('touchend', e => {
+    if (x0 == null) return;
+    const dx = e.changedTouches[0].clientX - x0;
+    if (Math.abs(dx) > 45) { show(index + (dx < 0 ? 1 : -1)); restart(); }
+    x0 = null;
+  }, {passive:true});
+
+  show(0);
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) start();
+})();
 </script>
 
 </body>
