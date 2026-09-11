@@ -560,6 +560,16 @@
 
   .cafeteria-flip-stat {
     font-size: clamp(1.7rem, 3.6vw, 2.75rem);
+    line-height: 1;
+  }
+
+  /* Reserva la misma altura que el número de las tarjetas vecinas (clamp 2.25–3.75rem)
+     y alinea "Cafetería" contra esa base, para que la descripción de abajo
+     quede a la misma altura que "m² en 3 pisos" / "Licencia oficial". */
+  .cafeteria-flip-stat-line {
+    display: flex;
+    align-items: flex-end;
+    height: clamp(2.25rem, 5vw, 3.75rem);
   }
 
   .cafeteria-flip-back {
@@ -953,7 +963,9 @@
       <div class="cafeteria-flip" tabindex="0" role="group" aria-label="Cafetería, baristas especializados. Pasá el cursor para ver el video.">
         <div class="cafeteria-flip-inner">
           <div class="cafeteria-flip-front">
-            <p class="stat-number cafeteria-flip-stat text-white">Cafetería</p>
+            <div class="cafeteria-flip-stat-line">
+              <p class="stat-number cafeteria-flip-stat text-white">Cafetería</p>
+            </div>
             <p class="font-mono text-xs uppercase tracking-wider text-stone mt-3">Baristas especializados</p>
           </div>
           <div class="cafeteria-flip-back">
