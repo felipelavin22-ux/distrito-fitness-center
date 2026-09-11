@@ -517,36 +517,52 @@
     font-weight: 700;
   }
 
-  /* ---- Tarjeta "Cafetería" con flip a video ---- */
+  /* ---- Tarjeta "Cafetería" con flip a video (pop-up centrado) ---- */
   .cafeteria-flip {
     position: relative;
-    min-height: 4.75rem;
+    height: 4.5rem;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
   }
   @media (min-width: 768px) {
-    .cafeteria-flip { min-height: 6.25rem; }
+    .cafeteria-flip { height: 5.75rem; }
   }
 
   .cafeteria-flip-inner {
-    position: relative;
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
+    height: 100%;
     transform-style: preserve-3d;
-    perspective: 1200px;
-    transition: transform .55s cubic-bezier(.22,1,.36,1),
-                width .55s cubic-bezier(.22,1,.36,1),
-                height .55s cubic-bezier(.22,1,.36,1);
+    transition: top .5s cubic-bezier(.22,1,.36,1),
+                left .5s cubic-bezier(.22,1,.36,1),
+                width .5s cubic-bezier(.22,1,.36,1),
+                height .5s cubic-bezier(.22,1,.36,1),
+                transform .5s cubic-bezier(.22,1,.36,1);
   }
 
   .cafeteria-flip-front,
   .cafeteria-flip-back {
+    position: absolute;
+    inset: 0;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
   }
 
+  .cafeteria-flip-front {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    text-align: left;
+  }
+
+  .cafeteria-flip-stat {
+    font-size: clamp(1.7rem, 3.6vw, 2.75rem);
+  }
+
   .cafeteria-flip-back {
-    position: absolute;
-    inset: 0;
     transform: rotateY(180deg);
     border-radius: 12px;
     overflow: hidden;
@@ -573,29 +589,15 @@
     letter-spacing: .01em;
   }
 
-  .cafeteria-flip-hint {
-    display: inline-flex;
-    align-items: center;
-    gap: .3rem;
-    margin-top: .6rem;
-    font-family: 'Inter', sans-serif;
-    font-size: .65rem;
-    text-transform: uppercase;
-    letter-spacing: .08em;
-    color: #9CA3AF;
-    opacity: .8;
-  }
-
   .cafeteria-flip:hover .cafeteria-flip-inner,
   .cafeteria-flip:focus-within .cafeteria-flip-inner,
   .cafeteria-flip.is-flipped .cafeteria-flip-inner {
-    position: absolute;
-    top: 0;
-    left: 0;
+    top: 50%;
+    left: 50%;
     width: 168px;
     height: 224px;
     max-width: calc(100vw - 3.5rem);
-    transform: rotateY(180deg);
+    transform: translate(-50%, -50%) rotateY(180deg);
     z-index: 40;
     box-shadow: 0 24px 60px -12px rgba(0,0,0,.65);
   }
@@ -951,7 +953,7 @@
       <div class="cafeteria-flip" tabindex="0" role="group" aria-label="Cafetería, baristas especializados. Pasá el cursor para ver el video.">
         <div class="cafeteria-flip-inner">
           <div class="cafeteria-flip-front">
-            <p class="stat-number text-white">Cafetería</p>
+            <p class="stat-number cafeteria-flip-stat text-white">Cafetería</p>
             <p class="font-mono text-xs uppercase tracking-wider text-stone mt-3">Baristas especializados</p>
           </div>
           <div class="cafeteria-flip-back">
