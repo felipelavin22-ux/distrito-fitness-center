@@ -144,82 +144,280 @@
   }
 
 
-  /* ============ 3D CARD EFFECT — DISCIPLINAS ============ */
-  /* Adaptación en CSS/JS puro del efecto 3D Card de Aceternity UI.
-     Se limita exclusivamente a las cuatro tarjetas de disciplinas. */
-  .discipline-3d-card {
+  /* ============ SLIDER — DISCIPLINAS ============ */
+  .discipline-slider {
     position: relative;
-    transform-style: preserve-3d;
-    transform-origin: center center;
-    perspective: 1000px;
-    transition:
-      transform 0.18s cubic-bezier(0.16, 1, 0.3, 1),
-      border-color 0.4s ease,
-      box-shadow 0.4s ease;
-    will-change: transform;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,.10);
+    background:
+      radial-gradient(circle at 18% 20%, rgba(47,111,255,.13), transparent 34%),
+      linear-gradient(135deg, rgba(18,18,20,.98), rgba(8,8,10,.98));
+    box-shadow: 0 28px 70px -34px rgba(0,0,0,.95);
   }
-
-  .discipline-3d-card::before {
+  .discipline-slider::before {
     content: "";
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
+    inset: 0 0 auto 0;
     height: 2px;
-    background: linear-gradient(90deg, transparent, #2F6FFF, transparent);
-    transform: scaleX(0);
-    transform-origin: center;
-    transition: transform 0.5s ease;
-    z-index: 40;
+    background: linear-gradient(90deg, transparent, #2F6FFF 28%, #7EA6FF 50%, #2F6FFF 72%, transparent);
+    z-index: 8;
+  }
+  .discipline-track { position: relative; min-height: 390px; }
+  .discipline-slide {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateX(38px) scale(.985);
+    transition: opacity .55s ease, transform .65s cubic-bezier(.16,1,.3,1), visibility .55s ease;
+  }
+  .discipline-slide.is-active {
+    position: relative;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateX(0) scale(1);
+  }
+  .discipline-media {
+    position: relative;
+    min-height: 390px;
+    overflow: hidden;
+    background: #0a0a0b;
+  }
+  .discipline-media::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent 66%, rgba(8,8,10,.55) 100%),
+                linear-gradient(0deg, rgba(8,8,10,.18), transparent 48%);
     pointer-events: none;
   }
-
-  .discipline-3d-card:hover::before {
-    transform: scaleX(1);
+  .discipline-media img {
+    width: 100%;
+    height: 100%;
+    min-height: 390px;
+    object-fit: cover;
+    object-position: center;
+    filter: saturate(.88) contrast(1.06) brightness(.84);
+    transform: scale(1.015);
+    transition: transform 5.5s ease;
   }
-
-  .discipline-3d-card:hover {
-    border-color: rgba(47, 111, 255, 0.5);
-    box-shadow:
-      0 24px 45px -18px rgba(0, 0, 0, 0.85),
-      0 0 30px -8px rgba(47, 111, 255, 0.3);
+  .discipline-slide.is-active .discipline-media img { transform: scale(1.065); }
+  .discipline-index {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 4;
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.82);
+    background: rgba(8,8,10,.60);
+    border: 1px solid rgba(255,255,255,.12);
+    backdrop-filter: blur(8px);
+    padding: 8px 10px;
   }
-
-  .discipline-3d-card .discipline-3d-layer {
-    transform-style: preserve-3d;
-    transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1);
-    will-change: transform;
+  .discipline-copy {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 44px 64px 64px 54px;
+    min-width: 0;
   }
-
-  @media (pointer: coarse) and (prefers-reduced-motion: no-preference) {
-    .discipline-3d-card {
-      animation: disciplineMobileFloat 5.2s ease-in-out infinite;
+  .discipline-copy::before {
+    content: attr(data-watermark);
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    font-family: 'Forma DJR Banner', 'Archivo', sans-serif;
+    font-size: clamp(54px, 7vw, 104px);
+    line-height: .8;
+    font-weight: 900;
+    letter-spacing: -.06em;
+    color: rgba(47,111,255,.075);
+    pointer-events: none;
+    white-space: nowrap;
+  }
+  .discipline-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    width: fit-content;
+    margin-bottom: 18px;
+    color: #7EA6FF;
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+  }
+  .discipline-kicker::before {
+    content: "";
+    width: 28px;
+    height: 1px;
+    background: #2F6FFF;
+    box-shadow: 0 0 12px rgba(47,111,255,.55);
+  }
+  .discipline-title {
+    position: relative;
+    z-index: 2;
+    margin: 0 0 18px;
+    color: #fff;
+    font-family: 'Forma DJR Banner', 'Archivo', sans-serif;
+    font-size: clamp(34px, 4vw, 62px);
+    line-height: .92;
+    font-weight: 900;
+    letter-spacing: -.055em;
+    text-transform: uppercase;
+  }
+  .discipline-title span { color: #5B8FFF; }
+  .discipline-description {
+    position: relative;
+    z-index: 2;
+    max-width: 590px;
+    margin: 0;
+    color: #B5B7BD;
+    font-size: 14px;
+    line-height: 1.65;
+    font-weight: 300;
+  }
+  .discipline-controls {
+    position: absolute;
+    right: 22px;
+    bottom: 20px;
+    z-index: 10;
+    display: flex;
+    gap: 8px;
+  }
+  .discipline-arrow {
+    width: 42px;
+    height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255,255,255,.14);
+    background: rgba(9,9,11,.72);
+    color: white;
+    backdrop-filter: blur(10px);
+    transition: border-color .25s ease, background .25s ease, transform .25s ease;
+  }
+  .discipline-arrow:hover {
+    border-color: rgba(47,111,255,.75);
+    background: rgba(47,111,255,.18);
+    transform: translateY(-2px);
+  }
+  .discipline-pagination {
+    position: absolute;
+    left: calc(46% + 54px);
+    bottom: 24px;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .discipline-dot {
+    width: 22px;
+    height: 3px;
+    border: 0;
+    padding: 0;
+    background: rgba(255,255,255,.20);
+    transition: width .3s ease, background .3s ease;
+  }
+  .discipline-dot.is-active {
+    width: 42px;
+    background: #2F6FFF;
+    box-shadow: 0 0 14px rgba(47,111,255,.45);
+  }
+  .discipline-labels {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0,1fr));
+    margin-top: 10px;
+    border: 1px solid rgba(255,255,255,.08);
+    background: rgba(255,255,255,.018);
+  }
+  .discipline-label {
+    position: relative;
+    padding: 13px 10px 12px;
+    border-right: 1px solid rgba(255,255,255,.07);
+    color: #777B84;
+    font-family: 'Inter', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .11em;
+    text-transform: uppercase;
+    transition: color .25s ease, background .25s ease;
+  }
+  .discipline-label:last-child { border-right: 0; }
+  .discipline-label::before {
+    content: "";
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    top: -1px;
+    height: 2px;
+    background: #2F6FFF;
+    transform: scaleX(0);
+    transition: transform .3s ease;
+  }
+  .discipline-label.is-active {
+    color: #fff;
+    background: rgba(47,111,255,.06);
+  }
+  .discipline-label.is-active::before { transform: scaleX(1); }
+  @media (max-width: 767px) {
+    .discipline-track { min-height: 0; }
+    .discipline-slide,
+    .discipline-slide.is-active { grid-template-columns: 1fr; }
+    .discipline-media,
+    .discipline-media img { min-height: 240px; height: 240px; }
+    .discipline-media::after {
+      background: linear-gradient(0deg, rgba(8,8,10,.78) 0%, transparent 46%);
     }
-    .discipline-3d-card:nth-child(2) { animation-delay: -1.3s; }
-    .discipline-3d-card:nth-child(3) { animation-delay: -2.6s; }
-    .discipline-3d-card:nth-child(4) { animation-delay: -3.9s; }
-
-    .discipline-3d-card .discipline-3d-layer {
-      transform: translate3d(0, 0, 20px);
+    .discipline-copy {
+      padding: 28px 22px 76px;
+      min-height: 270px;
+      justify-content: flex-start;
+    }
+    .discipline-copy::before {
+      top: 20px;
+      right: 10px;
+      font-size: 56px;
+    }
+    .discipline-title {
+      font-size: clamp(34px, 11vw, 48px);
+      margin-bottom: 14px;
+    }
+    .discipline-description {
+      font-size: 13px;
+      line-height: 1.55;
+      padding-right: 4px;
+    }
+    .discipline-pagination { left: 22px; bottom: 24px; }
+    .discipline-controls { right: 18px; bottom: 17px; }
+    .discipline-arrow { width: 38px; height: 38px; }
+    .discipline-labels {
+      display: flex;
+      overflow-x: auto;
+      scrollbar-width: none;
+      scroll-snap-type: x proximity;
+    }
+    .discipline-labels::-webkit-scrollbar { display: none; }
+    .discipline-label {
+      flex: 0 0 auto;
+      min-width: 118px;
+      scroll-snap-align: start;
     }
   }
-
-  @keyframes disciplineMobileFloat {
-    0%, 100% {
-      transform: perspective(1000px) rotateX(0deg) rotateY(-1.4deg) translateY(0);
-    }
-    50% {
-      transform: perspective(1000px) rotateX(1.2deg) rotateY(1.4deg) translateY(-3px);
-    }
-  }
-
   @media (prefers-reduced-motion: reduce) {
-    .discipline-3d-card,
-    .discipline-3d-card .discipline-3d-layer {
-      animation: none !important;
-      transform: none !important;
-      transition: none !important;
-    }
+    .discipline-slide,
+    .discipline-media img,
+    .discipline-arrow,
+    .discipline-dot { transition: none !important; }
   }
 
   .card-hover {
@@ -700,81 +898,105 @@
 <div class="mobile-panel" data-panel="disciplinas">
 
 <!-- ============ DISCIPLINAS ============ -->
-<section id="disciplinas" class="relative py-14 md:py-28 lg:py-36 border-t border-line/80">
+<section id="disciplinas" class="relative py-14 md:py-20 lg:py-24 border-t border-line/80">
   <div class="max-w-7xl mx-auto px-6 md:px-10">
-    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-8 md:mb-16">
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-8 md:mb-10">
       <div>
         <p class="sector-tag mb-6">SECTOR 04 / DISCIPLINAS</p>
         <h2 class="display-heading text-4xl md:text-5xl uppercase">Elegí tu terreno.</h2>
       </div>
-      <p class="text-stone font-light max-w-sm">Cuatro disciplinas, un mismo estándar de exigencia. Combinalas o elegí tu favorita.</p>
+      <p class="text-stone font-light max-w-sm">Cinco disciplinas, un mismo estándar de exigencia. Deslizá y encontrá la que mejor se adapta a vos.</p>
     </div>
 
-    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div class="discipline-slider" data-discipline-slider aria-roledescription="carousel" aria-label="Disciplinas de Distrito Fitness">
+      <div class="discipline-track" aria-live="polite">
 
-      <!-- Musculación -->
-      <div class="discipline-3d-card group relative border border-line bg-surface2 rounded-xs overflow-hidden shadow-xl" data-3d-discipline-card>
-        <div class="aspect-[4/5] overflow-hidden discipline-3d-layer" data-3d-depth="20">
-          <img data-3d-depth="28" src="https://images.unsplash.com/photo-1545612036-2872840642dc?q=80&w=900&auto=format&fit=crop"
-               alt="Piso de musculación con máquinas de última generación"
-               class="w-full h-full object-cover filter brightness-75 contrast-110 group-hover:scale-105 transition-transform duration-700">
-        </div>
-        <div class="absolute inset-0 bg-gradient-to-t from-bg via-bg/60 to-transparent discipline-3d-layer" data-3d-depth="12"></div>
-        <div class="absolute bottom-0 left-0 right-0 p-6 flex flex-col discipline-3d-layer" data-3d-depth="48">
-          <i data-lucide="dumbbell" data-3d-depth="68" class="discipline-3d-layer w-5 h-5 text-electric mb-3"></i>
-          <h3 data-3d-depth="62" class="discipline-3d-layer display-heading text-2xl uppercase mb-2 leading-none">Musculación</h3>
-          <p data-3d-depth="42" class="discipline-3d-layer text-stone text-xs leading-relaxed font-light min-h-[60px]">Dos pisos con máquinas de última generación: tren inferior, core, tren superior y aeróbico.</p>
-        </div>
-      </div>
-
-      <!-- CrossFit -->
-      <div class="discipline-3d-card group relative border border-line bg-surface2 rounded-xs overflow-hidden shadow-xl" data-3d-discipline-card>
-        <div class="aspect-[4/5] overflow-hidden discipline-3d-layer" data-3d-depth="20">
-          <img data-3d-depth="28" src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=900&auto=format&fit=crop"
-               alt="Clase de CrossFit de alta intensidad"
-               class="w-full h-full object-cover filter brightness-75 contrast-110 group-hover:scale-105 transition-transform duration-700">
-        </div>
-        <div class="absolute inset-0 bg-gradient-to-t from-bg via-bg/60 to-transparent discipline-3d-layer" data-3d-depth="12"></div>
-        <div class="absolute bottom-0 left-0 right-0 p-6 flex flex-col discipline-3d-layer" data-3d-depth="48">
-          <i data-lucide="flame" data-3d-depth="68" class="discipline-3d-layer w-5 h-5 text-electric mb-3"></i>
-          <h3 data-3d-depth="62" class="discipline-3d-layer display-heading text-2xl uppercase mb-2 leading-none">CrossFit</h3>
-          <p data-3d-depth="42" class="discipline-3d-layer text-stone text-xs leading-relaxed font-light min-h-[60px]">Alta intensidad y resultados reales, con una comunidad que te empuja a superarte en cada clase.</p>
-        </div>
-      </div>
-
-      <!-- Hyrox -->
-      <div class="discipline-3d-card group relative border border-line bg-surface2 rounded-xs overflow-hidden shadow-xl" data-3d-discipline-card>
-        <div class="aspect-[4/5] overflow-hidden discipline-3d-layer" data-3d-depth="20">
-          <img data-3d-depth="28" src="https://images.unsplash.com/photo-1571388208497-71bedc66e932?q=80&w=900&auto=format&fit=crop"
-               alt="Entrenamiento estilo Hyrox de resistencia"
-               class="w-full h-full object-cover filter brightness-75 contrast-110 group-hover:scale-105 transition-transform duration-700">
-        </div>
-        <div class="absolute inset-0 bg-gradient-to-t from-bg via-bg/60 to-transparent discipline-3d-layer" data-3d-depth="12"></div>
-        <div class="absolute bottom-0 left-0 right-0 p-6 flex flex-col discipline-3d-layer" data-3d-depth="48">
-          <i data-lucide="activity" data-3d-depth="68" class="discipline-3d-layer w-5 h-5 text-electric mb-3"></i>
-          <div class="flex items-center gap-2 mb-2">
-            <h3 data-3d-depth="62" class="discipline-3d-layer display-heading text-2xl uppercase leading-none">Hyrox</h3>
-            <span data-3d-depth="72" class="discipline-3d-layer bg-electric text-white font-mono text-[8px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-xs">Centro Oficial</span>
+        <article class="discipline-slide is-active" data-discipline-slide aria-hidden="false">
+          <div class="discipline-media">
+            <img src="assets/disciplinas/crossfit.jpg" alt="Entrenamiento de CrossFit en Distrito Fitness" loading="lazy">
+            <span class="discipline-index">01 / 05</span>
           </div>
-          <p data-3d-depth="42" class="discipline-3d-layer text-stone text-xs leading-relaxed font-light min-h-[60px]">Centro oficial licenciado, con prioridad de acceso para las carreras oficiales de Hyrox.</p>
-        </div>
+          <div class="discipline-copy" data-watermark="WOD">
+            <span class="discipline-kicker">Entrenamiento grupal</span>
+            <h3 class="discipline-title">CrossFit <span>🔥</span></h3>
+            <p class="discipline-description">Entrenamiento grupal que combina fuerza, técnica de levantamiento y resistencia.</p>
+          </div>
+        </article>
+
+        <article class="discipline-slide" data-discipline-slide aria-hidden="true">
+          <div class="discipline-media">
+            <img src="assets/disciplinas/hyrox.jpg" alt="Entrenamiento de Hyrox en Distrito Fitness" loading="lazy">
+            <span class="discipline-index">02 / 05</span>
+          </div>
+          <div class="discipline-copy" data-watermark="RACE">
+            <span class="discipline-kicker">Fuerza + carrera</span>
+            <h3 class="discipline-title">Hyrox <span>🧨</span></h3>
+            <p class="discipline-description">Entrenamiento grupal que combina carrera con estaciones de fuerza. Se alterna correr 1 km con diversos ejercicios.</p>
+          </div>
+        </article>
+
+        <article class="discipline-slide" data-discipline-slide aria-hidden="true">
+          <div class="discipline-media">
+            <img src="assets/disciplinas/funcional.jpg" alt="Entrenamiento funcional en Distrito Fitness" loading="lazy">
+            <span class="discipline-index">03 / 05</span>
+          </div>
+          <div class="discipline-copy" data-watermark="MOVE">
+            <span class="discipline-kicker">Movimiento integral</span>
+            <h3 class="discipline-title">Funcional <span>💥</span></h3>
+            <p class="discipline-description">Entrenamiento grupal que pone a trabajar todos los músculos con movimientos de la vida diaria como empujar, levantar, agacharse y saltar.</p>
+          </div>
+        </article>
+
+        <article class="discipline-slide" data-discipline-slide aria-hidden="true">
+          <div class="discipline-media">
+            <img src="assets/disciplinas/calistenia.jpg" alt="Entrenamiento de calistenia en Distrito Fitness" loading="lazy">
+            <span class="discipline-index">04 / 05</span>
+          </div>
+          <div class="discipline-copy" data-watermark="BODY">
+            <span class="discipline-kicker">Control corporal</span>
+            <h3 class="discipline-title">Calistenia <span>🤸‍♂️</span></h3>
+            <p class="discipline-description">Entrenamiento grupal en el que se usa el propio peso corporal como única resistencia en suelo, barras y anillas.</p>
+          </div>
+        </article>
+
+        <article class="discipline-slide" data-discipline-slide aria-hidden="true">
+          <div class="discipline-media">
+            <img src="assets/disciplinas/musculacion-cardio.jpg" alt="Musculación y cardio en Distrito Fitness" loading="lazy">
+            <span class="discipline-index">05 / 05</span>
+          </div>
+          <div class="discipline-copy" data-watermark="WORK">
+            <span class="discipline-kicker">Rutina personalizada</span>
+            <h3 class="discipline-title">Musculación <span>+</span><br>Cardio <span>⚙️</span></h3>
+            <p class="discipline-description">Entrenamiento con máquinas y peso libre que se adapta a múltiples objetivos como mejorar la salud en general, hipertrofia y descenso de peso, a través de una rutina personalizada.</p>
+          </div>
+        </article>
+
       </div>
 
-      <!-- Calistenia -->
-      <div class="discipline-3d-card group relative border border-line bg-surface2 rounded-xs overflow-hidden shadow-xl" data-3d-discipline-card>
-        <div class="aspect-[4/5] overflow-hidden discipline-3d-layer" data-3d-depth="20">
-          <img data-3d-depth="28" src="https://images.unsplash.com/photo-1704375058325-e51b6382a95d?q=80&w=900&auto=format&fit=crop"
-               alt="Atleta de calistenia colgado de una barra de dominadas"
-               class="w-full h-full object-cover filter brightness-75 contrast-110 group-hover:scale-105 transition-transform duration-700">
-        </div>
-        <div class="absolute inset-0 bg-gradient-to-t from-bg via-bg/60 to-transparent discipline-3d-layer" data-3d-depth="12"></div>
-        <div class="absolute bottom-0 left-0 right-0 p-6 flex flex-col discipline-3d-layer" data-3d-depth="48">
-          <i data-lucide="move-3d" data-3d-depth="68" class="discipline-3d-layer w-5 h-5 text-electric mb-3"></i>
-          <h3 data-3d-depth="62" class="discipline-3d-layer display-heading text-2xl uppercase mb-2 leading-none">Calistenia</h3>
-          <p data-3d-depth="42" class="discipline-3d-layer text-stone text-xs leading-relaxed font-light min-h-[60px]">Dominá tu propio peso corporal y construí fuerza real, movilidad y control absoluto.</p>
-        </div>
+      <div class="discipline-pagination" aria-label="Indicadores del carrusel">
+        <button class="discipline-dot is-active" type="button" data-discipline-dot="0" aria-label="Ver CrossFit" aria-current="true"></button>
+        <button class="discipline-dot" type="button" data-discipline-dot="1" aria-label="Ver Hyrox"></button>
+        <button class="discipline-dot" type="button" data-discipline-dot="2" aria-label="Ver Funcional"></button>
+        <button class="discipline-dot" type="button" data-discipline-dot="3" aria-label="Ver Calistenia"></button>
+        <button class="discipline-dot" type="button" data-discipline-dot="4" aria-label="Ver Musculación y Cardio"></button>
       </div>
 
+      <div class="discipline-controls">
+        <button class="discipline-arrow" type="button" data-discipline-prev aria-label="Disciplina anterior">
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+        </button>
+        <button class="discipline-arrow" type="button" data-discipline-next aria-label="Siguiente disciplina">
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="discipline-labels" aria-label="Elegir disciplina">
+      <button type="button" class="discipline-label is-active" data-discipline-label="0">CrossFit</button>
+      <button type="button" class="discipline-label" data-discipline-label="1">Hyrox</button>
+      <button type="button" class="discipline-label" data-discipline-label="2">Funcional</button>
+      <button type="button" class="discipline-label" data-discipline-label="3">Calistenia</button>
+      <button type="button" class="discipline-label" data-discipline-label="4">Musculación + Cardio</button>
     </div>
   </div>
 </section>
@@ -1386,72 +1608,90 @@
   })();
 </script>
 
-<!-- ============ 3D CARD EFFECT — DISCIPLINAS ============ -->
+<!-- ============ SLIDER — DISCIPLINAS ============ -->
 <script>
-  // Efecto 3D de las tarjetas de disciplinas, inspirado en Aceternity UI.
-  // Solo escucha el puntero dentro de estas cuatro tarjetas.
   (function () {
-    var cards3D = document.querySelectorAll('[data-3d-discipline-card]');
-    if (!cards3D.length) return;
+    var slider = document.querySelector('[data-discipline-slider]');
+    if (!slider) return;
 
+    var slides = Array.from(slider.querySelectorAll('[data-discipline-slide]'));
+    var dots = Array.from(slider.querySelectorAll('[data-discipline-dot]'));
+    var labels = Array.from(document.querySelectorAll('[data-discipline-label]'));
+    var prev = slider.querySelector('[data-discipline-prev]');
+    var next = slider.querySelector('[data-discipline-next]');
+    var current = 0;
+    var timer = null;
+    var startX = null;
     var reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reducedMotion) return;
 
-    cards3D.forEach(function (card) {
-      var frame = null;
-      var targetX = 0;
-      var targetY = 0;
-      var currentX = 0;
-      var currentY = 0;
-      var layers = card.querySelectorAll('[data-3d-depth]');
+    function show(index, restartTimer) {
+      current = (index + slides.length) % slides.length;
 
-      function render() {
-        frame = null;
-
-        currentX += (targetX - currentX) * 0.14;
-        currentY += (targetY - currentY) * 0.14;
-
-        card.style.transform =
-          'perspective(1000px) rotateX(' + (-currentY).toFixed(2) + 'deg) rotateY(' + currentX.toFixed(2) + 'deg)';
-
-        layers.forEach(function (layer) {
-          var depth = parseFloat(layer.getAttribute('data-3d-depth')) || 0;
-          var offsetX = currentX * 0.10;
-          var offsetY = -currentY * 0.10;
-          layer.style.transform =
-            'translate3d(' + offsetX.toFixed(2) + 'px, ' +
-            offsetY.toFixed(2) + 'px, ' + depth + 'px)';
-        });
-
-        if (Math.abs(targetX - currentX) > 0.01 || Math.abs(targetY - currentY) > 0.01) {
-          frame = requestAnimationFrame(render);
-        }
-      }
-
-      function reset() {
-        targetX = 0;
-        targetY = 0;
-        if (!frame) frame = requestAnimationFrame(render);
-      }
-
-      card.addEventListener('pointermove', function (event) {
-        var rect = card.getBoundingClientRect();
-        var x = (event.clientX - rect.left) / rect.width;
-        var y = (event.clientY - rect.top) / rect.height;
-
-        // Inclinación contenida para mantener intactas las dimensiones y el layout.
-        targetX = (x - 0.5) * 12;
-        targetY = (y - 0.5) * 10;
-
-        if (!frame) frame = requestAnimationFrame(render);
+      slides.forEach(function (slide, i) {
+        var active = i === current;
+        slide.classList.toggle('is-active', active);
+        slide.setAttribute('aria-hidden', active ? 'false' : 'true');
       });
 
-      card.addEventListener('pointerleave', reset);
-      card.addEventListener('pointercancel', reset);
-      card.addEventListener('pointerup', function (event) {
-        if (event.pointerType === 'touch') reset();
+      dots.forEach(function (dot, i) {
+        var active = i === current;
+        dot.classList.toggle('is-active', active);
+        if (active) dot.setAttribute('aria-current', 'true');
+        else dot.removeAttribute('aria-current');
+      });
+
+      labels.forEach(function (label, i) {
+        label.classList.toggle('is-active', i === current);
+      });
+
+      if (restartTimer !== false) startAuto();
+    }
+
+    function startAuto() {
+      if (reducedMotion) return;
+      window.clearInterval(timer);
+      timer = window.setInterval(function () {
+        show(current + 1, false);
+      }, 6000);
+    }
+
+    function stopAuto() {
+      window.clearInterval(timer);
+    }
+
+    if (prev) prev.addEventListener('click', function () { show(current - 1); });
+    if (next) next.addEventListener('click', function () { show(current + 1); });
+
+    dots.forEach(function (dot) {
+      dot.addEventListener('click', function () {
+        show(parseInt(dot.getAttribute('data-discipline-dot'), 10));
       });
     });
+
+    labels.forEach(function (label) {
+      label.addEventListener('click', function () {
+        show(parseInt(label.getAttribute('data-discipline-label'), 10));
+      });
+    });
+
+    slider.addEventListener('mouseenter', stopAuto);
+    slider.addEventListener('mouseleave', startAuto);
+    slider.addEventListener('focusin', stopAuto);
+    slider.addEventListener('focusout', startAuto);
+
+    slider.addEventListener('touchstart', function (event) {
+      startX = event.touches && event.touches[0] ? event.touches[0].clientX : null;
+    }, { passive: true });
+
+    slider.addEventListener('touchend', function (event) {
+      if (startX === null || !event.changedTouches || !event.changedTouches[0]) return;
+      var delta = event.changedTouches[0].clientX - startX;
+      startX = null;
+      if (Math.abs(delta) < 45) return;
+      show(delta < 0 ? current + 1 : current - 1);
+    }, { passive: true });
+
+    show(0);
   })();
 </script>
 
