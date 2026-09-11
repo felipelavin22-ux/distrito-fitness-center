@@ -224,102 +224,110 @@
   }
 
 
-  /* ============ SLIDER DISCIPLINAS ============ */
+  /* ============ INFINITE SLIDER DISCIPLINAS ============ */
   .discipline-slider {
     position: relative;
-    max-width: 920px;
-    margin: 0 auto;
+    overflow: hidden;
+    width: 100%;
+    padding: 4px 0 18px;
+    --discipline-speed: 42s;
   }
-  .discipline-slider-viewport {
+  .discipline-slider::before,
+  .discipline-slider::after {
+    content: "";
+    position: absolute;
+    top: 0; bottom: 18px;
+    width: clamp(28px, 6vw, 90px);
+    z-index: 8;
+    pointer-events: none;
+  }
+  .discipline-slider::before { left: 0; background: linear-gradient(90deg, #090a0d 0%, rgba(9,10,13,.86) 35%, transparent 100%); }
+  .discipline-slider::after { right: 0; background: linear-gradient(270deg, #090a0d 0%, rgba(9,10,13,.86) 35%, transparent 100%); }
+  .discipline-slider-viewport { overflow: hidden; }
+  .discipline-slider-track {
+    display: flex;
+    width: max-content;
+    gap: 18px;
+    will-change: transform;
+    animation: disciplineInfinite var(--discipline-speed) linear infinite;
+  }
+  .discipline-slider:hover .discipline-slider-track,
+  .discipline-slider:focus-within .discipline-slider-track {
+    animation-duration: 76s;
+  }
+  .discipline-slide {
+    position: relative;
+    flex: 0 0 clamp(300px, 31vw, 380px);
+    height: 430px;
     overflow: hidden;
     border: 1px solid #202430;
     background: #111318;
-    box-shadow: 0 24px 60px -28px rgba(0,0,0,.9);
+    box-shadow: 0 20px 46px -30px rgba(0,0,0,.95);
+    transition: transform .35s cubic-bezier(.16,1,.3,1), border-color .35s ease;
   }
-  .discipline-slider-track { position: relative; min-height: 430px; }
-  .discipline-slide {
-    position: absolute; inset: 0;
-    opacity: 0; visibility: hidden;
-    transform: translateX(36px) scale(.985);
-    transition: opacity .55s ease, transform .55s cubic-bezier(.16,1,.3,1), visibility .55s ease;
-    overflow: hidden;
-  }
-  .discipline-slide.is-active {
-    opacity: 1; visibility: visible; transform: translateX(0) scale(1); z-index: 2;
+  .discipline-slide:hover {
+    transform: translateY(-5px);
+    border-color: rgba(47,111,255,.65);
   }
   .discipline-slide-media { position:absolute; inset:0; }
   .discipline-slide-media img {
     width:100%; height:100%; object-fit:cover; object-position:center;
-    filter: brightness(.78) contrast(1.08);
-    transform: scale(1.01);
-    transition: transform 5.8s ease;
+    filter: brightness(.73) contrast(1.06);
+    transform: scale(1.015);
+    transition: transform .7s cubic-bezier(.16,1,.3,1);
   }
-  .discipline-slide.is-active .discipline-slide-media img { transform: scale(1.055); }
+  .discipline-slide:hover .discipline-slide-media img { transform: scale(1.055); }
   .discipline-slide-shade {
     position:absolute; inset:0;
-    background:
-      linear-gradient(90deg, rgba(10,11,14,.95) 0%, rgba(10,11,14,.82) 38%, rgba(10,11,14,.22) 72%, rgba(10,11,14,.08) 100%),
-      linear-gradient(0deg, rgba(10,11,14,.62), transparent 46%);
+    background: linear-gradient(0deg, rgba(10,11,14,.98) 0%, rgba(10,11,14,.88) 34%, rgba(10,11,14,.26) 68%, rgba(10,11,14,.06) 100%);
   }
   .discipline-slide-content {
     position:relative; z-index:3;
-    min-height:430px;
-    width:min(54%, 500px);
+    height:100%;
     display:flex; flex-direction:column; justify-content:flex-end;
-    padding:46px 50px 48px;
+    padding: 30px 30px 28px;
   }
   .discipline-slide-title {
-    font-size: clamp(2.5rem, 5vw, 4.9rem);
-    line-height:.94;
-    margin-bottom:1rem;
+    font-size: clamp(2rem, 2.8vw, 3.15rem);
+    line-height:.98;
+    margin-bottom:.8rem;
     color:#fff;
   }
   .discipline-slide-content p {
-    max-width: 460px;
     color:#b6bac3;
-    font-size:clamp(.92rem, 1.2vw, 1.05rem);
-    line-height:1.62;
+    font-size:.94rem;
+    line-height:1.48;
     font-weight:300;
+    max-width: 31ch;
   }
-  .discipline-slider-arrow {
-    position:absolute; top:50%; transform:translateY(-50%); z-index:10;
-    width:48px; height:48px; border:1px solid rgba(47,111,255,.5);
-    background:rgba(10,11,14,.82); color:#fff;
-    display:flex; align-items:center; justify-content:center;
-    transition:background .25s ease, border-color .25s ease, transform .25s ease;
-    backdrop-filter:blur(8px);
+  .discipline-slider-hint {
+    display:flex; align-items:center; justify-content:center; gap:10px;
+    margin-top:14px; color:#727985; font-size:.68rem; letter-spacing:.16em; text-transform:uppercase;
   }
-  .discipline-slider-arrow:hover { background:#2F6FFF; border-color:#2F6FFF; }
-  .discipline-slider-prev { left:-24px; }
-  .discipline-slider-next { right:-24px; }
-  .discipline-slider-footer {
-    display:flex; align-items:center; justify-content:center; gap:18px; margin-top:18px;
+  @keyframes disciplineInfinite {
+    from { transform: translate3d(0,0,0); }
+    to { transform: translate3d(calc(-50% - 9px),0,0); }
   }
-  .discipline-slider-dots { display:flex; gap:8px; }
-  .discipline-slider-dot {
-    width:7px; height:7px; border-radius:999px; background:#555b67; border:0; padding:0;
-    transition:width .3s ease, background .3s ease;
-  }
-  .discipline-slider-dot.is-active { width:26px; background:#2F6FFF; }
-  .discipline-slider-count {
-    font-family:'Forma DJR Banner','Archivo',sans-serif;
-    color:#9CA3AF; font-size:.72rem; letter-spacing:.18em;
-  }
-  @media (max-width: 768px) {
-    .discipline-slider-track { min-height: 500px; }
-    .discipline-slide-content {
-      min-height:500px; width:100%; justify-content:flex-end; padding:30px 28px 34px;
+  @media (max-width: 767px) {
+    .discipline-slider { margin-left:-24px; width:calc(100% + 48px); }
+    .discipline-slider-track { gap:14px; animation-duration: 50s; }
+    .discipline-slider:hover .discipline-slider-track,
+    .discipline-slider:focus-within .discipline-slider-track { animation-duration: 50s; }
+    .discipline-slide {
+      flex-basis: min(84vw, 340px);
+      height: 460px;
     }
-    .discipline-slide-shade {
-      background:linear-gradient(0deg, rgba(10,11,14,.98) 0%, rgba(10,11,14,.88) 35%, rgba(10,11,14,.24) 72%, rgba(10,11,14,.08) 100%);
+    .discipline-slide-content { padding: 28px 24px 26px; }
+    .discipline-slide-title { font-size:clamp(2rem, 9.6vw, 3rem); }
+    .discipline-slide-content p {
+      font-size:.9rem; line-height:1.48; max-width: 100%;
     }
-    .discipline-slide-title { font-size:clamp(2.35rem, 11vw, 3.8rem); }
-    .discipline-slider-prev { left:10px; }
-    .discipline-slider-next { right:10px; }
-    .discipline-slider-arrow { top:44%; width:42px; height:42px; }
+    .discipline-slider::before, .discipline-slider::after { width:24px; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .discipline-slide, .discipline-slide-media img { transition:none !important; }
+    .discipline-slider-track { animation-play-state: paused !important; transform:none !important; }
+    .discipline-slider-viewport { overflow-x:auto; scrollbar-width:none; }
+    .discipline-slider-viewport::-webkit-scrollbar { display:none; }
   }
 
   .card-hover {
@@ -562,19 +570,28 @@
   .hero-video-backdrop,
   .hero-video {
     position: absolute;
-    inset: 0;
-    width: 100%;
+    top: 0;
+    bottom: 0;
+    right: 0;
     height: 100%;
     pointer-events: none;
   }
   .hero-video-backdrop { display: none; }
   .hero-video {
+    width: 72%;
+    left: auto;
     object-fit: contain;
-    object-position: center center;
-
+    object-position: right center;
   }
   @media (max-width: 767px) {
     .hero-video-backdrop { display: none; }
+    .hero-video {
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center center;
+    }
   }
 </style>
 </head>
@@ -805,19 +822,12 @@
       <p class="text-stone font-light max-w-sm">Cinco disciplinas, un mismo estándar de exigencia. Combinalas o elegí tu favorita.</p>
     </div>
 
-    <div class="discipline-slider" data-discipline-slider>
-      <button class="discipline-slider-arrow discipline-slider-prev" type="button" aria-label="Disciplina anterior" data-discipline-prev>
-        <i data-lucide="chevron-left" class="w-5 h-5"></i>
-      </button>
-
+    <div class="discipline-slider" data-discipline-slider aria-label="Disciplinas del gimnasio">
       <div class="discipline-slider-viewport">
         <div class="discipline-slider-track" data-discipline-track>
 
-          <!-- Musculación -->
-          <article class="discipline-slide is-active" data-discipline-slide>
-            <div class="discipline-slide-media">
-              <img src="https://images.unsplash.com/photo-1545612036-2872840642dc?q=80&w=1200&auto=format&fit=crop" alt="Piso de musculación con máquinas de última generación">
-            </div>
+          <article class="discipline-slide" data-discipline-slide>
+            <div class="discipline-slide-media"><img src="https://images.unsplash.com/photo-1545612036-2872840642dc?q=80&w=1200&auto=format&fit=crop" alt="Piso de musculación con máquinas"></div>
             <div class="discipline-slide-shade"></div>
             <div class="discipline-slide-content">
               <i data-lucide="dumbbell" class="w-6 h-6 text-electric mb-4"></i>
@@ -826,11 +836,8 @@
             </div>
           </article>
 
-          <!-- CrossFit -->
           <article class="discipline-slide" data-discipline-slide>
-            <div class="discipline-slide-media">
-              <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=1200&auto=format&fit=crop" alt="Clase de CrossFit de alta intensidad">
-            </div>
+            <div class="discipline-slide-media"><img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=1200&auto=format&fit=crop" alt="Clase de CrossFit"></div>
             <div class="discipline-slide-shade"></div>
             <div class="discipline-slide-content">
               <i data-lucide="flame" class="w-6 h-6 text-electric mb-4"></i>
@@ -839,11 +846,8 @@
             </div>
           </article>
 
-          <!-- Hyrox -->
           <article class="discipline-slide" data-discipline-slide>
-            <div class="discipline-slide-media">
-              <img src="https://images.unsplash.com/photo-1571388208497-71bedc66e932?q=80&w=1200&auto=format&fit=crop" alt="Entrenamiento estilo Hyrox de resistencia">
-            </div>
+            <div class="discipline-slide-media"><img src="https://images.unsplash.com/photo-1571388208497-71bedc66e932?q=80&w=1200&auto=format&fit=crop" alt="Entrenamiento Hyrox"></div>
             <div class="discipline-slide-shade"></div>
             <div class="discipline-slide-content">
               <i data-lucide="activity" class="w-6 h-6 text-electric mb-4"></i>
@@ -852,11 +856,8 @@
             </div>
           </article>
 
-          <!-- Calistenia -->
           <article class="discipline-slide" data-discipline-slide>
-            <div class="discipline-slide-media">
-              <img src="https://images.unsplash.com/photo-1704375058325-e51b6382a95d?q=80&w=1200&auto=format&fit=crop" alt="Atleta de calistenia colgado de una barra de dominadas">
-            </div>
+            <div class="discipline-slide-media"><img src="https://images.unsplash.com/photo-1704375058325-e51b6382a95d?q=80&w=1200&auto=format&fit=crop" alt="Atleta practicando calistenia"></div>
             <div class="discipline-slide-shade"></div>
             <div class="discipline-slide-content">
               <i data-lucide="move-3d" class="w-6 h-6 text-electric mb-4"></i>
@@ -865,11 +866,8 @@
             </div>
           </article>
 
-          <!-- Funcional -->
           <article class="discipline-slide" data-discipline-slide>
-            <div class="discipline-slide-media">
-              <img src="https://images.pexels.com/photos/4720235/pexels-photo-4720235.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Entrenamiento funcional de cuerpo completo">
-            </div>
+            <div class="discipline-slide-media"><img src="https://images.pexels.com/photos/4720235/pexels-photo-4720235.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Entrenamiento funcional"></div>
             <div class="discipline-slide-shade"></div>
             <div class="discipline-slide-content">
               <i data-lucide="zap" class="w-6 h-6 text-electric mb-4"></i>
@@ -877,17 +875,26 @@
               <p>Entrenamiento grupal que pone a trabajar todos los músculos con movimientos de la vida diaria como empujar, levantar, agacharse y saltar.</p>
             </div>
           </article>
+
+          <!-- Duplicado para continuidad infinita del slider -->
+          <article class="discipline-slide" aria-hidden="true">
+            <div class="discipline-slide-media"><img src="https://images.unsplash.com/photo-1545612036-2872840642dc?q=80&w=1200&auto=format&fit=crop" alt=""></div><div class="discipline-slide-shade"></div><div class="discipline-slide-content"><i data-lucide="dumbbell" class="w-6 h-6 text-electric mb-4"></i><h3 class="display-heading uppercase discipline-slide-title">Musculación y Cardio</h3><p>Entrenamiento con máquinas y peso libre que se adapta a múltiples objetivos como mejorar la salud en general, hipertrofia y descenso de peso, a través de una rutina personalizada.</p></div>
+          </article>
+          <article class="discipline-slide" aria-hidden="true">
+            <div class="discipline-slide-media"><img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=1200&auto=format&fit=crop" alt=""></div><div class="discipline-slide-shade"></div><div class="discipline-slide-content"><i data-lucide="flame" class="w-6 h-6 text-electric mb-4"></i><h3 class="display-heading uppercase discipline-slide-title">CrossFit</h3><p>Entrenamiento grupal que combina fuerza, técnica de levantamiento y resistencia.</p></div>
+          </article>
+          <article class="discipline-slide" aria-hidden="true">
+            <div class="discipline-slide-media"><img src="https://images.unsplash.com/photo-1571388208497-71bedc66e932?q=80&w=1200&auto=format&fit=crop" alt=""></div><div class="discipline-slide-shade"></div><div class="discipline-slide-content"><i data-lucide="activity" class="w-6 h-6 text-electric mb-4"></i><h3 class="display-heading uppercase discipline-slide-title">Hyrox</h3><p>Entrenamiento grupal que combina carrera con estaciones de fuerza. Se alterna correr 1 km con diversos ejercicios.</p></div>
+          </article>
+          <article class="discipline-slide" aria-hidden="true">
+            <div class="discipline-slide-media"><img src="https://images.unsplash.com/photo-1704375058325-e51b6382a95d?q=80&w=1200&auto=format&fit=crop" alt=""></div><div class="discipline-slide-shade"></div><div class="discipline-slide-content"><i data-lucide="move-3d" class="w-6 h-6 text-electric mb-4"></i><h3 class="display-heading uppercase discipline-slide-title">Calistenia</h3><p>Entrenamiento grupal en el que se usa el propio peso corporal como única resistencia en suelo, barras y anillas.</p></div>
+          </article>
+          <article class="discipline-slide" aria-hidden="true">
+            <div class="discipline-slide-media"><img src="https://images.pexels.com/photos/4720235/pexels-photo-4720235.jpeg?auto=compress&cs=tinysrgb&w=1200" alt=""></div><div class="discipline-slide-shade"></div><div class="discipline-slide-content"><i data-lucide="zap" class="w-6 h-6 text-electric mb-4"></i><h3 class="display-heading uppercase discipline-slide-title">Funcional</h3><p>Entrenamiento grupal que pone a trabajar todos los músculos con movimientos de la vida diaria como empujar, levantar, agacharse y saltar.</p></div>
+          </article>
         </div>
       </div>
-
-      <button class="discipline-slider-arrow discipline-slider-next" type="button" aria-label="Siguiente disciplina" data-discipline-next>
-        <i data-lucide="chevron-right" class="w-5 h-5"></i>
-      </button>
-
-      <div class="discipline-slider-footer">
-        <div class="discipline-slider-dots" data-discipline-dots aria-label="Seleccionar disciplina"></div>
-        <span class="discipline-slider-count" data-discipline-count>01 / 05</span>
-      </div>
+      <div class="discipline-slider-hint"><span>Movimiento continuo</span><span aria-hidden="true">·</span><span>Pasá el mouse para reducir la velocidad</span></div>
     </div>
   </div>
 </section>
@@ -906,7 +913,7 @@
     </div>
     <div class="border-t border-line pt-6">
       <p class="stat-number text-white">+ Café</p>
-      <p class="font-mono text-xs uppercase tracking-wider text-stone mt-3">y terraza al aire libre</p>
+      <p class="font-mono text-xs uppercase tracking-wider text-stone mt-3" aria-hidden="true">&nbsp;</p>
     </div>
     <div class="border-t border-electric/80 pt-6">
       <p class="stat-number text-electric">Hyrox</p>
@@ -1532,59 +1539,7 @@
 </script>
 
 
-<script>
-(() => {
-  const slider = document.querySelector('[data-discipline-slider]');
-  if (!slider) return;
-  const slides = [...slider.querySelectorAll('[data-discipline-slide]')];
-  const dotsWrap = slider.querySelector('[data-discipline-dots]');
-  const count = slider.querySelector('[data-discipline-count]');
-  const prev = slider.querySelector('[data-discipline-prev]');
-  const next = slider.querySelector('[data-discipline-next]');
-  let index = 0;
-  let timer = null;
-  const delay = 5500;
 
-  slides.forEach((_, i) => {
-    const dot = document.createElement('button');
-    dot.type = 'button';
-    dot.className = 'discipline-slider-dot' + (i === 0 ? ' is-active' : '');
-    dot.setAttribute('aria-label', `Ver disciplina ${i + 1}`);
-    dot.addEventListener('click', () => { show(i); restart(); });
-    dotsWrap.appendChild(dot);
-  });
-  const dots = [...dotsWrap.children];
-
-  function show(i) {
-    index = (i + slides.length) % slides.length;
-    slides.forEach((slide, n) => slide.classList.toggle('is-active', n === index));
-    dots.forEach((dot, n) => dot.classList.toggle('is-active', n === index));
-    count.textContent = `${String(index + 1).padStart(2,'0')} / ${String(slides.length).padStart(2,'0')}`;
-  }
-  function start() { timer = setInterval(() => show(index + 1), delay); }
-  function stop() { if (timer) clearInterval(timer); timer = null; }
-  function restart() { stop(); start(); }
-
-  prev.addEventListener('click', () => { show(index - 1); restart(); });
-  next.addEventListener('click', () => { show(index + 1); restart(); });
-  slider.addEventListener('mouseenter', stop);
-  slider.addEventListener('mouseleave', start);
-  slider.addEventListener('focusin', stop);
-  slider.addEventListener('focusout', start);
-
-  let x0 = null;
-  slider.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; }, {passive:true});
-  slider.addEventListener('touchend', e => {
-    if (x0 == null) return;
-    const dx = e.changedTouches[0].clientX - x0;
-    if (Math.abs(dx) > 45) { show(index + (dx < 0 ? 1 : -1)); restart(); }
-    x0 = null;
-  }, {passive:true});
-
-  show(0);
-  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) start();
-})();
-</script>
 
 </body>
 </html>
