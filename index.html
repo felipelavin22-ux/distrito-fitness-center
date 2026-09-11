@@ -291,9 +291,10 @@
   }
   @media (max-width: 767px) {
     .discipline-slider { margin-left:-24px; width:calc(100% + 48px); }
-    .discipline-slider-track { gap:14px; animation-duration: 44s; }
+    /* Mobile: velocidad constante. No se desacelera por hover/focus táctil. */
+    .discipline-slider-track { gap:14px; animation-duration: 36s !important; }
     .discipline-slider:hover .discipline-slider-track,
-    .discipline-slider:focus-within .discipline-slider-track { animation-duration: 54s; }
+    .discipline-slider:focus-within .discipline-slider-track { animation-duration: 36s !important; }
     .discipline-slide {
       flex-basis: min(84vw, 350px);
       aspect-ratio: 1170 / 1350;
