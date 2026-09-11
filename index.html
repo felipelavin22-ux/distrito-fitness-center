@@ -290,49 +290,16 @@
     to { transform: translate3d(calc(-50% - 9px),0,0); }
   }
   @media (max-width: 767px) {
-    .discipline-slider {
-      margin-left: -24px;
-      width: calc(100% + 48px);
-      overflow: visible;
-      padding-bottom: 10px;
-    }
-    /* Mobile: carrusel manual por gesto. Sin autoplay ni desaceleración táctil. */
-    .discipline-slider-viewport {
-      overflow-x: auto;
-      overflow-y: hidden;
-      scroll-snap-type: x mandatory;
-      scroll-padding-inline: 24px;
-      -webkit-overflow-scrolling: touch;
-      overscroll-behavior-x: contain;
-      scrollbar-width: none;
-      touch-action: pan-x;
-      cursor: grab;
-    }
-    .discipline-slider-viewport:active { cursor: grabbing; }
-    .discipline-slider-viewport::-webkit-scrollbar { display: none; }
-    .discipline-slider-track {
-      gap: 14px;
-      animation: none !important;
-      transform: none !important;
-      padding: 0 24px;
-      width: max-content;
-      will-change: auto;
-    }
+    .discipline-slider { margin-left:-24px; width:calc(100% + 48px); }
+    /* Mobile: velocidad constante. No se desacelera por hover/focus táctil. */
+    .discipline-slider-track { gap:14px; animation-duration: 36s !important; }
     .discipline-slider:hover .discipline-slider-track,
-    .discipline-slider:focus-within .discipline-slider-track {
-      animation: none !important;
-      transform: none !important;
-    }
+    .discipline-slider:focus-within .discipline-slider-track { animation-duration: 36s !important; }
     .discipline-slide {
-      flex: 0 0 min(86vw, 360px);
+      flex-basis: min(84vw, 350px);
       aspect-ratio: 1170 / 1350;
-      scroll-snap-align: center;
-      scroll-snap-stop: always;
     }
-    /* En mobile no hacen falta las copias usadas para el loop infinito de escritorio. */
-    .discipline-slide[aria-hidden="true"] { display: none; }
-    .discipline-slider::before,
-    .discipline-slider::after { display: none; }
+    .discipline-slider::before, .discipline-slider::after { width:18px; }
   }
   @media (prefers-reduced-motion: reduce) {
     .discipline-slider-track { animation-play-state: paused !important; transform:none !important; }
@@ -635,11 +602,11 @@
 
     <!-- Acciones Derecha -->
     <div class="flex items-center gap-4 shrink-0">
-      <a href="https://wa.me/5491130260359?text=Hola%20Distrito%20Fitness%20Center%2C%20quiero%20reservar%20una%20clase%20de%20prueba"
+      <a href="https://wa.me/5491130260359?text=Hola%20Distrito%20Fitness%20Center%2C%20quiero%20consultar%20por%20los%20planes%2C%20horarios%20y%20disciplinas"
          target="_blank" rel="noopener"
          class="btn-cta hidden sm:inline-flex items-center gap-2 text-xs uppercase px-5 py-2.5 rounded-xs shadow-md">
         <i data-lucide="message-circle" class="w-4 h-4"></i>
-        <span>Unirme a la Crew</span>
+        <span>CONTACTANOS</span>
       </a>
 
       <!-- Botón Menú Hamburguesa Tablets/Móvil -->
@@ -659,11 +626,11 @@
     <a href="#faq" class="block text-stone hover:text-electric transition-colors py-1 menu-item-click" data-target-tab="faq" data-target-section="faq">FAQ</a>
     <a href="#contacto" class="block text-stone hover:text-electric transition-colors py-1 menu-item-click" data-target-tab="contacto" data-target-section="contacto">Contacto</a>
     <div class="pt-2 sm:hidden">
-      <a href="https://wa.me/5491130260359?text=Hola%20Distrito%20Fitness%20Center%2C%20quiero%20reservar%20una%20clase%20de%20prueba"
+      <a href="https://wa.me/5491130260359?text=Hola%20Distrito%20Fitness%20Center%2C%20quiero%20consultar%20por%20los%20planes%2C%20horarios%20y%20disciplinas"
          target="_blank" rel="noopener"
          class="btn-cta inline-flex items-center justify-center gap-2 text-xs uppercase px-5 py-3 w-full rounded-xs">
         <i data-lucide="message-circle" class="w-4 h-4"></i>
-        Unirme a la Crew
+        CONTACTANOS
       </a>
     </div>
   </div>
@@ -697,11 +664,11 @@
     </p>
 
     <div class="flex flex-col sm:flex-row gap-4 mt-8">
-      <a href="https://wa.me/5491130260359?text=Hola%20Distrito%20Fitness%20Center%2C%20quiero%20reservar%20una%20clase%20de%20prueba"
+      <a href="https://wa.me/5491130260359?text=Hola%20Distrito%20Fitness%20Center%2C%20quiero%20consultar%20por%20los%20planes%2C%20horarios%20y%20disciplinas"
          target="_blank" rel="noopener"
          class="btn-cta inline-flex items-center justify-center gap-3 px-7 py-3.5 text-xs uppercase tracking-widest">
         <i data-lucide="message-circle" class="w-4 h-4"></i>
-        Reservar Clase de Prueba
+        CONTACTANOS
       </a>
       <a href="#disciplinas"
          class="menu-item-click inline-flex items-center justify-center gap-3 border border-line text-stone font-mono text-xs uppercase tracking-widest px-7 py-3.5 hover:border-electric hover:text-white transition-all backdrop-blur-sm"
@@ -719,7 +686,7 @@
   <div class="max-w-7xl mx-auto px-6 md:px-10 grid md:grid-cols-2 gap-16 items-center">
     <div class="relative">
       <div class="aspect-[4/5] overflow-hidden rounded-xs border border-line shadow-2xl">
-        <img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?q=80&w=1200&auto=format&fit=crop"
+        <img src="assets/sector02-gym.png"
              alt="Comunidad entrenando juntos en Distrito Fitness Center"
              class="w-full h-full object-cover filter brightness-90 contrast-110 hover:scale-105 transition-all duration-700">
       </div>
@@ -956,17 +923,7 @@
           <i data-lucide="plus" class="faq-icon w-4 h-4 text-electric shrink-0"></i>
         </summary>
         <p class="text-stone font-light leading-relaxed mt-4 text-sm">
-          Lunes a Viernes de 6:00 a 22:00hs, y Sábados de 9:00 a 14:00hs.
-        </p>
-      </details>
-
-      <details class="faq-item border border-line bg-surface2/50 rounded-xs px-6 py-5 hover:border-electric/40 transition-colors">
-        <summary class="flex items-center justify-between gap-4 font-mono text-sm uppercase tracking-wider text-stone">
-          ¿Puedo ir a probar antes de anotarme?
-          <i data-lucide="plus" class="faq-icon w-4 h-4 text-electric shrink-0"></i>
-        </summary>
-        <p class="text-stone font-light leading-relaxed mt-4 text-sm">
-          Sí, escribinos por WhatsApp y coordinamos tu clase de prueba sin costo y sin compromiso.
+          Lunes a Viernes de 6:00 a 22:00hs, y Sábados de 8:00 a 20:00hs.
         </p>
       </details>
 
@@ -989,9 +946,9 @@
         Tu lugar en<br>el <span class="text-electric">Distrito</span> te espera.
       </h2>
       <p class="text-stone text-base md:text-lg font-light leading-relaxed mb-10 max-w-md">
-        Escribinos y coordinamos tu primera clase de prueba, sin costo y sin vueltas.
+        Escribinos para lo que necesites. Estamos para ayudarte.
       </p>
-      <a href="https://wa.me/5491130260359?text=Hola%20Distrito%20Fitness%20Center%2C%20quiero%20reservar%20una%20clase%20de%20prueba"
+      <a href="https://wa.me/5491130260359?text=Hola%20Distrito%20Fitness%20Center%2C%20quiero%20consultar%20por%20los%20planes%2C%20horarios%20y%20disciplinas"
          target="_blank" rel="noopener"
          class="btn-cta inline-flex items-center justify-center gap-3 px-8 py-4 text-xs uppercase tracking-widest w-fit shadow-xl">
         <i data-lucide="message-circle" class="w-4 h-4"></i>
@@ -1005,7 +962,7 @@
         <div>
           <p class="font-mono text-xs uppercase tracking-wider mb-1 text-white">Horarios de atención</p>
           <p class="text-stone font-light text-sm">Lunes a Viernes: 6:00 — 22:00hs</p>
-          <p class="text-stone font-light text-sm">Sábados: 9:00 — 14:00hs</p>
+          <p class="text-stone font-light text-sm">Sábados: 8:00 — 20:00hs</p>
         </div>
       </div>
       <div class="flex gap-4 border-b border-line/80 pb-8">
@@ -1068,7 +1025,7 @@
 </a>
 
 <!-- WhatsApp conserva su posición y comportamiento original. -->
-<a href="https://wa.me/5491130260359?text=Hola%20Distrito%20Fitness%20Center%2C%20quiero%20reservar%20una%20clase%20de%20prueba"
+<a href="https://wa.me/5491130260359?text=Hola%20Distrito%20Fitness%20Center%2C%20quiero%20consultar%20por%20los%20planes%2C%20horarios%20y%20disciplinas"
    target="_blank" rel="noopener"
    aria-label="Contactar por WhatsApp"
    class="whatsapp-float hidden md:flex fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full items-center justify-center shadow-2xl hover:scale-110 transition-transform">
@@ -1085,7 +1042,7 @@
     <i data-lucide="dumbbell" class="w-5 h-5"></i>
     <span class="text-[10px] font-mono uppercase tracking-wide">Clases</span>
   </a>
-  <a href="https://wa.me/5491130260359?text=Hola%20Distrito%20Fitness%20Center%2C%20quiero%20reservar%20una%20clase%20de%20prueba"
+  <a href="https://wa.me/5491130260359?text=Hola%20Distrito%20Fitness%20Center%2C%20quiero%20consultar%20por%20los%20planes%2C%20horarios%20y%20disciplinas"
      target="_blank" rel="noopener"
      class="flex flex-col items-center justify-center -mt-5">
     <span class="w-12 h-12 rounded-full bg-electric flex items-center justify-center shadow-lg shadow-electric/40 border-4 border-bg">
