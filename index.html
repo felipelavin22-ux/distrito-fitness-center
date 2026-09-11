@@ -284,25 +284,35 @@
   .discipline-slide-content {
     position:relative; z-index:3;
     height:100%;
-    display:flex; flex-direction:column; justify-content:flex-end;
-    padding: 30px 30px 28px;
+    display:flex; flex-direction:column; justify-content:flex-end; align-items:center;
+    padding: 30px 28px 30px;
+    text-align:center;
+  }
+  .discipline-slide-content > i {
+    flex:0 0 auto;
   }
   .discipline-slide-title {
-    font-size: clamp(2rem, 2.8vw, 3.15rem);
-    line-height:.98;
-    margin-bottom:.8rem;
+    font-size: clamp(1.9rem, 2.55vw, 2.8rem);
+    line-height:1;
+    margin-bottom:.85rem;
     color:#fff;
+    min-height:2em;
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
+    width:100%;
   }
   .discipline-slide-content p {
     color:#b6bac3;
-    font-size:.94rem;
-    line-height:1.48;
+    font-size:.92rem;
+    line-height:1.45;
     font-weight:300;
-    max-width: 31ch;
-  }
-  .discipline-slider-hint {
-    display:flex; align-items:center; justify-content:center; gap:10px;
-    margin-top:14px; color:#727985; font-size:.68rem; letter-spacing:.16em; text-transform:uppercase;
+    max-width: 30ch;
+    min-height:4.1em;
+    display:flex;
+    align-items:flex-start;
+    justify-content:center;
+    margin:0 auto;
   }
   @keyframes disciplineInfinite {
     from { transform: translate3d(0,0,0); }
@@ -317,10 +327,10 @@
       flex-basis: min(84vw, 340px);
       height: 460px;
     }
-    .discipline-slide-content { padding: 28px 24px 26px; }
-    .discipline-slide-title { font-size:clamp(2rem, 9.6vw, 3rem); }
+    .discipline-slide-content { padding: 28px 24px 28px; }
+    .discipline-slide-title { font-size:clamp(1.85rem, 8.7vw, 2.7rem); min-height:2em; }
     .discipline-slide-content p {
-      font-size:.9rem; line-height:1.48; max-width: 100%;
+      font-size:.9rem; line-height:1.46; max-width: 30ch; min-height:4.35em;
     }
     .discipline-slider::before, .discipline-slider::after { width:24px; }
   }
@@ -832,7 +842,7 @@
             <div class="discipline-slide-content">
               <i data-lucide="dumbbell" class="w-6 h-6 text-electric mb-4"></i>
               <h3 class="display-heading uppercase discipline-slide-title">Musculación y Cardio</h3>
-              <p>Entrenamiento con máquinas y peso libre que se adapta a múltiples objetivos como mejorar la salud en general, hipertrofia y descenso de peso, a través de una rutina personalizada.</p>
+              <p>Máquinas y peso libre con rutina personalizada para ganar fuerza, masa muscular, mejorar la salud o bajar de peso.</p>
             </div>
           </article>
 
@@ -842,7 +852,7 @@
             <div class="discipline-slide-content">
               <i data-lucide="flame" class="w-6 h-6 text-electric mb-4"></i>
               <h3 class="display-heading uppercase discipline-slide-title">CrossFit</h3>
-              <p>Entrenamiento grupal que combina fuerza, técnica de levantamiento y resistencia.</p>
+              <p>Fuerza, técnica de levantamiento y resistencia en entrenamientos grupales de alta intensidad.</p>
             </div>
           </article>
 
@@ -852,7 +862,7 @@
             <div class="discipline-slide-content">
               <i data-lucide="activity" class="w-6 h-6 text-electric mb-4"></i>
               <h3 class="display-heading uppercase discipline-slide-title">Hyrox</h3>
-              <p>Entrenamiento grupal que combina carrera con estaciones de fuerza. Se alterna correr 1 km con diversos ejercicios.</p>
+              <p>Carrera y estaciones de fuerza: bloques de 1 km combinados con ejercicios funcionales.</p>
             </div>
           </article>
 
@@ -862,7 +872,7 @@
             <div class="discipline-slide-content">
               <i data-lucide="move-3d" class="w-6 h-6 text-electric mb-4"></i>
               <h3 class="display-heading uppercase discipline-slide-title">Calistenia</h3>
-              <p>Entrenamiento grupal en el que se usa el propio peso corporal como única resistencia en suelo, barras y anillas.</p>
+              <p>Fuerza y control corporal usando tu propio peso en suelo, barras y anillas.</p>
             </div>
           </article>
 
@@ -872,29 +882,28 @@
             <div class="discipline-slide-content">
               <i data-lucide="zap" class="w-6 h-6 text-electric mb-4"></i>
               <h3 class="display-heading uppercase discipline-slide-title">Funcional</h3>
-              <p>Entrenamiento grupal que pone a trabajar todos los músculos con movimientos de la vida diaria como empujar, levantar, agacharse y saltar.</p>
+              <p>Movimientos cotidianos para trabajar todo el cuerpo: empujar, levantar, agacharse y saltar.</p>
             </div>
           </article>
 
           <!-- Duplicado para continuidad infinita del slider -->
           <article class="discipline-slide" aria-hidden="true">
-            <div class="discipline-slide-media"><img src="https://images.unsplash.com/photo-1545612036-2872840642dc?q=80&w=1200&auto=format&fit=crop" alt=""></div><div class="discipline-slide-shade"></div><div class="discipline-slide-content"><i data-lucide="dumbbell" class="w-6 h-6 text-electric mb-4"></i><h3 class="display-heading uppercase discipline-slide-title">Musculación y Cardio</h3><p>Entrenamiento con máquinas y peso libre que se adapta a múltiples objetivos como mejorar la salud en general, hipertrofia y descenso de peso, a través de una rutina personalizada.</p></div>
+            <div class="discipline-slide-media"><img src="https://images.unsplash.com/photo-1545612036-2872840642dc?q=80&w=1200&auto=format&fit=crop" alt=""></div><div class="discipline-slide-shade"></div><div class="discipline-slide-content"><i data-lucide="dumbbell" class="w-6 h-6 text-electric mb-4"></i><h3 class="display-heading uppercase discipline-slide-title">Musculación y Cardio</h3><p>Máquinas y peso libre con rutina personalizada para ganar fuerza, masa muscular, mejorar la salud o bajar de peso.</p></div>
           </article>
           <article class="discipline-slide" aria-hidden="true">
-            <div class="discipline-slide-media"><img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=1200&auto=format&fit=crop" alt=""></div><div class="discipline-slide-shade"></div><div class="discipline-slide-content"><i data-lucide="flame" class="w-6 h-6 text-electric mb-4"></i><h3 class="display-heading uppercase discipline-slide-title">CrossFit</h3><p>Entrenamiento grupal que combina fuerza, técnica de levantamiento y resistencia.</p></div>
+            <div class="discipline-slide-media"><img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=1200&auto=format&fit=crop" alt=""></div><div class="discipline-slide-shade"></div><div class="discipline-slide-content"><i data-lucide="flame" class="w-6 h-6 text-electric mb-4"></i><h3 class="display-heading uppercase discipline-slide-title">CrossFit</h3><p>Fuerza, técnica de levantamiento y resistencia en entrenamientos grupales de alta intensidad.</p></div>
           </article>
           <article class="discipline-slide" aria-hidden="true">
-            <div class="discipline-slide-media"><img src="https://images.unsplash.com/photo-1571388208497-71bedc66e932?q=80&w=1200&auto=format&fit=crop" alt=""></div><div class="discipline-slide-shade"></div><div class="discipline-slide-content"><i data-lucide="activity" class="w-6 h-6 text-electric mb-4"></i><h3 class="display-heading uppercase discipline-slide-title">Hyrox</h3><p>Entrenamiento grupal que combina carrera con estaciones de fuerza. Se alterna correr 1 km con diversos ejercicios.</p></div>
+            <div class="discipline-slide-media"><img src="https://images.unsplash.com/photo-1571388208497-71bedc66e932?q=80&w=1200&auto=format&fit=crop" alt=""></div><div class="discipline-slide-shade"></div><div class="discipline-slide-content"><i data-lucide="activity" class="w-6 h-6 text-electric mb-4"></i><h3 class="display-heading uppercase discipline-slide-title">Hyrox</h3><p>Carrera y estaciones de fuerza: bloques de 1 km combinados con ejercicios funcionales.</p></div>
           </article>
           <article class="discipline-slide" aria-hidden="true">
-            <div class="discipline-slide-media"><img src="https://images.unsplash.com/photo-1704375058325-e51b6382a95d?q=80&w=1200&auto=format&fit=crop" alt=""></div><div class="discipline-slide-shade"></div><div class="discipline-slide-content"><i data-lucide="move-3d" class="w-6 h-6 text-electric mb-4"></i><h3 class="display-heading uppercase discipline-slide-title">Calistenia</h3><p>Entrenamiento grupal en el que se usa el propio peso corporal como única resistencia en suelo, barras y anillas.</p></div>
+            <div class="discipline-slide-media"><img src="https://images.unsplash.com/photo-1704375058325-e51b6382a95d?q=80&w=1200&auto=format&fit=crop" alt=""></div><div class="discipline-slide-shade"></div><div class="discipline-slide-content"><i data-lucide="move-3d" class="w-6 h-6 text-electric mb-4"></i><h3 class="display-heading uppercase discipline-slide-title">Calistenia</h3><p>Fuerza y control corporal usando tu propio peso en suelo, barras y anillas.</p></div>
           </article>
           <article class="discipline-slide" aria-hidden="true">
-            <div class="discipline-slide-media"><img src="https://images.pexels.com/photos/4720235/pexels-photo-4720235.jpeg?auto=compress&cs=tinysrgb&w=1200" alt=""></div><div class="discipline-slide-shade"></div><div class="discipline-slide-content"><i data-lucide="zap" class="w-6 h-6 text-electric mb-4"></i><h3 class="display-heading uppercase discipline-slide-title">Funcional</h3><p>Entrenamiento grupal que pone a trabajar todos los músculos con movimientos de la vida diaria como empujar, levantar, agacharse y saltar.</p></div>
+            <div class="discipline-slide-media"><img src="https://images.pexels.com/photos/4720235/pexels-photo-4720235.jpeg?auto=compress&cs=tinysrgb&w=1200" alt=""></div><div class="discipline-slide-shade"></div><div class="discipline-slide-content"><i data-lucide="zap" class="w-6 h-6 text-electric mb-4"></i><h3 class="display-heading uppercase discipline-slide-title">Funcional</h3><p>Movimientos cotidianos para trabajar todo el cuerpo: empujar, levantar, agacharse y saltar.</p></div>
           </article>
         </div>
       </div>
-      <div class="discipline-slider-hint"><span>Movimiento continuo</span><span aria-hidden="true">·</span><span>Pasá el mouse para reducir la velocidad</span></div>
     </div>
   </div>
 </section>
@@ -940,16 +949,7 @@
 
     <div class="space-y-4">
 
-      <details class="faq-item border border-line bg-surface2/50 rounded-xs px-6 py-5 hover:border-electric/40 transition-colors" open>
-        <summary class="flex items-center justify-between gap-4 font-mono text-sm uppercase tracking-wider text-stone">
-          ¿Cuándo abre Distrito Fitness Center?
-          <i data-lucide="plus" class="faq-icon w-4 h-4 text-electric shrink-0"></i>
-        </summary>
-        <p class="text-stone font-light leading-relaxed mt-4 text-sm">
-          Estamos terminando de preparar nuestras instalaciones en Caballito. Escribinos por WhatsApp para
-          enterarte primero de la fecha de apertura y reservar tu lugar como socio fundador.
-        </p>
-      </details>
+
 
       <details class="faq-item border border-line bg-surface2/50 rounded-xs px-6 py-5 hover:border-electric/40 transition-colors">
         <summary class="flex items-center justify-between gap-4 font-mono text-sm uppercase tracking-wider text-stone">
