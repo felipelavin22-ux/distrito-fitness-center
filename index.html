@@ -468,27 +468,14 @@
     height: 100%;
     pointer-events: none;
   }
-  .hero-video-backdrop {
-    object-fit: cover;
-    object-position: center center;
-    filter: brightness(.38) saturate(.82);
-    transform: scale(1.01);
-  }
+  .hero-video-backdrop { display: none; }
   .hero-video {
     object-fit: contain;
     object-position: center center;
-    -webkit-mask-image: linear-gradient(to right, #000 0%, #000 84%, rgba(0,0,0,.96) 90%, rgba(0,0,0,.55) 96%, transparent 100%);
-    mask-image: linear-gradient(to right, #000 0%, #000 84%, rgba(0,0,0,.96) 90%, rgba(0,0,0,.55) 96%, transparent 100%);
+
   }
   @media (max-width: 767px) {
-    .hero-video-backdrop {
-      filter: brightness(.34) saturate(.80);
-      transform: scale(1.01);
-    }
-    .hero-video {
-      -webkit-mask-image: linear-gradient(to right, #000 0%, #000 88%, rgba(0,0,0,.72) 96%, transparent 100%);
-      mask-image: linear-gradient(to right, #000 0%, #000 88%, rgba(0,0,0,.72) 96%, transparent 100%);
-    }
+    .hero-video-backdrop { display: none; }
   }
 </style>
 </head>
@@ -561,10 +548,7 @@
 
 <!-- ============ HERO CON SLIDER DE FONDO (SECTOR 01) ============ -->
 <section id="inicio" class="relative min-h-[75vh] md:min-h-[85vh] flex items-center overflow-hidden pt-24 pb-12 md:pb-12">
-  <div class="absolute inset-0 z-0">
-    <video class="hero-video-backdrop" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
-      <source src="video-encabezado.mp4" type="video/mp4">
-    </video>
+  <div class="absolute inset-0 z-0 bg-bg">
     <video class="hero-video" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
       <source src="video-encabezado.mp4" type="video/mp4">
     </video>
@@ -713,7 +697,7 @@
 
 <!-- ============ DISCIPLINAS ============ -->
 <section id="disciplinas" class="relative py-14 md:py-28 lg:py-36 border-t border-line/80">
-  <div class="max-w-7xl mx-auto px-6 md:px-10">
+  <div class="max-w-[1440px] mx-auto px-6 md:px-10">
     <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-8 md:mb-16">
       <div>
         <p class="sector-tag mb-6">SECTOR 04 / DISCIPLINAS</p>
@@ -722,7 +706,7 @@
       <p class="text-stone font-light max-w-sm">Cinco disciplinas, un mismo estándar de exigencia. Combinalas o elegí tu favorita.</p>
     </div>
 
-    <div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-6">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5">
 
       <!-- Musculación -->
       <div class="discipline-3d-card group relative border border-line bg-surface2 rounded-xs overflow-hidden shadow-xl" data-3d-discipline-card>
@@ -732,10 +716,10 @@
                class="w-full h-full object-cover filter brightness-75 contrast-110 group-hover:scale-105 transition-transform duration-700">
         </div>
         <div class="absolute inset-0 bg-gradient-to-t from-bg via-bg/60 to-transparent discipline-3d-layer" data-3d-depth="12"></div>
-        <div class="absolute bottom-0 left-0 right-0 p-6 flex flex-col discipline-3d-layer" data-3d-depth="48">
+        <div class="absolute bottom-0 left-0 right-0 p-5 xl:p-6 flex flex-col discipline-3d-layer" data-3d-depth="48">
           <i data-lucide="dumbbell" data-3d-depth="68" class="discipline-3d-layer w-5 h-5 text-electric mb-3"></i>
           <h3 data-3d-depth="62" class="discipline-3d-layer display-heading text-2xl uppercase mb-2 leading-none">Musculación y Cardio</h3>
-          <p data-3d-depth="42" class="discipline-3d-layer text-stone text-xs leading-relaxed font-light min-h-[60px]">Entrenamiento con máquinas y peso libre que se adapta a múltiples objetivos como mejorar la salud en general, hipertrofia y descenso de peso, a través de una rutina personalizada.</p>
+          <p data-3d-depth="42" class="discipline-3d-layer text-stone text-[13px] leading-[1.45] font-light">Entrenamiento con máquinas y peso libre que se adapta a múltiples objetivos como mejorar la salud en general, hipertrofia y descenso de peso, a través de una rutina personalizada.</p>
         </div>
       </div>
 
@@ -747,10 +731,10 @@
                class="w-full h-full object-cover filter brightness-75 contrast-110 group-hover:scale-105 transition-transform duration-700">
         </div>
         <div class="absolute inset-0 bg-gradient-to-t from-bg via-bg/60 to-transparent discipline-3d-layer" data-3d-depth="12"></div>
-        <div class="absolute bottom-0 left-0 right-0 p-6 flex flex-col discipline-3d-layer" data-3d-depth="48">
+        <div class="absolute bottom-0 left-0 right-0 p-5 xl:p-6 flex flex-col discipline-3d-layer" data-3d-depth="48">
           <i data-lucide="flame" data-3d-depth="68" class="discipline-3d-layer w-5 h-5 text-electric mb-3"></i>
           <h3 data-3d-depth="62" class="discipline-3d-layer display-heading text-2xl uppercase mb-2 leading-none">CrossFit</h3>
-          <p data-3d-depth="42" class="discipline-3d-layer text-stone text-xs leading-relaxed font-light min-h-[60px]">Entrenamiento grupal que combina fuerza, técnica de levantamiento y resistencia.</p>
+          <p data-3d-depth="42" class="discipline-3d-layer text-stone text-[13px] leading-[1.45] font-light">Entrenamiento grupal que combina fuerza, técnica de levantamiento y resistencia.</p>
         </div>
       </div>
 
@@ -762,10 +746,10 @@
                class="w-full h-full object-cover filter brightness-75 contrast-110 group-hover:scale-105 transition-transform duration-700">
         </div>
         <div class="absolute inset-0 bg-gradient-to-t from-bg via-bg/60 to-transparent discipline-3d-layer" data-3d-depth="12"></div>
-        <div class="absolute bottom-0 left-0 right-0 p-6 flex flex-col discipline-3d-layer" data-3d-depth="48">
+        <div class="absolute bottom-0 left-0 right-0 p-5 xl:p-6 flex flex-col discipline-3d-layer" data-3d-depth="48">
           <i data-lucide="activity" data-3d-depth="68" class="discipline-3d-layer w-5 h-5 text-electric mb-3"></i>
           <h3 data-3d-depth="62" class="discipline-3d-layer display-heading text-2xl uppercase mb-2 leading-none">Hyrox</h3>
-          <p data-3d-depth="42" class="discipline-3d-layer text-stone text-xs leading-relaxed font-light min-h-[60px]">Entrenamiento grupal que combina carrera con estaciones de fuerza. Se alterna correr 1 km con diversos ejercicios.</p>
+          <p data-3d-depth="42" class="discipline-3d-layer text-stone text-[13px] leading-[1.45] font-light">Entrenamiento grupal que combina carrera con estaciones de fuerza. Se alterna correr 1 km con diversos ejercicios.</p>
         </div>
       </div>
 
@@ -777,10 +761,10 @@
                class="w-full h-full object-cover filter brightness-75 contrast-110 group-hover:scale-105 transition-transform duration-700">
         </div>
         <div class="absolute inset-0 bg-gradient-to-t from-bg via-bg/60 to-transparent discipline-3d-layer" data-3d-depth="12"></div>
-        <div class="absolute bottom-0 left-0 right-0 p-6 flex flex-col discipline-3d-layer" data-3d-depth="48">
+        <div class="absolute bottom-0 left-0 right-0 p-5 xl:p-6 flex flex-col discipline-3d-layer" data-3d-depth="48">
           <i data-lucide="move-3d" data-3d-depth="68" class="discipline-3d-layer w-5 h-5 text-electric mb-3"></i>
           <h3 data-3d-depth="62" class="discipline-3d-layer display-heading text-2xl uppercase mb-2 leading-none">Calistenia</h3>
-          <p data-3d-depth="42" class="discipline-3d-layer text-stone text-xs leading-relaxed font-light min-h-[60px]">Entrenamiento grupal en el que se usa el propio peso corporal como única resistencia en suelo, barras y anillas.</p>
+          <p data-3d-depth="42" class="discipline-3d-layer text-stone text-[13px] leading-[1.45] font-light">Entrenamiento grupal en el que se usa el propio peso corporal como única resistencia en suelo, barras y anillas.</p>
         </div>
       </div>
 
@@ -793,10 +777,10 @@
                class="w-full h-full object-cover filter brightness-75 contrast-110 group-hover:scale-105 transition-transform duration-700">
         </div>
         <div class="absolute inset-0 bg-gradient-to-t from-bg via-bg/60 to-transparent discipline-3d-layer" data-3d-depth="12"></div>
-        <div class="absolute bottom-0 left-0 right-0 p-6 flex flex-col discipline-3d-layer" data-3d-depth="48">
+        <div class="absolute bottom-0 left-0 right-0 p-5 xl:p-6 flex flex-col discipline-3d-layer" data-3d-depth="48">
           <i data-lucide="zap" data-3d-depth="68" class="discipline-3d-layer w-5 h-5 text-electric mb-3"></i>
           <h3 data-3d-depth="62" class="discipline-3d-layer display-heading text-2xl uppercase mb-2 leading-none">Funcional</h3>
-          <p data-3d-depth="42" class="discipline-3d-layer text-stone text-xs leading-relaxed font-light min-h-[60px]">Entrenamiento grupal que pone a trabajar todos los músculos con movimientos de la vida diaria como empujar, levantar, agacharse y saltar.</p>
+          <p data-3d-depth="42" class="discipline-3d-layer text-stone text-[13px] leading-[1.45] font-light">Entrenamiento grupal que pone a trabajar todos los músculos con movimientos de la vida diaria como empujar, levantar, agacharse y saltar.</p>
         </div>
       </div>
     </div>
