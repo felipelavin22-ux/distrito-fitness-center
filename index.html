@@ -752,7 +752,7 @@
     <a href="#inicio" class="flex items-center gap-3 shrink-0 menu-item-click" data-target-tab="inicio" data-target-section="inicio">
       <img src="logo_distrito.png" alt="Distrito Fitness Center" class="w-9 h-9 object-contain">
       <span class="display-heading text-sm sm:text-base md:text-lg tracking-wider leading-none text-white">
-        DISTRITO FITNESS <span class="hidden xl:inline font-light text-electric">CENTER</span>
+        DISTRITO FITNESS <span class="font-light text-electric">CENTER</span>
       </span>
     </a>
 
@@ -892,7 +892,7 @@
 <section id="por-que-elegirnos" class="relative py-14 md:py-28 lg:py-36 border-t border-line/80 bg-surface">
   <div class="max-w-7xl mx-auto px-6 md:px-10">
     <p class="sector-tag mb-6">SECTOR 03 / POR QUÉ ELEGIRNOS</p>
-    <h2 class="display-heading text-4xl md:text-5xl uppercase mb-8 md:mb-16 max-w-3xl leading-tight">No competimos<br>en precio. <span class="text-electric">Competimos en nivel.</span></h2>
+    <h2 class="display-heading text-4xl md:text-5xl uppercase mb-8 md:mb-16 max-w-3xl md:max-w-none leading-tight">No competimos<br class="md:hidden">en precio. <br class="hidden md:inline"><span class="text-electric">Competimos en nivel.</span></h2>
 
     <div class="accordion divide-y divide-line/80 border-y border-line/80" data-accordion data-reveal-group>
 
@@ -1384,6 +1384,8 @@
   const panels = document.querySelectorAll('.mobile-panel[data-panel]');
   const tabs = document.querySelectorAll('.mobile-tab[data-tab]');
 
+  const heroVideoEl = document.querySelector('.hero-video');
+
   function switchMobilePanel(panelName) {
     panels.forEach(function (panel) {
       panel.classList.toggle('panel-active', panel.dataset.panel === panelName);
@@ -1391,6 +1393,15 @@
     tabs.forEach(function (tab) {
       tab.classList.toggle('is-active', tab.dataset.tab === panelName);
     });
+
+    // En mobile el panel "inicio" se oculta con display:none al navegar a otra
+    // sección; eso puede dejar el video de fondo congelado en el último frame.
+    // Al volver, forzamos que retome la reproducción.
+    if (panelName === 'inicio' && heroVideoEl) {
+      requestAnimationFrame(function () {
+        heroVideoEl.play().catch(function () { /* el navegador puede bloquear autoplay; no pasa nada */ });
+      });
+    }
   }
 
   menuItemClicks.forEach(item => {
