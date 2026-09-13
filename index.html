@@ -290,47 +290,35 @@
     to { transform: translate3d(calc(-50% - 9px),0,0); }
   }
   @media (max-width: 767px) {
-    /*
-      MOBILE: slider convencional.
-      Se elimina por completo la animación automática para que el usuario
-      pueda recorrer las disciplinas con el dedo a su propio ritmo.
-    */
-    .discipline-slider {
-      margin-left:-24px;
-      width:calc(100% + 48px);
-      overflow:visible;
-    }
+    .discipline-slider { margin-left:-24px; width:calc(100% + 48px); }
+    /* Mobile: slider convencional deslizable con el dedo (sin auto-movimiento). */
     .discipline-slider-viewport {
-      overflow-x:auto;
-      overflow-y:hidden;
-      -webkit-overflow-scrolling:touch;
-      overscroll-behavior-x:contain;
-      scroll-snap-type:x mandatory;
-      scrollbar-width:none;
-      touch-action:pan-x;
-      padding: 4px 24px 18px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      padding: 0 24px;
     }
-    .discipline-slider-viewport::-webkit-scrollbar { display:none; }
+    .discipline-slider-viewport::-webkit-scrollbar { display: none; }
     .discipline-slider-track {
-      gap:14px;
-      width:max-content;
-      animation:none !important;
-      transform:none !important;
-      will-change:auto;
+      gap: 14px;
+      animation: none !important;
+      transform: none !important;
     }
     .discipline-slider:hover .discipline-slider-track,
     .discipline-slider:focus-within .discipline-slider-track {
-      animation:none !important;
+      animation: none !important;
     }
     .discipline-slide {
-      flex:0 0 min(84vw, 350px);
+      flex-basis: min(84vw, 350px);
       aspect-ratio: 1170 / 1350;
-      scroll-snap-align:center;
-      scroll-snap-stop:always;
+      scroll-snap-align: center;
     }
-    /* En mobile no necesitamos los duplicados del carrusel infinito. */
-    .discipline-slide[data-discipline-clone="true"] { display:none; }
-    .discipline-slider::before, .discipline-slider::after { display:none; }
+    /* Las tarjetas duplicadas solo existían para el loop infinito del slider automático */
+    .discipline-slide[aria-hidden="true"] { display: none; }
+    .discipline-slider::before, .discipline-slider::after { width:18px; }
   }
   @media (prefers-reduced-motion: reduce) {
     .discipline-slider-track { animation-play-state: paused !important; transform:none !important; }
@@ -548,6 +536,113 @@
     font-weight: 700;
   }
 
+  /* ---- Tarjeta "Cafetería" con flip a video (pop-up centrado) ---- */
+  .cafeteria-flip {
+    position: relative;
+    height: 4.5rem;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  @media (min-width: 768px) {
+    .cafeteria-flip { height: 5.75rem; }
+  }
+
+  .cafeteria-flip-inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: top .5s cubic-bezier(.22,1,.36,1),
+                left .5s cubic-bezier(.22,1,.36,1),
+                width .5s cubic-bezier(.22,1,.36,1),
+                height .5s cubic-bezier(.22,1,.36,1),
+                transform .5s cubic-bezier(.22,1,.36,1);
+  }
+
+  .cafeteria-flip-front,
+  .cafeteria-flip-back {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  .cafeteria-flip-front {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    text-align: left;
+  }
+
+  .cafeteria-flip-stat {
+    font-size: clamp(1.7rem, 3.6vw, 2.75rem);
+    line-height: 1;
+  }
+
+  /* Reserva la misma altura que el número de las tarjetas vecinas (clamp 2.25–3.75rem)
+     y alinea "Cafetería" contra esa base, para que la descripción de abajo
+     quede a la misma altura que "m² en 3 pisos" / "Licencia oficial". */
+  .cafeteria-flip-stat-line {
+    display: flex;
+    align-items: flex-end;
+    height: clamp(2.25rem, 5vw, 3.75rem);
+  }
+
+  .cafeteria-flip-back {
+    transform: rotateY(180deg);
+    border-radius: 12px;
+    overflow: hidden;
+    background: #05060a;
+    border: 1px solid rgba(255,255,255,.08);
+  }
+
+  .cafeteria-flip-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .cafeteria-flip-back-label {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    padding: .6rem .75rem;
+    background: linear-gradient(to top, rgba(0,0,0,.88), transparent);
+    color: #fff;
+    font-family: 'Forma DJR Banner', 'Archivo', sans-serif;
+    font-weight: 700;
+    font-size: .8rem;
+    letter-spacing: .01em;
+  }
+
+  .cafeteria-flip:hover .cafeteria-flip-inner,
+  .cafeteria-flip:focus-within .cafeteria-flip-inner,
+  .cafeteria-flip.is-flipped .cafeteria-flip-inner {
+    top: 50%;
+    left: 50%;
+    width: 168px;
+    height: 224px;
+    max-width: calc(100vw - 3.5rem);
+    transform: translate(-50%, -50%) rotateY(180deg);
+    z-index: 40;
+    box-shadow: 0 24px 60px -12px rgba(0,0,0,.65);
+  }
+  @media (min-width: 768px) {
+    .cafeteria-flip:hover .cafeteria-flip-inner,
+    .cafeteria-flip:focus-within .cafeteria-flip-inner,
+    .cafeteria-flip.is-flipped .cafeteria-flip-inner {
+      width: 190px;
+      height: 250px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cafeteria-flip-inner { transition: none; }
+  }
+
   ::selection { background: #2F6FFF; color: #FFFFFF; }
 
   a:focus-visible, button:focus-visible, summary:focus-visible {
@@ -573,13 +668,6 @@
 
   @media (max-width: 767px) {
     .mobile-panel:not(.panel-active) { display: none; }
-
-    /* Video de cafetería: se oculta inmediatamente al tocar fuera del módulo. */
-    .cafeteria-video-dismissed {
-      display: none !important;
-      visibility: hidden !important;
-      pointer-events: none !important;
-    }
   }
 
   .hero-video-backdrop,
@@ -840,36 +928,36 @@
     <div class="discipline-slider" data-discipline-slider aria-label="Disciplinas del gimnasio">
       <div class="discipline-slider-viewport">
         <div class="discipline-slider-track" data-discipline-track>
-          <article class="discipline-slide" data-discipline-slide="true" data-discipline-original="true">
+          <article class="discipline-slide" data-discipline-slide>
             <div class="discipline-slide-media"><img src="assets/disciplinas/musculacion-cardio.jpg" alt="Musculación y Cardio" loading="lazy"></div>
           </article>
-          <article class="discipline-slide" data-discipline-slide="true" data-discipline-original="true">
+          <article class="discipline-slide" data-discipline-slide>
             <div class="discipline-slide-media"><img src="assets/disciplinas/crossfit.jpg" alt="CrossFit" loading="lazy"></div>
           </article>
-          <article class="discipline-slide" data-discipline-slide="true" data-discipline-original="true">
+          <article class="discipline-slide" data-discipline-slide>
             <div class="discipline-slide-media"><img src="assets/disciplinas/hyrox.jpg" alt="Hyrox" loading="lazy"></div>
           </article>
-          <article class="discipline-slide" data-discipline-slide="true" data-discipline-original="true">
+          <article class="discipline-slide" data-discipline-slide>
             <div class="discipline-slide-media"><img src="assets/disciplinas/calistenia.jpg" alt="Calistenia" loading="lazy"></div>
           </article>
-          <article class="discipline-slide" data-discipline-slide="true" data-discipline-original="true">
+          <article class="discipline-slide" data-discipline-slide>
             <div class="discipline-slide-media"><img src="assets/disciplinas/funcional.jpg" alt="Funcional" loading="lazy"></div>
           </article>
 
           <!-- Duplicado para continuidad infinita del slider -->
-          <article class="discipline-slide" data-discipline-clone="true" aria-hidden="true">
+          <article class="discipline-slide" aria-hidden="true">
             <div class="discipline-slide-media"><img src="assets/disciplinas/musculacion-cardio.jpg" alt="" loading="lazy"></div>
           </article>
-          <article class="discipline-slide" data-discipline-clone="true" aria-hidden="true">
+          <article class="discipline-slide" aria-hidden="true">
             <div class="discipline-slide-media"><img src="assets/disciplinas/crossfit.jpg" alt="" loading="lazy"></div>
           </article>
-          <article class="discipline-slide" data-discipline-clone="true" aria-hidden="true">
+          <article class="discipline-slide" aria-hidden="true">
             <div class="discipline-slide-media"><img src="assets/disciplinas/hyrox.jpg" alt="" loading="lazy"></div>
           </article>
-          <article class="discipline-slide" data-discipline-clone="true" aria-hidden="true">
+          <article class="discipline-slide" aria-hidden="true">
             <div class="discipline-slide-media"><img src="assets/disciplinas/calistenia.jpg" alt="" loading="lazy"></div>
           </article>
-          <article class="discipline-slide" data-discipline-clone="true" aria-hidden="true">
+          <article class="discipline-slide" aria-hidden="true">
             <div class="discipline-slide-media"><img src="assets/disciplinas/funcional.jpg" alt="" loading="lazy"></div>
           </article>
         </div>
@@ -879,7 +967,7 @@
 </section>
 
 <!-- ============ LOGROS / CIFRAS ============ -->
-<section id="logros" class="relative py-14 md:py-24 lg:py-32 border-t border-line/80 bg-surface/50 overflow-hidden">
+<section id="logros" class="relative py-14 md:py-24 lg:py-32 border-t border-line/80 bg-surface/50 overflow-visible">
   <div class="max-w-7xl mx-auto px-6 md:px-10 mb-14">
     <p class="sector-tag mb-6">SECTOR 05 / EN NÚMEROS</p>
     <h2 class="display-heading text-4xl md:text-5xl uppercase max-w-2xl">La crew, medida en cifras.</h2>
@@ -891,8 +979,22 @@
       <p class="font-mono text-xs uppercase tracking-wider text-stone mt-3">m² en 3 pisos</p>
     </div>
     <div class="border-t border-line pt-6">
-      <p class="stat-number text-white">+ Café</p>
-      <p class="font-mono text-xs uppercase tracking-wider text-stone mt-3" aria-hidden="true">&nbsp;</p>
+      <div class="cafeteria-flip" tabindex="0" role="group" aria-label="Cafetería, baristas especializados. Pasá el cursor para ver el video.">
+        <div class="cafeteria-flip-inner">
+          <div class="cafeteria-flip-front">
+            <div class="cafeteria-flip-stat-line">
+              <p class="stat-number cafeteria-flip-stat text-white">Cafetería</p>
+            </div>
+            <p class="font-mono text-xs uppercase tracking-wider text-stone mt-3">Baristas especializados</p>
+          </div>
+          <div class="cafeteria-flip-back">
+            <video class="cafeteria-flip-video" muted loop playsinline preload="none" aria-hidden="true">
+              <source data-src="assets/cafeteria-hover.mp4" type="video/mp4">
+            </video>
+            <span class="cafeteria-flip-back-label">Cafetería</span>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="border-t border-electric/80 pt-6">
       <p class="stat-number text-electric">Hyrox</p>
@@ -1277,70 +1379,6 @@
 
 </script>
 
-<!-- ============ CAFETERÍA — CIERRE DEL VIDEO EN MOBILE ============ -->
-<script>
-  (function () {
-    var mobileQuery = window.matchMedia('(max-width: 767px)');
-
-    function isMobile() {
-      return mobileQuery.matches;
-    }
-
-    function isCafeteriaTrigger(target) {
-      if (!target || !target.closest) return false;
-
-      var trigger = target.closest('a, button, [role="button"], [data-cafeteria-trigger], #cafeteria, .cafeteria-trigger');
-      if (!trigger) return false;
-
-      var label = (
-        (trigger.getAttribute('aria-label') || '') + ' ' +
-        (trigger.getAttribute('title') || '') + ' ' +
-        (trigger.textContent || '')
-      ).toLowerCase();
-
-      return label.indexOf('cafeter') !== -1 || label.indexOf('café') !== -1 || label.indexOf('cafe') !== -1;
-    }
-
-    function findCafeteriaVideos() {
-      var videos = Array.prototype.slice.call(document.querySelectorAll(
-        '[data-cafeteria-video], #cafeteria-video, .cafeteria-video, video[src*="cafeter"], video[src*="cafe"], video source[src*="cafeter"], video source[src*="cafe"]'
-      ));
-
-      var result = [];
-      videos.forEach(function (node) {
-        var video = node.tagName && node.tagName.toLowerCase() === 'video' ? node : node.closest('video');
-        if (video && result.indexOf(video) === -1) result.push(video);
-      });
-      return result;
-    }
-
-    function dismissCafeteriaVideo() {
-      if (!isMobile()) return;
-
-      findCafeteriaVideos().forEach(function (video) {
-        try { video.pause(); } catch (e) {}
-        video.classList.add('cafeteria-video-dismissed');
-      });
-    }
-
-    /*
-      Cualquier toque fuera del disparador de cafetería cierra el video.
-      Se usa pointerdown para que el cierre sea inmediato en teléfonos.
-    */
-    document.addEventListener('pointerdown', function (event) {
-      if (!isMobile()) return;
-      if (isCafeteriaTrigger(event.target)) return;
-      dismissCafeteriaVideo();
-    }, true);
-
-    document.addEventListener('touchstart', function (event) {
-      if (!isMobile()) return;
-      if (isCafeteriaTrigger(event.target)) return;
-      dismissCafeteriaVideo();
-    }, { capture: true, passive: true });
-  })();
-</script>
-
 <!-- ============ CANVAS TEXT + ENCRYPTED TEXT — HERO ============ -->
 <script>
   (function () {
@@ -1562,7 +1600,65 @@
   })();
 </script>
 
+<!-- ============ FLIP CARD — CAFETERÍA (video al pasar el cursor) ============ -->
+<script>
+  (function () {
+    var flip = document.querySelector('.cafeteria-flip');
+    if (!flip) return;
 
+    var video = flip.querySelector('.cafeteria-flip-video');
+    var source = video ? video.querySelector('source') : null;
+    var videoLoaded = false;
+
+    function ensureVideoSource() {
+      // Carga el video recién cuando hace falta, para no pesar la página al inicio.
+      if (!videoLoaded && source && source.dataset.src) {
+        source.src = source.dataset.src;
+        video.load();
+        videoLoaded = true;
+      }
+    }
+
+    function playVideo() {
+      if (!video) return;
+      ensureVideoSource();
+      video.currentTime = 0;
+      video.play().catch(function () { /* el navegador puede bloquear autoplay; no pasa nada */ });
+    }
+
+    function pauseVideo() {
+      if (!video) return;
+      video.pause();
+    }
+
+    flip.addEventListener('mouseenter', playVideo);
+    flip.addEventListener('mouseleave', pauseVideo);
+    flip.addEventListener('focusin', playVideo);
+    flip.addEventListener('focusout', pauseVideo);
+
+    // Soporte táctil: primer toque da vuelta la tarjeta y reproduce, segundo toque la vuelve a su estado normal.
+    flip.addEventListener('touchend', function (event) {
+      event.preventDefault();
+      var flipped = flip.classList.toggle('is-flipped');
+      if (flipped) {
+        playVideo();
+      } else {
+        pauseVideo();
+      }
+    }, { passive: false });
+
+    // Si el usuario toca en cualquier otra parte de la página, la tarjeta se cierra
+    // y el video deja de reproducirse (antes quedaba fijo mostrando el video).
+    function closeIfOutside(event) {
+      if (flip.classList.contains('is-flipped') && !flip.contains(event.target)) {
+        flip.classList.remove('is-flipped');
+        pauseVideo();
+      }
+    }
+    document.addEventListener('touchstart', closeIfOutside, { passive: true });
+    document.addEventListener('click', closeIfOutside);
+  })();
+</script>
 
 
 </body>
