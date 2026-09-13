@@ -5,6 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DISTRITO FITNESS CENTER — Musculación, CrossFit, Hyrox & Calistenia en Caballito</title>
 
+<!-- Seguridad: cabeceras aplicables desde HTML.
+     X-Frame-Options y X-Content-Type-Options NO se pueden fijar por <meta>, deben
+     configurarse en el hosting (ver archivo SEGURIDAD-HEADERS.md incluido en el proyecto). -->
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://unpkg.com; object-src 'none'; base-uri 'self'; form-action 'self';">
+
 <!-- Tailwind CSS -->
 <script src="https://cdn.tailwindcss.com"></script>
 
@@ -13,8 +19,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-<!-- Lucide Icons -->
-<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<!-- Lucide Icons: versión fijada (1.45.0) en lugar de @latest, para que el sitio
+     no dependa de un release futuro que pueda cambiar sin aviso. -->
+<script src="https://unpkg.com/lucide@1.45.0/dist/umd/lucide.js"></script>
 
 <script>
   tailwind.config = {
@@ -643,6 +650,39 @@
     .cafeteria-flip-inner { transition: none; }
   }
 
+  /* ============ ACORDEÓN — POR QUÉ ELEGIRNOS ============ */
+  .accordion-trigger { background: none; border: none; cursor: pointer; font: inherit; color: inherit; }
+
+  .accordion-panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows .45s cubic-bezier(.4,0,.2,1);
+  }
+  .accordion-item.is-open .accordion-panel { grid-template-rows: 1fr; }
+  .accordion-panel-inner { overflow: hidden; min-height: 0; }
+
+  .accordion-chevron { transition: transform .4s cubic-bezier(.4,0,.2,1); }
+  .accordion-item.is-open .accordion-chevron { transform: rotate(180deg); color: #2F6FFF; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .accordion-panel, .accordion-chevron { transition: none; }
+  }
+
+  /* ============ SCROLL REVEAL (fade + stagger) — genérico, sin dependencias ============ */
+  .reveal-item {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity .6s cubic-bezier(.16,1,.3,1), transform .6s cubic-bezier(.16,1,.3,1);
+    transition-delay: var(--reveal-delay, 0s);
+  }
+  .reveal-item.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal-item { opacity: 1; transform: none; transition: none; }
+  }
+
   ::selection { background: #2F6FFF; color: #FFFFFF; }
 
   a:focus-visible, button:focus-visible, summary:focus-visible {
@@ -854,46 +894,71 @@
     <p class="sector-tag mb-6">SECTOR 03 / POR QUÉ ELEGIRNOS</p>
     <h2 class="display-heading text-4xl md:text-5xl uppercase mb-8 md:mb-16 max-w-3xl leading-tight">No competimos<br>en precio. <span class="text-electric">Competimos en nivel.</span></h2>
 
-    <div class="divide-y divide-line/80 border-y border-line/80">
+    <div class="accordion divide-y divide-line/80 border-y border-line/80" data-accordion data-reveal-group>
 
-      <div class="group grid md:grid-cols-12 gap-3 md:gap-8 py-5 md:py-8 items-start hover:bg-surface2/40 transition-colors px-4 -mx-4 rounded-xs">
-        <div class="md:col-span-1 flex md:justify-center">
-          <i data-lucide="users" class="w-6 h-6 text-electric"></i>
+      <div class="accordion-item is-open reveal-item" data-accordion-item data-reveal-item>
+        <button type="button" class="accordion-trigger w-full flex items-center gap-4 md:gap-6 py-5 md:py-6 px-4 -mx-4 text-left hover:bg-surface2/40 transition-colors rounded-xs" aria-expanded="true" data-accordion-trigger>
+          <i data-lucide="users" class="w-6 h-6 text-electric shrink-0"></i>
+          <h3 class="display-heading text-xl md:text-2xl uppercase tracking-wider flex-1">Comunidad</h3>
+          <i data-lucide="chevron-down" class="accordion-chevron w-5 h-5 text-stone shrink-0"></i>
+        </button>
+        <div class="accordion-panel" data-accordion-panel>
+          <div class="accordion-panel-inner">
+            <p class="text-stone font-light leading-relaxed pb-5 md:pb-6 pl-10 md:pl-16 pr-4">Acá no entrenás al lado de desconocidos: entrenás con una crew que te conoce por tu nombre y te espera en cada clase.</p>
+          </div>
         </div>
-        <h3 class="md:col-span-4 display-heading text-xl md:text-2xl uppercase tracking-wider">Comunidad</h3>
-        <p class="md:col-span-7 text-stone font-light leading-relaxed">Acá no entrenás al lado de desconocidos: entrenás con una crew que te conoce por tu nombre y te espera en cada clase.</p>
       </div>
 
-      <div class="group grid md:grid-cols-12 gap-3 md:gap-8 py-5 md:py-8 items-start hover:bg-surface2/40 transition-colors px-4 -mx-4 rounded-xs">
-        <div class="md:col-span-1 flex md:justify-center">
-          <i data-lucide="sparkles" class="w-6 h-6 text-electric"></i>
+      <div class="accordion-item reveal-item" data-accordion-item data-reveal-item>
+        <button type="button" class="accordion-trigger w-full flex items-center gap-4 md:gap-6 py-5 md:py-6 px-4 -mx-4 text-left hover:bg-surface2/40 transition-colors rounded-xs" aria-expanded="false" data-accordion-trigger>
+          <i data-lucide="sparkles" class="w-6 h-6 text-electric shrink-0"></i>
+          <h3 class="display-heading text-xl md:text-2xl uppercase tracking-wider flex-1">Lugar innovador</h3>
+          <i data-lucide="chevron-down" class="accordion-chevron w-5 h-5 text-stone shrink-0"></i>
+        </button>
+        <div class="accordion-panel" data-accordion-panel>
+          <div class="accordion-panel-inner">
+            <p class="text-stone font-light leading-relaxed pb-5 md:pb-6 pl-10 md:pl-16 pr-4">Un concepto que rompe con el gimnasio tradicional de barrio: musculación, CrossFit, Hyrox y calistenia bajo un mismo techo.</p>
+          </div>
         </div>
-        <h3 class="md:col-span-4 display-heading text-xl md:text-2xl uppercase tracking-wider">Lugar innovador</h3>
-        <p class="md:col-span-7 text-stone font-light leading-relaxed">Un concepto que rompe con el gimnasio tradicional de barrio: musculación, CrossFit, Hyrox y calistenia bajo un mismo techo.</p>
       </div>
 
-      <div class="group grid md:grid-cols-12 gap-3 md:gap-8 py-5 md:py-8 items-start hover:bg-surface2/40 transition-colors px-4 -mx-4 rounded-xs">
-        <div class="md:col-span-1 flex md:justify-center">
-          <i data-lucide="sun" class="w-6 h-6 text-electric"></i>
+      <div class="accordion-item reveal-item" data-accordion-item data-reveal-item>
+        <button type="button" class="accordion-trigger w-full flex items-center gap-4 md:gap-6 py-5 md:py-6 px-4 -mx-4 text-left hover:bg-surface2/40 transition-colors rounded-xs" aria-expanded="false" data-accordion-trigger>
+          <i data-lucide="sun" class="w-6 h-6 text-electric shrink-0"></i>
+          <h3 class="display-heading text-xl md:text-2xl uppercase tracking-wider flex-1">Ambiente</h3>
+          <i data-lucide="chevron-down" class="accordion-chevron w-5 h-5 text-stone shrink-0"></i>
+        </button>
+        <div class="accordion-panel" data-accordion-panel>
+          <div class="accordion-panel-inner">
+            <p class="text-stone font-light leading-relaxed pb-5 md:pb-6 pl-10 md:pl-16 pr-4">Espacios amplios, luminosos y cuidados hasta el último detalle — pensados para que quieras quedarte más tiempo del que planeabas.</p>
+          </div>
         </div>
-        <h3 class="md:col-span-4 display-heading text-xl md:text-2xl uppercase tracking-wider">Ambiente</h3>
-        <p class="md:col-span-7 text-stone font-light leading-relaxed">Espacios amplios, luminosos y cuidados hasta el último detalle — pensados para que quieras quedarte más tiempo del que planeabas.</p>
       </div>
 
-      <div class="group grid md:grid-cols-12 gap-3 md:gap-8 py-5 md:py-8 items-start hover:bg-surface2/40 transition-colors px-4 -mx-4 rounded-xs">
-        <div class="md:col-span-1 flex md:justify-center">
-          <i data-lucide="handshake" class="w-6 h-6 text-electric"></i>
+      <div class="accordion-item reveal-item" data-accordion-item data-reveal-item>
+        <button type="button" class="accordion-trigger w-full flex items-center gap-4 md:gap-6 py-5 md:py-6 px-4 -mx-4 text-left hover:bg-surface2/40 transition-colors rounded-xs" aria-expanded="false" data-accordion-trigger>
+          <i data-lucide="handshake" class="w-6 h-6 text-electric shrink-0"></i>
+          <h3 class="display-heading text-xl md:text-2xl uppercase tracking-wider flex-1">Dueños presentes</h3>
+          <i data-lucide="chevron-down" class="accordion-chevron w-5 h-5 text-stone shrink-0"></i>
+        </button>
+        <div class="accordion-panel" data-accordion-panel>
+          <div class="accordion-panel-inner">
+            <p class="text-stone font-light leading-relaxed pb-5 md:pb-6 pl-10 md:pl-16 pr-4">Los fundadores están en el piso todos los días, no en una oficina — conocen tu progreso y tus objetivos de primera mano.</p>
+          </div>
         </div>
-        <h3 class="md:col-span-4 display-heading text-xl md:text-2xl uppercase tracking-wider">Dueños presentes</h3>
-        <p class="md:col-span-7 text-stone font-light leading-relaxed">Los fundadores están en el piso todos los días, no en una oficina — conocen tu progreso y tus objetivos de primera mano.</p>
       </div>
 
-      <div class="group grid md:grid-cols-12 gap-3 md:gap-8 py-5 md:py-8 items-start hover:bg-surface2/40 transition-colors px-4 -mx-4 rounded-xs">
-        <div class="md:col-span-1 flex md:justify-center">
-          <i data-lucide="gem" class="w-6 h-6 text-electric"></i>
+      <div class="accordion-item reveal-item" data-accordion-item data-reveal-item>
+        <button type="button" class="accordion-trigger w-full flex items-center gap-4 md:gap-6 py-5 md:py-6 px-4 -mx-4 text-left hover:bg-surface2/40 transition-colors rounded-xs" aria-expanded="false" data-accordion-trigger>
+          <i data-lucide="gem" class="w-6 h-6 text-electric shrink-0"></i>
+          <h3 class="display-heading text-xl md:text-2xl uppercase tracking-wider flex-1">Servicio premium</h3>
+          <i data-lucide="chevron-down" class="accordion-chevron w-5 h-5 text-stone shrink-0"></i>
+        </button>
+        <div class="accordion-panel" data-accordion-panel>
+          <div class="accordion-panel-inner">
+            <p class="text-stone font-light leading-relaxed pb-5 md:pb-6 pl-10 md:pl-16 pr-4">Equipamiento de última generación, vestuarios premium y una atención a la altura de lo que te merecés.</p>
+          </div>
         </div>
-        <h3 class="md:col-span-4 display-heading text-xl md:text-2xl uppercase tracking-wider">Servicio premium</h3>
-        <p class="md:col-span-7 text-stone font-light leading-relaxed">Equipamiento de última generación, vestuarios premium y una atención a la altura de lo que te merecés.</p>
       </div>
 
     </div>
@@ -1649,6 +1714,71 @@
     }
     document.addEventListener('touchstart', closeIfOutside, { passive: true });
     document.addEventListener('click', closeIfOutside);
+  })();
+</script>
+
+<!-- ============ ACORDEÓN — POR QUÉ ELEGIRNOS (un solo ítem abierto a la vez) ============ -->
+<script>
+  (function () {
+    var accordion = document.querySelector('[data-accordion]');
+    if (!accordion) return;
+
+    var items = Array.prototype.slice.call(accordion.querySelectorAll('[data-accordion-item]'));
+
+    items.forEach(function (item) {
+      var trigger = item.querySelector('[data-accordion-trigger]');
+      if (!trigger) return;
+
+      trigger.addEventListener('click', function () {
+        var willOpen = !item.classList.contains('is-open');
+
+        items.forEach(function (other) {
+          other.classList.remove('is-open');
+          var otherTrigger = other.querySelector('[data-accordion-trigger]');
+          if (otherTrigger) otherTrigger.setAttribute('aria-expanded', 'false');
+        });
+
+        if (willOpen) {
+          item.classList.add('is-open');
+          trigger.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+  })();
+</script>
+
+<!-- ============ SCROLL REVEAL (fade + stagger) — genérico, sin dependencias externas ============ -->
+<script>
+  (function () {
+    var groups = document.querySelectorAll('[data-reveal-group]');
+    if (!groups.length) return;
+
+    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion) return; // Los ítems ya son visibles por CSS en este caso.
+
+    if (!('IntersectionObserver' in window)) {
+      document.querySelectorAll('.reveal-item').forEach(function (el) { el.classList.add('is-visible'); });
+      return;
+    }
+
+    groups.forEach(function (group) {
+      var items = Array.prototype.slice.call(group.querySelectorAll('[data-reveal-item]'));
+
+      items.forEach(function (item, index) {
+        item.style.setProperty('--reveal-delay', (index * 70) + 'ms');
+      });
+
+      var observer = new IntersectionObserver(function (entries, obs) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+      items.forEach(function (item) { observer.observe(item); });
+    });
   })();
 </script>
 
