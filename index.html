@@ -5,47 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DISTRITO FITNESS CENTER — Musculación, CrossFit, Hyrox & Calistenia en Caballito</title>
 
-<!-- Seguridad: cabeceras aplicables desde HTML.
-     X-Frame-Options y X-Content-Type-Options NO se pueden fijar por <meta>, deben
-     configurarse en el hosting (ver archivo SEGURIDAD-HEADERS.md incluido en el proyecto). -->
-<meta name="referrer" content="strict-origin-when-cross-origin">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; connect-src 'self' https://unpkg.com; object-src 'none'; base-uri 'self'; form-action 'self';">
-
-<!-- Tailwind CSS -->
-<script src="https://cdn.tailwindcss.com"></script>
-
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-<!-- Lucide Icons: versión fijada (1.45.0) en lugar de @latest, para que el sitio
-     no dependa de un release futuro que pueda cambiar sin aviso. -->
-<script src="https://unpkg.com/lucide@1.45.0/dist/umd/lucide.js"></script>
-
-<script>
-  tailwind.config = {
-    theme: {
-      extend: {
-        colors: {
-          bg: '#0A0B0E',
-          surface: '#111318',
-          surface2: '#181B22',
-          electric: '#2F6FFF',
-          electriclight: '#5B8FFF',
-          steel: '#D1D5DB',
-          stone: '#9CA3AF',
-          line: '#202430',
-        },
-        fontFamily: {
-          display: ['"Forma DJR Banner"', 'Archivo', 'sans-serif'],
-          mono: ['"Forma DJR Banner"', 'Archivo', 'sans-serif'],
-          body: ['Inter', 'sans-serif'],
-        },
-      }
-    }
-  }
-</script>
 
 <style>
   html { scroll-behavior: smooth; }
@@ -93,48 +56,6 @@
     font-family: 'Forma DJR Banner', 'Archivo', sans-serif;
     letter-spacing: 0.01em;
     line-height: 1.1;
-  }
-
-  /* ============ CANVAS TEXT — HERO / MEJOR ============ */
-  /*
-     Adaptación fiel al concepto de Aceternity Canvas Text:
-     - la palabra permanece sólida y estable;
-     - las curvas animadas se dibujan DENTRO del relleno de las letras;
-     - la animación no modifica la geometría, tamaño ni posición del texto.
-  */
-  .canvas-text-word {
-    position: relative;
-    display: inline-block;
-    color: transparent;
-    isolation: isolate;
-    line-height: 1;
-    vertical-align: baseline;
-    min-width: 3.75em;
-    padding-right: 0.08em;
-    box-sizing: border-box;
-  }
-  .canvas-text-word > span {
-    color: transparent;
-    -webkit-text-fill-color: transparent;
-    user-select: none;
-  }
-  .canvas-text-word canvas {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 1;
-  }
-  .canvas-text-word::after {
-    content: "";
-    position: absolute;
-    inset: -4% -2%;
-    border-radius: 999px;
-    background: radial-gradient(circle, rgba(47,111,255,.10), transparent 70%);
-    filter: blur(12px);
-    z-index: -1;
-    pointer-events: none;
   }
 
   /* ============ ENCRYPTED TEXT — HERO DESCRIPTION ============ */
@@ -297,35 +218,49 @@
     to { transform: translate3d(calc(-50% - 9px),0,0); }
   }
   @media (max-width: 767px) {
-    .discipline-slider { margin-left:-24px; width:calc(100% + 48px); }
-    /* Mobile: slider convencional deslizable con el dedo (sin auto-movimiento). */
+    .discipline-slider {
+      margin-left: -24px;
+      width: calc(100% + 48px);
+      overflow: visible;
+      padding-bottom: 10px;
+    }
+    /* Mobile: carrusel manual por gesto. Sin autoplay ni desaceleración táctil. */
     .discipline-slider-viewport {
       overflow-x: auto;
       overflow-y: hidden;
-      -webkit-overflow-scrolling: touch;
       scroll-snap-type: x mandatory;
+      scroll-padding-inline: 24px;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-x: contain;
       scrollbar-width: none;
-      -ms-overflow-style: none;
-      padding: 0 24px;
+      touch-action: pan-x;
+      cursor: grab;
     }
+    .discipline-slider-viewport:active { cursor: grabbing; }
     .discipline-slider-viewport::-webkit-scrollbar { display: none; }
     .discipline-slider-track {
       gap: 14px;
       animation: none !important;
       transform: none !important;
+      padding: 0 24px;
+      width: max-content;
+      will-change: auto;
     }
     .discipline-slider:hover .discipline-slider-track,
     .discipline-slider:focus-within .discipline-slider-track {
       animation: none !important;
+      transform: none !important;
     }
     .discipline-slide {
-      flex-basis: min(84vw, 350px);
+      flex: 0 0 min(86vw, 360px);
       aspect-ratio: 1170 / 1350;
       scroll-snap-align: center;
+      scroll-snap-stop: always;
     }
-    /* Las tarjetas duplicadas solo existían para el loop infinito del slider automático */
+    /* En mobile no hacen falta las copias usadas para el loop infinito de escritorio. */
     .discipline-slide[aria-hidden="true"] { display: none; }
-    .discipline-slider::before, .discipline-slider::after { width:18px; }
+    .discipline-slider::before,
+    .discipline-slider::after { display: none; }
   }
   @media (prefers-reduced-motion: reduce) {
     .discipline-slider-track { animation-play-state: paused !important; transform:none !important; }
@@ -543,146 +478,6 @@
     font-weight: 700;
   }
 
-  /* ---- Tarjeta "Cafetería" con flip a video (pop-up centrado) ---- */
-  .cafeteria-flip {
-    position: relative;
-    height: 4.5rem;
-    cursor: pointer;
-    -webkit-tap-highlight-color: transparent;
-  }
-  @media (min-width: 768px) {
-    .cafeteria-flip { height: 5.75rem; }
-  }
-
-  .cafeteria-flip-inner {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    transform-style: preserve-3d;
-    transition: top .5s cubic-bezier(.22,1,.36,1),
-                left .5s cubic-bezier(.22,1,.36,1),
-                width .5s cubic-bezier(.22,1,.36,1),
-                height .5s cubic-bezier(.22,1,.36,1),
-                transform .5s cubic-bezier(.22,1,.36,1);
-  }
-
-  .cafeteria-flip-front,
-  .cafeteria-flip-back {
-    position: absolute;
-    inset: 0;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-  }
-
-  .cafeteria-flip-front {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    text-align: left;
-  }
-
-  .cafeteria-flip-stat {
-    font-size: clamp(1.7rem, 3.6vw, 2.75rem);
-    line-height: 1;
-  }
-
-  /* Reserva la misma altura que el número de las tarjetas vecinas (clamp 2.25–3.75rem)
-     y alinea "Cafetería" contra esa base, para que la descripción de abajo
-     quede a la misma altura que "m² en 3 pisos" / "Licencia oficial". */
-  .cafeteria-flip-stat-line {
-    display: flex;
-    align-items: flex-end;
-    height: clamp(2.25rem, 5vw, 3.75rem);
-  }
-
-  .cafeteria-flip-back {
-    transform: rotateY(180deg);
-    border-radius: 12px;
-    overflow: hidden;
-    background: #05060a;
-    border: 1px solid rgba(255,255,255,.08);
-  }
-
-  .cafeteria-flip-video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-
-  .cafeteria-flip-back-label {
-    position: absolute;
-    left: 0; right: 0; bottom: 0;
-    padding: .6rem .75rem;
-    background: linear-gradient(to top, rgba(0,0,0,.88), transparent);
-    color: #fff;
-    font-family: 'Forma DJR Banner', 'Archivo', sans-serif;
-    font-weight: 700;
-    font-size: .8rem;
-    letter-spacing: .01em;
-  }
-
-  .cafeteria-flip:hover .cafeteria-flip-inner,
-  .cafeteria-flip:focus-within .cafeteria-flip-inner,
-  .cafeteria-flip.is-flipped .cafeteria-flip-inner {
-    top: 50%;
-    left: 50%;
-    width: 168px;
-    height: 224px;
-    max-width: calc(100vw - 3.5rem);
-    transform: translate(-50%, -50%) rotateY(180deg);
-    z-index: 40;
-    box-shadow: 0 24px 60px -12px rgba(0,0,0,.65);
-  }
-  @media (min-width: 768px) {
-    .cafeteria-flip:hover .cafeteria-flip-inner,
-    .cafeteria-flip:focus-within .cafeteria-flip-inner,
-    .cafeteria-flip.is-flipped .cafeteria-flip-inner {
-      width: 190px;
-      height: 250px;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .cafeteria-flip-inner { transition: none; }
-  }
-
-  /* ============ ACORDEÓN — POR QUÉ ELEGIRNOS ============ */
-  .accordion-trigger { background: none; border: none; cursor: pointer; font: inherit; color: inherit; }
-
-  .accordion-panel {
-    display: grid;
-    grid-template-rows: 0fr;
-    transition: grid-template-rows .45s cubic-bezier(.4,0,.2,1);
-  }
-  .accordion-item.is-open .accordion-panel { grid-template-rows: 1fr; }
-  .accordion-panel-inner { overflow: hidden; min-height: 0; }
-
-  .accordion-chevron { transition: transform .4s cubic-bezier(.4,0,.2,1); }
-  .accordion-item.is-open .accordion-chevron { transform: rotate(180deg); color: #2F6FFF; }
-
-  @media (prefers-reduced-motion: reduce) {
-    .accordion-panel, .accordion-chevron { transition: none; }
-  }
-
-  /* ============ SCROLL REVEAL (fade + stagger) — genérico, sin dependencias ============ */
-  .reveal-item {
-    opacity: 0;
-    transform: translateY(18px);
-    transition: opacity .6s cubic-bezier(.16,1,.3,1), transform .6s cubic-bezier(.16,1,.3,1);
-    transition-delay: var(--reveal-delay, 0s);
-  }
-  .reveal-item.is-visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .reveal-item { opacity: 1; transform: none; transition: none; }
-  }
-
   ::selection { background: #2F6FFF; color: #FFFFFF; }
 
   a:focus-visible, button:focus-visible, summary:focus-visible {
@@ -736,6 +531,251 @@
       object-position: center center;
     }
   }
+
+/* ===== Utilidades estáticas (reemplazo de Tailwind CDN para producción) ===== */
+.-mt-5{margin-top:-1.25rem;}
+.-mx-4{margin-left:-1rem;margin-right:-1rem;}
+.absolute{position:absolute;}
+.align-middle{vertical-align:middle;}
+.antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
+.aspect-\[4\/5\]{aspect-ratio:4/5;}
+.backdrop-blur-lg{backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);}
+.backdrop-blur-md{backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);}
+.backdrop-blur-sm{backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);}
+.bg-bg{background-color:#0A0B0E;}
+.bg-bg\/90{background-color:rgba(10,11,14,0.9);}
+.bg-bg\/95{background-color:rgba(10,11,14,0.95);}
+.bg-electric{background-color:#2F6FFF;}
+.bg-gradient-to-r{background-image:linear-gradient(to right,var(--tw-gradient-stops));}
+.bg-gradient-to-t{background-image:linear-gradient(to top,var(--tw-gradient-stops));}
+.bg-surface{background-color:#111318;}
+.bg-surface\/50{background-color:rgba(17,19,24,0.5);}
+.bg-surface2\/50{background-color:rgba(24,27,34,0.5);}
+.bg-surface2\/95{background-color:rgba(24,27,34,0.95);}
+.block{display:block;}
+.border{border-width:1px;border-style:solid;}
+.border-4{border-width:4px;border-style:solid;}
+.border-b{border-bottom-width:1px;border-bottom-style:solid;}
+.border-bg{border-color:#0A0B0E;}
+.border-electric\/40{border-color:rgba(47,111,255,0.4);}
+.border-electric\/60{border-color:rgba(47,111,255,0.6);}
+.border-electric\/80{border-color:rgba(47,111,255,0.8);}
+.border-l{border-left-width:1px;border-left-style:solid;}
+.border-line{border-color:#202430;}
+.border-line\/80{border-color:rgba(32,36,48,0.8);}
+.border-line\/85{border-color:rgba(32,36,48,0.85);}
+.border-t{border-top-width:1px;border-top-style:solid;}
+.border-y{border-top-width:1px;border-bottom-width:1px;border-top-style:solid;border-bottom-style:solid;}
+.bottom-0{bottom:0;}
+.bottom-6{bottom:1.5rem;}
+.brightness-90{filter:brightness(.9);}
+.contrast-110{filter:contrast(1.1);}
+.divide-line\/80> * + *{border-color:rgba(32,36,48,.8);}
+.divide-y> * + *{border-top-width:1px;border-top-style:solid;}
+.duration-700{transition-duration:700ms;}
+.filter{}
+.fixed{position:fixed;}
+.flex{display:flex;}
+.flex-col{flex-direction:column;}
+.flex-wrap{flex-wrap:wrap;}
+.font-bold{font-weight:700;}
+.font-light{font-weight:300;}
+.font-mono{font-family:'Forma DJR Banner','Archivo',sans-serif;}
+.font-semibold{font-weight:600;}
+.from-bg{--tw-gradient-from:#0A0B0E;--tw-gradient-to:rgba(0,0,0,0);--tw-gradient-stops:var(--tw-gradient-from),var(--tw-gradient-to);}
+.gap-1{gap:0.25rem;}
+.gap-10{gap:2.5rem;}
+.gap-16{gap:4rem;}
+.gap-2{gap:0.5rem;}
+.gap-3{gap:0.75rem;}
+.gap-4{gap:1rem;}
+.gap-6{gap:1.5rem;}
+.grid{display:grid;}
+.grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr));}
+.grid-cols-3{grid-template-columns:repeat(3,minmax(0,1fr));}
+.grid-cols-5{grid-template-columns:repeat(5,minmax(0,1fr));}
+.h-12{height:3rem;}
+.h-20{height:5rem;}
+.h-4{height:1rem;}
+.h-5{height:1.25rem;}
+.h-6{height:1.5rem;}
+.h-7{height:1.75rem;}
+.h-9{height:2.25rem;}
+.h-full{height:100%;}
+.hidden{display:none;}
+.hover\:bg-surface2\/40:hover{background-color:rgba(24,27,34,0.4);}
+.hover\:border-electric:hover{border-color:#2F6FFF;}
+.hover\:border-electric\/40:hover{border-color:rgba(47,111,255,0.4);}
+.hover\:text-electric:hover{color:#2F6FFF;}
+.hover\:text-white:hover{color:#fff;}
+.inline-block{display:inline-block;}
+.inline-flex{display:inline-flex;}
+.inset-0{inset:0;}
+.items-center{align-items:center;}
+.items-start{align-items:flex-start;}
+.justify-between{justify-content:space-between;}
+.justify-center{justify-content:center;}
+.leading-\[1\.15\]{line-height:1.15;}
+.leading-none{line-height:1;}
+.leading-relaxed{line-height:1.625;}
+.leading-tight{line-height:1.25;}
+.left-0{left:0;}
+.max-w-2xl{max-width:42rem;}
+.max-w-3xl{max-width:48rem;}
+.max-w-4xl{max-width:56rem;}
+.max-w-7xl{max-width:80rem;}
+.max-w-\[1180px\]{max-width:1180px;}
+.max-w-lg{max-width:32rem;}
+.max-w-md{max-width:28rem;}
+.max-w-sm{max-width:24rem;}
+.mb-1{margin-bottom:0.25rem;}
+.mb-10{margin-bottom:2.5rem;}
+.mb-14{margin-bottom:3.5rem;}
+.mb-2{margin-bottom:0.5rem;}
+.mb-4{margin-bottom:1rem;}
+.mb-6{margin-bottom:1.5rem;}
+.mb-8{margin-bottom:2rem;}
+.min-h-\[75vh\]{min-height:75vh;}
+.mt-1{margin-top:0.25rem;}
+.mt-3{margin-top:0.75rem;}
+.mt-4{margin-top:1rem;}
+.mt-8{margin-top:2rem;}
+.mx-auto{margin-left:auto;margin-right:auto;}
+.object-contain{object-fit:contain;}
+.object-cover{object-fit:cover;}
+.overflow-hidden{overflow:hidden;}
+.p-2{padding:0.5rem;}
+.pb-12{padding-bottom:3rem;}
+.pb-16{padding-bottom:4rem;}
+.pb-4{padding-bottom:1rem;}
+.pb-8{padding-bottom:2rem;}
+.pl-4{padding-left:1rem;}
+.pt-2{padding-top:0.5rem;}
+.pt-24{padding-top:6rem;}
+.pt-6{padding-top:1.5rem;}
+.pt-8{padding-top:2rem;}
+.px-4{padding-left:1rem;padding-right:1rem;}
+.px-5{padding-left:1.25rem;padding-right:1.25rem;}
+.px-6{padding-left:1.5rem;padding-right:1.5rem;}
+.px-7{padding-left:1.75rem;padding-right:1.75rem;}
+.px-8{padding-left:2rem;padding-right:2rem;}
+.py-1{padding-top:0.25rem;padding-bottom:0.25rem;}
+.py-10{padding-top:2.5rem;padding-bottom:2.5rem;}
+.py-12{padding-top:3rem;padding-bottom:3rem;}
+.py-14{padding-top:3.5rem;padding-bottom:3.5rem;}
+.py-2\.5{padding-top:0.625rem;padding-bottom:0.625rem;}
+.py-3{padding-top:0.75rem;padding-bottom:0.75rem;}
+.py-3\.5{padding-top:0.875rem;padding-bottom:0.875rem;}
+.py-4{padding-top:1rem;padding-bottom:1rem;}
+.py-5{padding-top:1.25rem;padding-bottom:1.25rem;}
+.py-6{padding-top:1.5rem;padding-bottom:1.5rem;}
+.relative{position:relative;}
+.right-6{right:1.5rem;}
+.rounded-full{border-radius:9999px;}
+.rounded-xs{border-radius:0.125rem;}
+.shadow-2xl{box-shadow:0 25px 50px -12px rgba(0,0,0,.25);}
+.shadow-electric\/40{box-shadow:0 10px 25px rgba(47,111,255,.4);}
+.shadow-lg{box-shadow:0 10px 15px -3px rgba(0,0,0,.1),0 4px 6px -4px rgba(0,0,0,.1);}
+.shadow-md{box-shadow:0 4px 6px -1px rgba(0,0,0,.1),0 2px 4px -2px rgba(0,0,0,.1);}
+.shadow-xl{box-shadow:0 20px 25px -5px rgba(0,0,0,.1),0 8px 10px -6px rgba(0,0,0,.1);}
+.shrink-0{flex-shrink:0;}
+.space-y-4> * + *{margin-top:1rem;}
+.space-y-8> * + *{margin-top:2rem;}
+.text-3xl{font-size:1.875rem;}
+.text-4xl{font-size:2.25rem;}
+.text-\[10px\]{font-size:10px;}
+.text-\[11px\]{font-size:11px;}
+.text-base{font-size:1rem;}
+.text-electric{color:#2F6FFF;}
+.text-sm{font-size:0.875rem;}
+.text-stone{color:#9CA3AF;}
+.text-stone\/80{color:rgba(156,163,175,0.8);}
+.text-white{color:#fff;}
+.text-xl{font-size:1.25rem;}
+.text-xs{font-size:0.75rem;}
+.to-bg\/30{--tw-gradient-to:rgba(10,11,14,0.3);}
+.to-transparent{--tw-gradient-to:transparent;}
+.top-0{top:0;}
+.tracking-tight{letter-spacing:-0.025em;}
+.tracking-wide{letter-spacing:0.025em;}
+.tracking-wider{letter-spacing:0.05em;}
+.tracking-widest{letter-spacing:0.1em;}
+.transition-all{transition-property:all;transition-duration:150ms;}
+.transition-colors{transition-property:color,background-color,border-color,text-decoration-color,fill,stroke;transition-duration:150ms;}
+.transition-transform{transition-property:transform;transition-duration:150ms;}
+.uppercase{text-transform:uppercase;}
+.via-bg\/85{--tw-gradient-to:rgba(0,0,0,0);--tw-gradient-stops:var(--tw-gradient-from),rgba(10,11,14,0.85),var(--tw-gradient-to);}
+.via-transparent{--tw-gradient-to:rgba(0,0,0,0);--tw-gradient-stops:var(--tw-gradient-from),transparent,var(--tw-gradient-to);}
+.w-12{width:3rem;}
+.w-4{width:1rem;}
+.w-5{width:1.25rem;}
+.w-6{width:1.5rem;}
+.w-7{width:1.75rem;}
+.w-9{width:2.25rem;}
+.w-auto{width:auto;}
+.w-fit{width:fit-content;}
+.w-full{width:100%;}
+.z-0{z-index:0;}
+.z-10{z-index:10;}
+.z-50{z-index:50;}
+.selection\:bg-electric::selection{background-color:#2F6FFF;}
+.selection\:text-white::selection{color:#fff;}
+.hover\:scale-105:hover{transform:scale(1.05);}
+.hover\:scale-110:hover{transform:scale(1.10);}
+.hover\:border-electric:hover{border-color:#2F6FFF;}
+.hover\:border-electric\/40:hover{border-color:rgba(47,111,255,.4);}
+.hover\:bg-surface2\/40:hover{background-color:rgba(24,27,34,.4);}
+.hover\:text-electric:hover{color:#2F6FFF;}
+.hover\:text-white:hover{color:#fff;}
+@media (min-width:640px){
+.sm\:absolute{position:absolute;}
+.sm\:flex-row{flex-direction:row;}
+.sm\:hidden{display:none;}
+.sm\:inline-flex{display:inline-flex;}
+.sm\:text-5xl{font-size:3rem;}
+.sm\:text-base{font-size:1rem;}
+.sm\:-bottom-6{bottom:-1.5rem;}
+.sm\:-right-6{right:-1.5rem;}
+}
+@media (min-width:768px){
+.md\:col-span-1{grid-column:span 1 / span 1;}
+.md\:col-span-4{grid-column:span 4 / span 4;}
+.md\:col-span-7{grid-column:span 7 / span 7;}
+.md\:flex{display:flex;}
+.md\:flex-row{flex-direction:row;}
+.md\:gap-8{gap:2rem;}
+.md\:grid-cols-12{grid-template-columns:repeat(12,minmax(0,1fr));}
+.md\:grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr));}
+.md\:grid-cols-4{grid-template-columns:repeat(4,minmax(0,1fr));}
+.md\:h-16{height:4rem;}
+.md\:hidden{display:none;}
+.md\:items-end{align-items:flex-end;}
+.md\:justify-between{justify-content:space-between;}
+.md\:justify-center{justify-content:center;}
+.md\:mb-12{margin-bottom:3rem;}
+.md\:mb-16{margin-bottom:4rem;}
+.md\:min-h-\[85vh\]{min-height:85vh;}
+.md\:pb-0{padding-bottom:0;}
+.md\:pb-12{padding-bottom:3rem;}
+.md\:px-10{padding-left:2.5rem;padding-right:2.5rem;}
+.md\:py-24{padding-top:6rem;padding-bottom:6rem;}
+.md\:py-28{padding-top:7rem;padding-bottom:7rem;}
+.md\:py-8{padding-top:2rem;padding-bottom:2rem;}
+.md\:text-2xl{font-size:1.5rem;}
+.md\:text-5xl{font-size:3rem;}
+.md\:text-lg{font-size:1.125rem;}
+.md\:text-sm{font-size:0.875rem;}
+}
+@media (min-width:1024px){
+.lg\:flex{display:flex;}
+.lg\:hidden{display:none;}
+.lg\:py-32{padding-top:8rem;padding-bottom:8rem;}
+.lg\:py-36{padding-top:9rem;padding-bottom:9rem;}
+.lg\:text-6xl{font-size:3.75rem;}
+}
+@media (min-width:1280px){
+.xl\:gap-8{gap:2rem;}
+}
 </style>
 </head>
 
@@ -752,7 +792,7 @@
     <a href="#inicio" class="flex items-center gap-3 shrink-0 menu-item-click" data-target-tab="inicio" data-target-section="inicio">
       <img src="logo_distrito.png" alt="Distrito Fitness Center" class="w-9 h-9 object-contain">
       <span class="display-heading text-sm sm:text-base md:text-lg tracking-wider leading-none text-white">
-        DISTRITO FITNESS <span class="font-light text-electric">CENTER</span>
+        DISTRITO FITNESS <span class="hidden xl:inline font-light text-electric">CENTER</span>
       </span>
     </a>
 
@@ -768,16 +808,16 @@
 
     <!-- Acciones Derecha -->
     <div class="flex items-center gap-4 shrink-0">
-      <a href="https://wa.me/5491130260359?text=Hola%20Distrito%20Fitness%20Center%2C%20quiero%20consultar%20por%20los%20planes%2C%20horarios%20y%20disciplinas"
+      <a href="https://wa.me/5491130260359?text=Hola%20Distrito%20Fitness%20Center%2C%20quiero%20reservar%20una%20clase%20de%20prueba"
          target="_blank" rel="noopener"
          class="btn-cta hidden sm:inline-flex items-center gap-2 text-xs uppercase px-5 py-2.5 rounded-xs shadow-md">
-        <i data-lucide="message-circle" class="w-4 h-4"></i>
-        <span>UNIRME A LA CREW</span>
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/></svg>
+        <span>Unirme a la Crew</span>
       </a>
 
       <!-- Botón Menú Hamburguesa Tablets/Móvil -->
       <button id="menu-toggle" aria-label="Abrir menú" class="lg:hidden p-2 text-stone hover:text-white transition-colors">
-        <i data-lucide="menu" class="w-6 h-6"></i>
+        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
       </button>
     </div>
 
@@ -791,6 +831,14 @@
     <a href="#logros" class="block text-stone hover:text-electric transition-colors py-1 menu-item-click" data-target-tab="disciplinas" data-target-section="logros">Logros</a>
     <a href="#faq" class="block text-stone hover:text-electric transition-colors py-1 menu-item-click" data-target-tab="faq" data-target-section="faq">FAQ</a>
     <a href="#contacto" class="block text-stone hover:text-electric transition-colors py-1 menu-item-click" data-target-tab="contacto" data-target-section="contacto">Contacto</a>
+    <div class="pt-2 sm:hidden">
+      <a href="https://wa.me/5491130260359?text=Hola%20Distrito%20Fitness%20Center%2C%20quiero%20reservar%20una%20clase%20de%20prueba"
+         target="_blank" rel="noopener"
+         class="btn-cta inline-flex items-center justify-center gap-2 text-xs uppercase px-5 py-3 w-full rounded-xs">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/></svg>
+        Unirme a la Crew
+      </a>
+    </div>
   </div>
 </header>
 
@@ -813,7 +861,7 @@
     
     <h1 class="display-heading text-3xl sm:text-5xl lg:text-6xl uppercase max-w-3xl font-bold tracking-tight text-white leading-[1.15]">
       EL LUGAR DONDE<br>
-      NACE TU <span class="canvas-text-word" data-canvas-text="MEJOR"><span>MEJOR</span><canvas aria-hidden="true"></canvas></span><br>
+      NACE TU <span class="text-electric">MEJOR</span><br>
       VERSIÓN.
     </h1>
     
@@ -822,17 +870,17 @@
     </p>
 
     <div class="flex flex-col sm:flex-row gap-4 mt-8">
-      <a href="https://wa.me/5491130260359?text=Hola%20Distrito%20Fitness%20Center%2C%20quiero%20consultar%20por%20los%20planes%2C%20horarios%20y%20disciplinas"
+      <a href="https://wa.me/5491130260359?text=Hola%20Distrito%20Fitness%20Center%2C%20quiero%20reservar%20una%20clase%20de%20prueba"
          target="_blank" rel="noopener"
          class="btn-cta inline-flex items-center justify-center gap-3 px-7 py-3.5 text-xs uppercase tracking-widest">
-        <i data-lucide="message-circle" class="w-4 h-4"></i>
-        CONTACTANOS
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/></svg>
+        Reservar Clase de Prueba
       </a>
       <a href="#disciplinas"
          class="menu-item-click inline-flex items-center justify-center gap-3 border border-line text-stone font-mono text-xs uppercase tracking-widest px-7 py-3.5 hover:border-electric hover:text-white transition-all backdrop-blur-sm"
          data-target-tab="disciplinas" data-target-section="disciplinas">
         Ver Disciplinas
-        <i data-lucide="arrow-down" class="w-4 h-4 text-electric"></i>
+        <svg class="w-4 h-4 text-electric" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
       </a>
     </div>
   </div>
@@ -844,7 +892,7 @@
   <div class="max-w-7xl mx-auto px-6 md:px-10 grid md:grid-cols-2 gap-16 items-center">
     <div class="relative">
       <div class="aspect-[4/5] overflow-hidden rounded-xs border border-line shadow-2xl">
-        <img src="assets/sector02-gym.png"
+        <img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?q=80&w=1200&auto=format&fit=crop"
              alt="Comunidad entrenando juntos en Distrito Fitness Center"
              class="w-full h-full object-cover filter brightness-90 contrast-110 hover:scale-105 transition-all duration-700">
       </div>
@@ -871,15 +919,15 @@
 
       <div class="grid grid-cols-3 gap-6 font-mono text-xs uppercase tracking-wider text-stone border-t border-line/80 pt-8">
         <div class="border-l border-electric/60 pl-4">
-          <i data-lucide="users" class="w-4 h-4 text-electric mb-2"></i>
+          <svg class="w-4 h-4 text-electric mb-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
           Comunidad Real
         </div>
         <div class="border-l border-electric/60 pl-4">
-          <i data-lucide="badge-check" class="w-4 h-4 text-electric mb-2"></i>
+          <svg class="w-4 h-4 text-electric mb-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l3 2 3.5-.5.5 3.5 2 3-2 3 .5 3.5-3.5.5-3 2-3-2-3.5.5-.5-3.5-2-3 2-3-.5-3.5L9 4z"/><path d="m9 12 2 2 4-4"/></svg>
           Coaches Certificados
         </div>
         <div class="border-l border-electric/60 pl-4">
-          <i data-lucide="shield-check" class="w-4 h-4 text-electric mb-2"></i>
+          <svg class="w-4 h-4 text-electric mb-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-8 9-4.5-1.5-8-4-8-9V5l8-3 8 3z"/><path d="m9 12 2 2 4-4"/></svg>
           <span class="block mb-2">Afiliados a</span>
           <img src="wellhub_logo.png" alt="WellHub" class="h-4 w-auto object-contain">
         </div>
@@ -892,73 +940,52 @@
 <section id="por-que-elegirnos" class="relative py-14 md:py-28 lg:py-36 border-t border-line/80 bg-surface">
   <div class="max-w-7xl mx-auto px-6 md:px-10">
     <p class="sector-tag mb-6">SECTOR 03 / POR QUÉ ELEGIRNOS</p>
-    <h2 class="display-heading text-4xl md:text-5xl uppercase mb-8 md:mb-16 max-w-3xl md:max-w-none leading-tight">No competimos<br class="md:hidden">en precio. <br class="hidden md:inline"><span class="text-electric">Competimos en nivel.</span></h2>
+    <h2 class="display-heading text-4xl md:text-5xl uppercase mb-8 md:mb-16 max-w-3xl leading-tight">No competimos<br>en precio. <span class="text-electric">Competimos en nivel.</span></h2>
 
-    <div class="accordion divide-y divide-line/80 border-y border-line/80" data-accordion data-reveal-group>
+    <div class="divide-y divide-line/80 border-y border-line/80">
 
-      <div class="accordion-item is-open reveal-item" data-accordion-item data-reveal-item>
-        <button type="button" class="accordion-trigger w-full flex items-center gap-4 md:gap-6 py-5 md:py-6 px-4 -mx-4 text-left hover:bg-surface2/40 transition-colors rounded-xs" aria-expanded="true" data-accordion-trigger>
-          <i data-lucide="users" class="w-6 h-6 text-electric shrink-0"></i>
-          <h3 class="display-heading text-xl md:text-2xl uppercase tracking-wider flex-1">Comunidad</h3>
-          <i data-lucide="chevron-down" class="accordion-chevron w-5 h-5 text-stone shrink-0"></i>
-        </button>
-        <div class="accordion-panel" data-accordion-panel>
-          <div class="accordion-panel-inner">
-            <p class="text-stone font-light leading-relaxed pb-5 md:pb-6 pl-10 md:pl-16 pr-4">Acá no entrenás al lado de desconocidos: entrenás con una crew que te conoce por tu nombre y te espera en cada clase.</p>
-          </div>
+      <div class="group grid md:grid-cols-12 gap-3 md:gap-8 py-5 md:py-8 items-start hover:bg-surface2/40 transition-colors px-4 -mx-4 rounded-xs">
+        <div class="md:col-span-1 flex md:justify-center">
+          <svg class="w-6 h-6 text-electric" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
         </div>
+        <h3 class="md:col-span-4 display-heading text-xl md:text-2xl uppercase tracking-wider">Comunidad</h3>
+        <p class="md:col-span-7 text-stone font-light leading-relaxed">Acá no entrenás al lado de desconocidos: entrenás con una crew que te conoce por tu nombre y te espera en cada clase.</p>
       </div>
 
-      <div class="accordion-item reveal-item" data-accordion-item data-reveal-item>
-        <button type="button" class="accordion-trigger w-full flex items-center gap-4 md:gap-6 py-5 md:py-6 px-4 -mx-4 text-left hover:bg-surface2/40 transition-colors rounded-xs" aria-expanded="false" data-accordion-trigger>
-          <i data-lucide="sparkles" class="w-6 h-6 text-electric shrink-0"></i>
-          <h3 class="display-heading text-xl md:text-2xl uppercase tracking-wider flex-1">Lugar innovador</h3>
-          <i data-lucide="chevron-down" class="accordion-chevron w-5 h-5 text-stone shrink-0"></i>
-        </button>
-        <div class="accordion-panel" data-accordion-panel>
-          <div class="accordion-panel-inner">
-            <p class="text-stone font-light leading-relaxed pb-5 md:pb-6 pl-10 md:pl-16 pr-4">Un concepto que rompe con el gimnasio tradicional de barrio: musculación, CrossFit, Hyrox y calistenia bajo un mismo techo.</p>
-          </div>
+      <div class="group grid md:grid-cols-12 gap-3 md:gap-8 py-5 md:py-8 items-start hover:bg-surface2/40 transition-colors px-4 -mx-4 rounded-xs">
+        <div class="md:col-span-1 flex md:justify-center">
+          <svg class="w-6 h-6 text-electric" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3-1.5 3.5L7 8l3.5 1.5L12 13l1.5-3.5L17 8l-3.5-1.5zM5 14l-1 2-2 1 2 1 1 2 1-2 2-1-2-1zM19 14l-1 2-2 1 2 1 1 2 1-2 2-1-2-1z"/></svg>
         </div>
+        <h3 class="md:col-span-4 display-heading text-xl md:text-2xl uppercase tracking-wider">Lugar innovador</h3>
+        <p class="md:col-span-7 text-stone font-light leading-relaxed">Un concepto que rompe con el gimnasio tradicional de barrio: musculación, CrossFit, Hyrox y calistenia bajo un mismo techo.</p>
       </div>
 
-      <div class="accordion-item reveal-item" data-accordion-item data-reveal-item>
-        <button type="button" class="accordion-trigger w-full flex items-center gap-4 md:gap-6 py-5 md:py-6 px-4 -mx-4 text-left hover:bg-surface2/40 transition-colors rounded-xs" aria-expanded="false" data-accordion-trigger>
-          <i data-lucide="sun" class="w-6 h-6 text-electric shrink-0"></i>
-          <h3 class="display-heading text-xl md:text-2xl uppercase tracking-wider flex-1">Ambiente</h3>
-          <i data-lucide="chevron-down" class="accordion-chevron w-5 h-5 text-stone shrink-0"></i>
-        </button>
-        <div class="accordion-panel" data-accordion-panel>
-          <div class="accordion-panel-inner">
-            <p class="text-stone font-light leading-relaxed pb-5 md:pb-6 pl-10 md:pl-16 pr-4">Espacios amplios, luminosos y cuidados hasta el último detalle — pensados para que quieras quedarte más tiempo del que planeabas.</p>
-          </div>
+      <div class="group grid md:grid-cols-12 gap-3 md:gap-8 py-5 md:py-8 items-start hover:bg-surface2/40 transition-colors px-4 -mx-4 rounded-xs">
+        <div class="md:col-span-1 flex md:justify-center">
+          <svg class="w-6 h-6 text-electric" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
         </div>
+        <h3 class="md:col-span-4 display-heading text-xl md:text-2xl uppercase tracking-wider">Ambiente</h3>
+        <p class="md:col-span-7 text-stone font-light leading-relaxed">Espacios amplios, luminosos y cuidados hasta el último detalle — pensados para que quieras quedarte más tiempo del que planeabas.</p>
       </div>
 
-      <div class="accordion-item reveal-item" data-accordion-item data-reveal-item>
-        <button type="button" class="accordion-trigger w-full flex items-center gap-4 md:gap-6 py-5 md:py-6 px-4 -mx-4 text-left hover:bg-surface2/40 transition-colors rounded-xs" aria-expanded="false" data-accordion-trigger>
-          <i data-lucide="handshake" class="w-6 h-6 text-electric shrink-0"></i>
-          <h3 class="display-heading text-xl md:text-2xl uppercase tracking-wider flex-1">Dueños presentes</h3>
-          <i data-lucide="chevron-down" class="accordion-chevron w-5 h-5 text-stone shrink-0"></i>
-        </button>
-        <div class="accordion-panel" data-accordion-panel>
-          <div class="accordion-panel-inner">
-            <p class="text-stone font-light leading-relaxed pb-5 md:pb-6 pl-10 md:pl-16 pr-4">Los fundadores están en el piso todos los días, no en una oficina — conocen tu progreso y tus objetivos de primera mano.</p>
-          </div>
+      <div class="group grid md:grid-cols-12 gap-3 md:gap-8 py-5 md:py-8 items-start hover:bg-surface2/40 transition-colors px-4 -mx-4 rounded-xs">
+        <div class="md:col-span-1 flex md:justify-center">
+          <svg class="w-6 h-6 text-electric" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m11 17 2 2a1 1 0 0 0 3-3M14 14l2.5 2.5a1 1 0 0 0 3-3L15 9"/><path d="m18 13 1 1a1 1 0 0 0 3-3l-5-5-3 3a2 2 0 0 1-3-3l3-3a4 4 0 0 1 6 0l1 1"/><path d="m2 2 6 6M2 14l3 3a5 5 0 0 0 7 0l1-1M8 8l-5 5"/></svg>
         </div>
+        <h3 class="md:col-span-4 display-heading text-xl md:text-2xl uppercase tracking-wider">Dueños presentes</h3>
+        <p class="md:col-span-7 text-stone font-light leading-relaxed">Los fundadores están en el piso todos los días, no en una oficina — conocen tu progreso y tus objetivos de primera mano.</p>
       </div>
 
-      <div class="accordion-item reveal-item" data-accordion-item data-reveal-item>
-        <button type="button" class="accordion-trigger w-full flex items-center gap-4 md:gap-6 py-5 md:py-6 px-4 -mx-4 text-left hover:bg-surface2/40 transition-colors rounded-xs" aria-expanded="false" data-accordion-trigger>
-          <i data-lucide="gem" class="w-6 h-6 text-electric shrink-0"></i>
-          <h3 class="display-heading text-xl md:text-2xl uppercase tracking-wider flex-1">Servicio premium</h3>
-          <i data-lucide="chevron-down" class="accordion-chevron w-5 h-5 text-stone shrink-0"></i>
-        </button>
-        <div class="accordion-panel" data-accordion-panel>
-          <div class="accordion-panel-inner">
-            <p class="text-stone font-light leading-relaxed pb-5 md:pb-6 pl-10 md:pl-16 pr-4">Equipamiento de última generación, vestuarios premium y una atención a la altura de lo que te merecés.</p>
-          </div>
+      <div class="group grid md:grid-cols-12 gap-3 md:gap-6 py-5 md:py-8 items-center hover:bg-surface2/40 transition-colors px-4 -mx-4 rounded-xs">
+        <div class="md:col-span-1 flex md:justify-center">
+          <svg class="w-6 h-6 text-electric" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12l4 6-10 12L2 9zM2 9h20M12 21 8 9l4-6 4 6z"/></svg>
         </div>
+        <h3 class="md:col-span-4 display-heading text-xl md:text-2xl uppercase tracking-wider">Servicio premium</h3>
+        <p class="md:col-span-5 text-stone font-light leading-relaxed">Equipamiento de última generación, vestuarios premium en todos los pisos y una atención a la altura de lo que te merecés.</p>
+        <button type="button" class="md:col-span-2 justify-self-start md:justify-self-end inline-flex items-center gap-2 border border-electric/50 text-electric hover:text-white hover:bg-electric/10 px-3 py-2 text-[10px] uppercase tracking-widest transition-colors whitespace-nowrap" data-vestuario-gallery>
+          <i data-lucide="images" class="w-3.5 h-3.5"></i>
+          Ver fotos del vestuario
+        </button>
       </div>
 
     </div>
@@ -1024,7 +1051,7 @@
 </section>
 
 <!-- ============ LOGROS / CIFRAS ============ -->
-<section id="logros" class="relative py-14 md:py-24 lg:py-32 border-t border-line/80 bg-surface/50 overflow-visible">
+<section id="logros" class="relative py-14 md:py-24 lg:py-32 border-t border-line/80 bg-surface/50 overflow-hidden">
   <div class="max-w-7xl mx-auto px-6 md:px-10 mb-14">
     <p class="sector-tag mb-6">SECTOR 05 / EN NÚMEROS</p>
     <h2 class="display-heading text-4xl md:text-5xl uppercase max-w-2xl">La crew, medida en cifras.</h2>
@@ -1036,19 +1063,20 @@
       <p class="font-mono text-xs uppercase tracking-wider text-stone mt-3">m² en 3 pisos</p>
     </div>
     <div class="border-t border-line pt-6">
-      <div class="cafeteria-flip" tabindex="0" role="group" aria-label="Cafetería, baristas especializados. Pasá el cursor para ver el video.">
+      <div class="cafeteria-flip" tabindex="0" role="group" aria-label="Cafetería. Pasá el cursor o hacé clic para ver el video.">
         <div class="cafeteria-flip-inner">
           <div class="cafeteria-flip-front">
             <div class="cafeteria-flip-stat-line">
               <p class="stat-number cafeteria-flip-stat text-white">Cafetería</p>
             </div>
             <p class="font-mono text-xs uppercase tracking-wider text-stone mt-3">Baristas especializados</p>
+            <span class="cafeteria-hint"><span class="cafeteria-hint-dot"></span> Ver video</span>
           </div>
           <div class="cafeteria-flip-back">
             <video class="cafeteria-flip-video" muted loop playsinline preload="none" aria-hidden="true">
               <source data-src="assets/cafeteria-hover.mp4" type="video/mp4">
             </video>
-            <span class="cafeteria-flip-back-label">Cafetería</span>
+            <span class="cafeteria-flip-back-label">Cafetería · tocá para cerrar</span>
           </div>
         </div>
       </div>
@@ -1083,7 +1111,7 @@
       <details class="faq-item border border-line bg-surface2/50 rounded-xs px-6 py-5 hover:border-electric/40 transition-colors">
         <summary class="flex items-center justify-between gap-4 font-mono text-sm uppercase tracking-wider text-stone">
           ¿Necesito experiencia previa para empezar?
-          <i data-lucide="plus" class="faq-icon w-4 h-4 text-electric shrink-0"></i>
+          <svg class="faq-icon w-4 h-4 text-electric shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
         </summary>
         <p class="text-stone font-light leading-relaxed mt-4 text-sm">
           No. Nuestros coaches certificados adaptan cada clase de CrossFit, Hyrox, Musculación y Calistenia
@@ -1094,7 +1122,7 @@
       <details class="faq-item border border-line bg-surface2/50 rounded-xs px-6 py-5 hover:border-electric/40 transition-colors">
         <summary class="flex items-center justify-between gap-4 font-mono text-sm uppercase tracking-wider text-stone">
           ¿Están afiliados a WellHub (ex Gympass)?
-          <i data-lucide="plus" class="faq-icon w-4 h-4 text-electric shrink-0"></i>
+          <svg class="faq-icon w-4 h-4 text-electric shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
         </summary>
         <p class="text-stone font-light leading-relaxed mt-4 text-sm flex flex-wrap items-center gap-2">
           <span>Sí. Si sos usuario de la app</span>
@@ -1106,7 +1134,7 @@
       <details class="faq-item border border-line bg-surface2/50 rounded-xs px-6 py-5 hover:border-electric/40 transition-colors">
         <summary class="flex items-center justify-between gap-4 font-mono text-sm uppercase tracking-wider text-stone">
           ¿Son centro oficial de Hyrox?
-          <i data-lucide="plus" class="faq-icon w-4 h-4 text-electric shrink-0"></i>
+          <svg class="faq-icon w-4 h-4 text-electric shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
         </summary>
         <p class="text-stone font-light leading-relaxed mt-4 text-sm">
           Sí, contamos con la licencia oficial de Hyrox, lo que nos da prioridad de acceso para las
@@ -1117,10 +1145,20 @@
       <details class="faq-item border border-line bg-surface2/50 rounded-xs px-6 py-5 hover:border-electric/40 transition-colors">
         <summary class="flex items-center justify-between gap-4 font-mono text-sm uppercase tracking-wider text-stone">
           ¿Cuáles son los horarios de atención?
-          <i data-lucide="plus" class="faq-icon w-4 h-4 text-electric shrink-0"></i>
+          <svg class="faq-icon w-4 h-4 text-electric shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
         </summary>
         <p class="text-stone font-light leading-relaxed mt-4 text-sm">
-          Lunes a Viernes de 6:00 a 22:00hs, y Sábados de 8:00 a 20:00hs.
+          Lunes a Viernes de 6:00 a 22:00hs, y Sábados de 9:00 a 14:00hs.
+        </p>
+      </details>
+
+      <details class="faq-item border border-line bg-surface2/50 rounded-xs px-6 py-5 hover:border-electric/40 transition-colors">
+        <summary class="flex items-center justify-between gap-4 font-mono text-sm uppercase tracking-wider text-stone">
+          ¿Puedo ir a probar antes de anotarme?
+          <svg class="faq-icon w-4 h-4 text-electric shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+        </summary>
+        <p class="text-stone font-light leading-relaxed mt-4 text-sm">
+          Sí, escribinos por WhatsApp y coordinamos tu clase de prueba sin costo y sin compromiso.
         </p>
       </details>
 
@@ -1143,34 +1181,34 @@
         Tu lugar en<br>el <span class="text-electric">Distrito</span> te espera.
       </h2>
       <p class="text-stone text-base md:text-lg font-light leading-relaxed mb-10 max-w-md">
-        Escribinos para lo que necesites. Estamos para ayudarte.
+        Escribinos y coordinamos tu primera clase de prueba, sin costo y sin vueltas.
       </p>
-      <a href="https://wa.me/5491130260359?text=Hola%20Distrito%20Fitness%20Center%2C%20quiero%20consultar%20por%20los%20planes%2C%20horarios%20y%20disciplinas"
+      <a href="https://wa.me/5491130260359?text=Hola%20Distrito%20Fitness%20Center%2C%20quiero%20reservar%20una%20clase%20de%20prueba"
          target="_blank" rel="noopener"
          class="btn-cta inline-flex items-center justify-center gap-3 px-8 py-4 text-xs uppercase tracking-widest w-fit shadow-xl">
-        <i data-lucide="message-circle" class="w-4 h-4"></i>
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/></svg>
         Escribir por WhatsApp
       </a>
     </div>
 
     <div class="space-y-8">
       <div class="flex gap-4 border-b border-line/80 pb-8">
-        <i data-lucide="clock" class="w-5 h-5 text-electric shrink-0 mt-1"></i>
+        <svg class="w-5 h-5 text-electric shrink-0 mt-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
         <div>
           <p class="font-mono text-xs uppercase tracking-wider mb-1 text-white">Horarios de atención</p>
           <p class="text-stone font-light text-sm">Lunes a Viernes: 6:00 — 22:00hs</p>
-          <p class="text-stone font-light text-sm">Sábados: 8:00 — 20:00hs</p>
+          <p class="text-stone font-light text-sm">Sábados: 9:00 — 14:00hs</p>
         </div>
       </div>
       <div class="flex gap-4 border-b border-line/80 pb-8">
-        <i data-lucide="map-pin" class="w-5 h-5 text-electric shrink-0 mt-1"></i>
+        <svg class="w-5 h-5 text-electric shrink-0 mt-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0z"/><circle cx="12" cy="10" r="2"/></svg>
         <div>
           <p class="font-mono text-xs uppercase tracking-wider mb-1 text-white">Ubicación</p>
           <p class="text-stone font-light text-sm">Federico García Lorca 357, Caballito, Buenos Aires, Argentina (C1405)</p>
         </div>
       </div>
       <div class="flex gap-4 border-b border-line/80 pb-8">
-        <i data-lucide="mail" class="w-5 h-5 text-electric shrink-0 mt-1"></i>
+        <svg class="w-5 h-5 text-electric shrink-0 mt-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
         <div>
           <p class="font-mono text-xs uppercase tracking-wider mb-1 text-white">Email</p>
           <a href="mailto:distritofitnesscenter@gmail.com" class="text-stone font-light text-sm hover:text-electric transition-colors">distritofitnesscenter@gmail.com</a>
@@ -1222,42 +1260,41 @@
 </a>
 
 <!-- WhatsApp conserva su posición y comportamiento original. -->
-<a href="https://wa.me/5491130260359?text=Hola%20Distrito%20Fitness%20Center%2C%20quiero%20consultar%20por%20los%20planes%2C%20horarios%20y%20disciplinas"
+<a href="https://wa.me/5491130260359?text=Hola%20Distrito%20Fitness%20Center%2C%20quiero%20reservar%20una%20clase%20de%20prueba"
    target="_blank" rel="noopener"
    aria-label="Contactar por WhatsApp"
    class="whatsapp-float hidden md:flex fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full items-center justify-center shadow-2xl hover:scale-110 transition-transform">
-  <i data-lucide="message-circle" class="w-6 h-6"></i>
+  <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/></svg>
 </a>
 
 <!-- ============ BARRA DE NAVEGACIÓN INFERIOR (solo mobile) ============ -->
 <nav class="md:hidden fixed bottom-0 left-0 w-full z-50 bg-bg/95 backdrop-blur-lg border-t border-line/80 grid grid-cols-5" aria-label="Navegación principal">
   <a href="#inicio" data-tab="inicio" class="mobile-tab is-active flex flex-col items-center justify-center gap-1 py-2.5 text-stone transition-colors">
-    <i data-lucide="home" class="w-5 h-5"></i>
+    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 11 9-8 9 8v9a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></svg>
     <span class="text-[10px] font-mono uppercase tracking-wide">Inicio</span>
   </a>
   <a href="#disciplinas" data-tab="disciplinas" class="mobile-tab flex flex-col items-center justify-center gap-1 py-2.5 text-stone transition-colors">
-    <i data-lucide="dumbbell" class="w-5 h-5"></i>
+    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 7v10M18 7v10M3 10v4M21 10v4M6 12h12"/></svg>
     <span class="text-[10px] font-mono uppercase tracking-wide">Clases</span>
   </a>
-  <a href="https://wa.me/5491130260359?text=Hola%20Distrito%20Fitness%20Center%2C%20quiero%20consultar%20por%20los%20planes%2C%20horarios%20y%20disciplinas"
+  <a href="https://wa.me/5491130260359?text=Hola%20Distrito%20Fitness%20Center%2C%20quiero%20reservar%20una%20clase%20de%20prueba"
      target="_blank" rel="noopener"
      class="flex flex-col items-center justify-center -mt-5">
     <span class="w-12 h-12 rounded-full bg-electric flex items-center justify-center shadow-lg shadow-electric/40 border-4 border-bg">
-      <i data-lucide="message-circle" class="w-5 h-5 text-white"></i>
+      <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/></svg>
     </span>
   </a>
   <a href="#faq" data-tab="faq" class="mobile-tab flex flex-col items-center justify-center gap-1 py-2.5 text-stone transition-colors">
-    <i data-lucide="help-circle" class="w-5 h-5"></i>
+    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 1 1 5.2 2c-1.3 1-2.3 1.5-2.3 3M12 17h.01"/></svg>
     <span class="text-[10px] font-mono uppercase tracking-wide">FAQ</span>
   </a>
   <a href="#contacto" data-tab="contacto" class="mobile-tab flex flex-col items-center justify-center gap-1 py-2.5 text-stone transition-colors">
-    <i data-lucide="map-pin" class="w-5 h-5"></i>
+    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0z"/><circle cx="12" cy="10" r="2"/></svg>
     <span class="text-[10px] font-mono uppercase tracking-wide">Contacto</span>
   </a>
 </nav>
 
 <script>
-  lucide.createIcons();
 
   // Script para animación de fondo altamente visible e interactiva
   const canvas = document.getElementById('bg-canvas');
@@ -1384,8 +1421,6 @@
   const panels = document.querySelectorAll('.mobile-panel[data-panel]');
   const tabs = document.querySelectorAll('.mobile-tab[data-tab]');
 
-  const heroVideoEl = document.querySelector('.hero-video');
-
   function switchMobilePanel(panelName) {
     panels.forEach(function (panel) {
       panel.classList.toggle('panel-active', panel.dataset.panel === panelName);
@@ -1393,15 +1428,6 @@
     tabs.forEach(function (tab) {
       tab.classList.toggle('is-active', tab.dataset.tab === panelName);
     });
-
-    // En mobile el panel "inicio" se oculta con display:none al navegar a otra
-    // sección; eso puede dejar el video de fondo congelado en el último frame.
-    // Al volver, forzamos que retome la reproducción.
-    if (panelName === 'inicio' && heroVideoEl) {
-      requestAnimationFrame(function () {
-        heroVideoEl.play().catch(function () { /* el navegador puede bloquear autoplay; no pasa nada */ });
-      });
-    }
   }
 
   menuItemClicks.forEach(item => {
@@ -1447,104 +1473,67 @@
 
 </script>
 
+
+<!-- ============ CAFETERÍA — VIDEO INTERACTIVO ============ -->
+<script>
+(function () {
+  var flip = document.querySelector('.cafeteria-flip');
+  if (!flip) return;
+  var video = flip.querySelector('.cafeteria-flip-video');
+  var source = video ? video.querySelector('source') : null;
+  var videoLoaded = false;
+
+  function ensureVideoSource() {
+    if (!videoLoaded && source && source.dataset.src) {
+      source.src = source.dataset.src;
+      video.load();
+      videoLoaded = true;
+    }
+  }
+  function playVideo() {
+    if (!video) return;
+    ensureVideoSource();
+    video.currentTime = 0;
+    video.play().catch(function () {});
+  }
+  function pauseVideo() {
+    if (!video) return;
+    video.pause();
+  }
+  function closeCard() {
+    flip.classList.remove('is-flipped');
+    pauseVideo();
+  }
+
+  /* Desktop: hover muestra el video. */
+  flip.addEventListener('mouseenter', playVideo);
+  flip.addEventListener('mouseleave', pauseVideo);
+  flip.addEventListener('focusin', playVideo);
+  flip.addEventListener('focusout', function () {
+    if (!flip.classList.contains('is-flipped')) pauseVideo();
+  });
+
+  /* Mobile: el primer toque abre; el segundo cierra. */
+  flip.addEventListener('click', function (event) {
+    if (window.matchMedia('(max-width: 767px)').matches) {
+      event.preventDefault();
+      var open = flip.classList.toggle('is-flipped');
+      if (open) playVideo(); else pauseVideo();
+    }
+  });
+
+  /* En mobile, tocar cualquier otra parte de la página cierra el video. */
+  document.addEventListener('pointerdown', function (event) {
+    if (!window.matchMedia('(max-width: 767px)').matches) return;
+    if (!flip.classList.contains('is-flipped')) return;
+    if (!flip.contains(event.target)) closeCard();
+  }, true);
+})();
+</script>
+
 <!-- ============ CANVAS TEXT + ENCRYPTED TEXT — HERO ============ -->
 <script>
   (function () {
-    var canvasText = document.querySelector('[data-canvas-text="MEJOR"]');
-    var encryptedText = document.querySelector('[data-encrypted-text]');
-    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    /* ==========================================================
-       CANVAS TEXT — inspirado directamente en Aceternity UI
-       Las líneas se recortan al alpha del texto mediante
-       globalCompositeOperation = source-atop. Así MEJOR conserva
-       un relleno sólido y estable, mientras las curvas se mueven
-       exclusivamente dentro de las letras.
-       ========================================================== */
-    if (canvasText) {
-      var canvas = canvasText.querySelector('canvas');
-      var label = canvasText.querySelector('span');
-      var ctx = canvas && canvas.getContext('2d');
-      var raf = null;
-      var start = performance.now();
-
-      function resizeCanvas() {
-        if (!canvas || !ctx || !label) return;
-        var rect = canvasText.getBoundingClientRect();
-        var dpr = Math.min(window.devicePixelRatio || 1, 2);
-        canvas.width = Math.max(1, Math.round(rect.width * dpr));
-        canvas.height = Math.max(1, Math.round(rect.height * dpr));
-        canvas.style.width = rect.width + 'px';
-        canvas.style.height = rect.height + 'px';
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      }
-
-      function drawCanvasText(time) {
-        if (!canvas || !ctx || !label) return;
-
-        var w = canvas.clientWidth || canvasText.getBoundingClientRect().width;
-        var h = canvas.clientHeight || canvasText.getBoundingClientRect().height;
-        var style = getComputedStyle(label);
-        var text = label.textContent || 'MEJOR';
-        var t = (time - start) / 1000;
-
-        ctx.clearRect(0, 0, w, h);
-        ctx.globalCompositeOperation = 'source-over';
-
-        /* Texto base: sólido, estable y sin fluctuación. */
-        ctx.font = style.font;
-        ctx.textAlign = 'left';
-        ctx.textBaseline = 'alphabetic';
-        ctx.fillStyle = '#2F6FFF';
-
-        var baseline = h * 0.82;
-        ctx.fillText(text, 0, baseline);
-
-        if (!reduceMotion) {
-          /*
-             Curvas tipo Aceternity: movimiento suave, poca amplitud
-             y líneas separadas para que el relleno siga siendo sólido.
-          */
-          var gap = Math.max(9, h * 0.16);
-          var amplitude = Math.max(3.5, h * 0.085);
-          var speed = (Math.PI * 2) / 5; // ciclo de ~5 s
-
-          ctx.globalCompositeOperation = 'source-atop';
-          ctx.lineWidth = Math.max(1.15, h * 0.028);
-          ctx.lineCap = 'round';
-          ctx.lineJoin = 'round';
-
-          var colors = ['#2F6FFF', '#5B8FFF', '#3E78FF', '#7BA4FF'];
-
-          for (var y = -h; y < h * 2; y += gap) {
-            var color = colors[Math.abs(Math.round(y / gap)) % colors.length];
-            var gradient = ctx.createLinearGradient(0, 0, w, 0);
-            gradient.addColorStop(0, color);
-            gradient.addColorStop(0.5, '#8AAEFF');
-            gradient.addColorStop(1, color);
-            ctx.strokeStyle = gradient;
-            ctx.beginPath();
-
-            for (var x = -24; x <= w + 24; x += 7) {
-              var normalizedX = x / Math.max(24, w);
-              var yy = y + Math.sin(normalizedX * Math.PI * 2.2 + t * speed + y * 0.018) * amplitude;
-              if (x === -24) ctx.moveTo(x, yy);
-              else ctx.lineTo(x, yy);
-            }
-            ctx.stroke();
-          }
-
-          ctx.globalCompositeOperation = 'source-over';
-        }
-
-        if (!reduceMotion) raf = requestAnimationFrame(drawCanvasText);
-      }
-
-      resizeCanvas();
-      window.addEventListener('resize', resizeCanvas, { passive: true });
-      drawCanvasText(start);
-    }
-
     /* ==========================================================
        ENCRYPTED TEXT — velocidad moderada.
        50 ms es el valor de referencia de Aceternity; usamos 52 ms
@@ -1668,131 +1657,51 @@
   })();
 </script>
 
-<!-- ============ FLIP CARD — CAFETERÍA (video al pasar el cursor) ============ -->
+
+
+
+<!-- ============ GALERÍA DE VESTUARIOS ============ -->
+<div id="vestuario-gallery-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/80 backdrop-blur-sm px-5" aria-hidden="true">
+  <div class="relative w-full max-w-3xl border border-line bg-surface p-7 md:p-10 shadow-2xl">
+    <button type="button" id="close-vestuario-gallery" class="absolute top-4 right-4 text-stone hover:text-white transition-colors" aria-label="Cerrar galería">
+      <i data-lucide="x" class="w-5 h-5"></i>
+    </button>
+    <p class="sector-tag mb-4">SERVICIO PREMIUM</p>
+    <h3 class="display-heading text-2xl md:text-3xl uppercase mb-3">Vestuario</h3>
+    <p class="text-stone text-sm md:text-base leading-relaxed max-w-2xl">La galería de fotos del vestuario quedará disponible acá. Las imágenes se pueden incorporar cuando tengas seleccionadas las fotos definitivas.</p>
+  </div>
+</div>
+
 <script>
-  (function () {
-    var flip = document.querySelector('.cafeteria-flip');
-    if (!flip) return;
+(function () {
+  var modal = document.getElementById('vestuario-gallery-modal');
+  var openButton = document.querySelector('[data-vestuario-gallery]');
+  var closeButton = document.getElementById('close-vestuario-gallery');
+  if (!modal || !openButton || !closeButton) return;
 
-    var video = flip.querySelector('.cafeteria-flip-video');
-    var source = video ? video.querySelector('source') : null;
-    var videoLoaded = false;
+  function openGallery() {
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeGallery() {
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
 
-    function ensureVideoSource() {
-      // Carga el video recién cuando hace falta, para no pesar la página al inicio.
-      if (!videoLoaded && source && source.dataset.src) {
-        source.src = source.dataset.src;
-        video.load();
-        videoLoaded = true;
-      }
-    }
-
-    function playVideo() {
-      if (!video) return;
-      ensureVideoSource();
-      video.currentTime = 0;
-      video.play().catch(function () { /* el navegador puede bloquear autoplay; no pasa nada */ });
-    }
-
-    function pauseVideo() {
-      if (!video) return;
-      video.pause();
-    }
-
-    flip.addEventListener('mouseenter', playVideo);
-    flip.addEventListener('mouseleave', pauseVideo);
-    flip.addEventListener('focusin', playVideo);
-    flip.addEventListener('focusout', pauseVideo);
-
-    // Soporte táctil: primer toque da vuelta la tarjeta y reproduce, segundo toque la vuelve a su estado normal.
-    flip.addEventListener('touchend', function (event) {
-      event.preventDefault();
-      var flipped = flip.classList.toggle('is-flipped');
-      if (flipped) {
-        playVideo();
-      } else {
-        pauseVideo();
-      }
-    }, { passive: false });
-
-    // Si el usuario toca en cualquier otra parte de la página, la tarjeta se cierra
-    // y el video deja de reproducirse (antes quedaba fijo mostrando el video).
-    function closeIfOutside(event) {
-      if (flip.classList.contains('is-flipped') && !flip.contains(event.target)) {
-        flip.classList.remove('is-flipped');
-        pauseVideo();
-      }
-    }
-    document.addEventListener('touchstart', closeIfOutside, { passive: true });
-    document.addEventListener('click', closeIfOutside);
-  })();
+  openButton.addEventListener('click', openGallery);
+  closeButton.addEventListener('click', closeGallery);
+  modal.addEventListener('click', function (event) {
+    if (event.target === modal) closeGallery();
+  });
+  document.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape') closeGallery();
+  });
+})();
 </script>
-
-<!-- ============ ACORDEÓN — POR QUÉ ELEGIRNOS (un solo ítem abierto a la vez) ============ -->
-<script>
-  (function () {
-    var accordion = document.querySelector('[data-accordion]');
-    if (!accordion) return;
-
-    var items = Array.prototype.slice.call(accordion.querySelectorAll('[data-accordion-item]'));
-
-    items.forEach(function (item) {
-      var trigger = item.querySelector('[data-accordion-trigger]');
-      if (!trigger) return;
-
-      trigger.addEventListener('click', function () {
-        var willOpen = !item.classList.contains('is-open');
-
-        items.forEach(function (other) {
-          other.classList.remove('is-open');
-          var otherTrigger = other.querySelector('[data-accordion-trigger]');
-          if (otherTrigger) otherTrigger.setAttribute('aria-expanded', 'false');
-        });
-
-        if (willOpen) {
-          item.classList.add('is-open');
-          trigger.setAttribute('aria-expanded', 'true');
-        }
-      });
-    });
-  })();
-</script>
-
-<!-- ============ SCROLL REVEAL (fade + stagger) — genérico, sin dependencias externas ============ -->
-<script>
-  (function () {
-    var groups = document.querySelectorAll('[data-reveal-group]');
-    if (!groups.length) return;
-
-    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduceMotion) return; // Los ítems ya son visibles por CSS en este caso.
-
-    if (!('IntersectionObserver' in window)) {
-      document.querySelectorAll('.reveal-item').forEach(function (el) { el.classList.add('is-visible'); });
-      return;
-    }
-
-    groups.forEach(function (group) {
-      var items = Array.prototype.slice.call(group.querySelectorAll('[data-reveal-item]'));
-
-      items.forEach(function (item, index) {
-        item.style.setProperty('--reveal-delay', (index * 70) + 'ms');
-      });
-
-      var observer = new IntersectionObserver(function (entries, obs) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible');
-            obs.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
-
-      items.forEach(function (item) { observer.observe(item); });
-    });
-  })();
-</script>
-
 
 </body>
 </html>
